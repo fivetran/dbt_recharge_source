@@ -1,0 +1,1091 @@
+
+version: 2
+
+models:
+  - name: stg_recharge__address
+    description: Table of all addresses, an address represents a shipping address. Each customer can have multiple addresses, subscriptions are a child object of an address.
+
+    columns:
+      - name: address_id
+        description: The unique ID of the address.
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Unique numeric identifier for the customer associated with the address.
+      - name: customer_full_name
+        description: The full name of the customer.
+      - name: created_at
+        description: The date and time the customer address was recorded.
+      - name: updated_at
+        description: The date and time of when the customer's address record was last updated.
+      - name: address_line_1
+        description: The first line of the customer's address.
+      - name: address_line_1
+        description: Any additional address information associated with the customer.
+      - name: city
+        description: The city associated with the customer.
+      - name: province
+        description: The province or state name associated with the customer.
+      - name: zip
+        description: The zip or post code associated with the customer.
+      - name: country
+        description: The country associated with the customer.
+      - name: company
+        description: The company name associated with the customer.
+      - name: phone
+        description: The phone number associated with the customer.
+      - name: customer_visitor_info
+        description: Custom field to record additional customer information such as where they visited the vendor's website.
+      - name: _fivetran_deleted
+        description: Boolean indicating if a row have been deleted in the source.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__address_shipping_line
+    description: Table of all addresses and corresponding associated shipping information.
+    tests:
+     - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - address_id
+          - index
+
+    columns:
+      - name: address_id
+        description: The unique ID of the address.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent address_id.
+      - name: price
+        description: The price of the shipping amount.
+      - name: code
+        description: The type of the shipping, can contain geographical shipping information. 
+      - name: title
+        description: The type of shipping consignment.
+      - name: _fivetran_deleted
+        description: Boolean indicating if a row have been deleted in the source.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__charge
+    description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
+
+    columns:
+      - name: charge_id
+        description: The unique ID of the charge.
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: The ID of the customer associated with the charge.
+      - name: customer_hash
+        description: The hash of the customer associated with the charge.
+      - name: customer_full_name
+        description: The full name of the customer.
+      - name: email
+        description: The hash of the customer associated with the charge.
+      - name: created_at
+        description: Date and time when the charge was created.
+      - name: charge_type
+        description: The type of the charge, possible values can be; checkout or recurring.
+        tests:
+          - accepted_values:
+              values: ['CHECKOUT','RECURRING']
+              config:
+                severity: warn
+      - name: charge_status
+        description: The status of the charge, possible values can be; success, error, queued, skipped, refunded or partially_refunded.
+        tests:
+          - accepted_values:
+              values: ['SUCCESS','ERROR','QUEUED','SKIPPED','REFUNDED','PARTIALLY_REFUNDED','PENDING_MANUAL_PAYMENT','PENDING']
+              config:
+                severity: warn
+      - name: updated_at
+        description: Date and time when the charge was last updated.
+      - name: note
+        description: Shows the next order in sequence.
+      - name: subtotal_price
+        description: The item price without taxes and shipping applied.
+      - name: tax_lines
+        description: Array of strings used to distinguish specific charges - the price of the shipping line.
+      - name: total_discounts
+        description: The sum of the discounts applied to the charge.
+      - name: total_line_items_price
+        description: The sum of all the prices of all the items in the charge.
+      - name: total_tax
+        description: The sum of all the prices of all the items in the charge, taxes included.
+      - name: total_price
+        description: The sum of all the prices of all the items in the charge, taxes and discounts included (must be positive).
+      - name: total_refunds
+        description: The sum of all refunds that were made on a specific charge.
+      - name: total_weight
+        description: The total weight of all items in the charge.
+      - name: scheduled_at
+        description: When the charge processing will next be attempted.
+      - name: processed_at
+        description: Date and time when the charge was processed.
+      - name: processor_name
+        description: The payment processor used on the charge.
+      - name: transaction_id
+        description: The unique alphanumeric identifier of the transaction.
+      - name: shopify_order_id
+        description: The unique numeric identifier within Shopify for the charge.
+      - name: shipments_count
+        description: The number of successful processed child orders on the charge.
+      - name: has_uncommitted_changes
+        description: Specifies whether the charge is scheduled for regeneration (if the subscription is related to the charge was updated in the last 5 seconds using "commit_update":false).
+      - name: last_charge_attempt_date
+        description: The date when the charge was last attempted.
+      - name: retry_date
+        description: The date when the next attempt will be placed.
+      - name: error_type
+        description: Structured reason why the charge failed such as customer_needs_to_updated_card.
+      - name: times_retried
+        description: Shows how many times an attempt to charge was placed.
+      - name: address_id
+        description: The customer shipping address the charge is tied to.
+      - name: billing_address_full_name
+        description: The full name of the billing address.
+      - name: billing_address_line_1
+        description: Line 1 of the billing address.
+      - name: billing_address_line_2
+        description: Line 2 of the billing address.
+      - name: billing_address_city
+        description: The city of the billing address.
+      - name: billing_address_province
+        description: The province or state name associated with the billing address.
+      - name: billing_address_zip
+        description: The zip or post code of the billing address.
+      - name: billing_address_country
+        description: The country of the billing address.
+      - name: billing_address_company
+        description: The company name of the billing address.
+      - name: billing_address_phone
+        description: The phone number of the billing address.
+      - name: shipping_address_full_name
+        description: The full name of the shipping address.
+      - name: shipping_address_line_1
+        description: Line 1 of the shipping address.
+      - name: shipping_address_line_2
+        description: Line 2 of the shipping address.
+      - name: shipping_address_city
+        description: The city of the shipping address.
+      - name: shipping_address_province
+        description: The name of the province or state associated with the shipping address.
+      - name: shipping_address_zip
+        description: The zip or post code of the shipping address.
+      - name: shipping_address_country
+        description: The country of the shipping address.
+      - name: shipping_address_company
+        description: The company name of the shipping address.
+      - name: shipping_address_phone
+        description: The phone number of the shipping address.
+      - name: client_details_browser_ip
+        description: The IP address of the buyer detected in checkout.
+      - name: client_details_user_agent
+        description: The user agent detected during checkout.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__charge_discount_code
+    description: Table of all charge discount codes.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - charge_id
+            - index
+
+    columns:
+      - name: charge_id
+        description: The unique ID of the charge.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent charge_id.
+      - name: discount_id
+        description: The ID of the discount associated to the charge.
+      - name: amount
+        description: The amount of the discount.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__charge_line_item
+    description: Table of all charge line items, each containing information about a distinct purchase item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - charge_id
+            - index
+
+    columns:
+      - name: charge_id
+        description: The unique ID of the charge.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent charge_id.
+      - name: subscription_id
+        description: The unique ID of the associated subscription.
+      - name: vendor
+        description: The name of the seller.
+      - name: title
+        description: The product title retrieved from Shopify.
+      - name: title_v2
+        description: The title of the product.
+      - name: variant_title
+        description: The name of the product variant.
+      - name: sku
+        description: The SKU (stock keeping unit) of the product associated with the charge's line item.
+      - name: grams
+        description: The weight of the charge's line item in grams.
+      - name: quantity
+        description: The number of items associated to the subscription and therefore the subsequent charge.
+      - name: price
+        description: The price of the charge's line item.
+      - name: shopify_product_id
+        description: The product ID retrieved from Shopify.
+      - name: shopify_variant_id
+        description: The variant ID retrieved from Shopify.
+      - name: charge_interval_frequency
+        description: The number of units, specified in order_interval_unit between each charge.
+      - name: charge_interval_unit
+        description: The condition of how frequent the items are charged.
+      - name: shipping_interval_frequency
+        description: The interval of how frequent the items are shipped.
+      - name: shipping_interval_unit
+        description: The condition of how frequent the items are shipped.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__charge_note_attribute
+    description: Table of notes associated to their corresponding charges.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - charge_id
+            - index
+    
+    columns:
+      - name: charge_id
+        description: The unique ID of the charge.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent charge_id.
+      - name: note_attribute
+        description: An array of name-value pairs of order attributes on the charge.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__charge_shipping_line
+    description: Table of all shipping information associated to their corresponding charges.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - charge_id
+            - index
+    
+    columns:
+      - name: charge_id
+        description: The unique ID of the charge.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent charge_id.
+      - name: price
+        description: The price of th shipping line of a charge.
+      - name: code
+        description: The code associated with the shipping line of a charge.
+      - name: title
+        description: The title of the shipping line.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__checkout
+    description: Table of all checkouts to manage recurring orders, billing and payments, only available for BigCommerce and Custom. Checkouts on Shopify must go through Shopify.
+
+    columns:
+      - name: checkout_id
+        description: Unique ID for the checkout.
+        tests:
+          - unique
+          - not_null
+      - name: charge_id 
+        description: The unique ID of the charge.
+      - name: email
+        description: The email address for the customer.
+      - name: phone
+        description: The phone number for the customer.
+      - name: created_at
+        description: Timestamp for when the checkout was created.
+      - name: completed_at
+        description: Timestamp for when the checkout was processed.
+      - name: updated_at
+        description: Timestamp for the latest checkout update.
+      - name: currency
+        description: Currency of the checkout.
+      - name: discount_code
+        description: Returns addresses that have the provided discount_code.
+      - name: applied_discount_amount
+        description: Financial amount of the discount applied.
+      - name: applied_discount_applicable
+        description: Whether the discount can be applied to the checkout.
+      - name: applied_discount_non_applicable_reason
+        description: Reason why the discount could not be redeemed, if applicable.
+      - name: applied_discount_value
+        description: The value of the discount, used in combination with the value_type to determine the amount.
+      - name: applied_discount_value_type
+        description: The way the discount amount is calculated.
+      - name: external_checkout_id
+        description: External checkout reference, if one exists.
+      - name: external_checkout_source
+        description: External checkout platform, if one exists.
+      - name: buyers_accepts_marketing
+        description: Boolean indicating if the buyer accepts marketing.
+      - name: subtotal_price
+        description: Value of the checkout minus shipping and tax.
+      - name: taxes_included
+        description: Boolean indicating if the checkout contains items that are taxable.
+      - name: total_tax
+        description: Tax charged on the checkout.
+      - name: total_price
+        description: Full price of the checkout including shipping and tax.
+      - name: requires_shipping
+        description: Boolean indicating whether or not the checkout contains items that require shipping.
+      - name: shipping_rate_title
+        description: The type of shipping rate.
+      - name: shipping_rate_name
+      - name: shipping_rate_code
+      - name: shipping_rate_description
+      - name: shipping_rate_price
+        description: The price of the shipping rate, with the associated defined shipping_rate_code.
+      - name: shipping_rate_checkout_subtotal_price
+      - name: shipping_rate_checkout_total_tax
+      - name: shipping_rate_checkout_total_price
+      - name: shipping_rate_delivery_range
+      - name: shipping_rate_handle
+        description: The handle of the shipping rate.
+      - name: shipping_rate_phone_required
+      - name: note_attributes
+        description: Array of list name-value pairs for custom attributes.
+      - name: billing_address_full_name
+        description: The full name of the billing address associated with the customer.
+      - name: billing_address_line_1
+        description: The first line of the billing address.
+      - name: billing_address_line_2
+        description: Any additional information associated with the billing address.
+      - name: billing_address_city
+        description: The city of the billing address.
+      - name: billing_address_province
+        description: The province or state name of the billing address.
+      - name: billing_address_zip
+        description: The zip or post code of the billing address.
+      - name: billing_address_country
+        description: The country of the billing address.
+      - name: billing_address_company
+        description: The company name of the billing address.
+      - name: billing_address_phone
+        description: The phone number of the billing address.
+      - name: shipping_address_full_name
+        description: The full name of the shipping address associated with the customer.
+      - name: shipping_address_line_1
+        description: The first line of the shipping address.
+      - name: shipping_address_line_2
+        description: Any additional information associated with the shipping address.
+      - name: shipping_address_city
+        description: The city of the shipping address.
+      - name: shipping_address_province
+        description: The province or state name of the shipping address.
+      - name: shipping_address_zip
+        description: The zip or post code of the shipping address.
+      - name: shipping_address_country
+        description: The country of the shipping address.
+      - name: shipping_address_company
+        description: The company name of the shipping address.
+      - name: shipping_address_phone
+        description: The phone number of the shipping address.
+      - name: shipping_address_validations_country_is_supported
+        description: Boolean indicating if the shipping address country is supported.
+      - name: shipping_address_validations_ups
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__checkout_line_item
+    description: Table of all line items to their associated checkout.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - checkout_id
+            - index
+
+    columns:
+      - name: checkout_id
+        description: The unique ID for the checkout.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent checkout_id.
+      - name: product_id
+        description: An object containing the associated product ID as it appears in the external system.
+      - name: variant_id
+        description: An object containing the associated variant ID as it appears in the external system.
+      - name: image
+        description: An object containing URLS of the product image.
+      - name: title
+        description: The title of the product associated with the line item.
+      - name: type
+        description: The type of the product associated with the line item.
+        tests:
+          - accepted_values:
+              values: ['SUBSCRIPTION','ONETIME']
+              config:
+                severity: warn
+      - name: variant_title
+        description: The title of the product variant associated with the line item.
+      - name: vendor
+        description: The seller of the products.
+      - name: taxable
+        description: Boolean indicating if the line item is taxable.
+      - name: requires_shipping
+        description: Boolean indicating whether or not the line item requires shipping.
+      - name: sku
+        description: The sku (stock keeping unit) of the product associated with the checkout line item.
+      - name: tax_code
+      - name: cutoff_day_of_month
+        description: Day of the month the plan should be charged.
+      - name: cutoff_day_of_week
+        description: Day of the week the plan should be charged.
+      - name: expire_after_specific_number_of_charges
+        description: A maximum number of charges on which the subscription should appear before automatic cancellation.
+      - name: first_recurring_charge_delay
+      - name: fulfillment_service
+      - name: grams
+        description: The weight of the line item.
+      - name: quantity
+        description: The quantity of the item being purchased.
+      - name: charge_interval_frequency
+        description: Frequency at which the subscriber will be charged.
+      - name: order_interval_frequency
+        description: Frequency at which the subscriber will receive shipments on their plan.
+      - name: order_interval_unit
+        description: The unit applied to order_interval_frequency.
+      - name: line_item_price
+        description: The price of a single unit of the Product associated with the line item.
+      - name: order_day_of_month
+        description: Day of month an order should be generated when a customer is subscribed.
+      - name: order_day_of_week
+        description: Day of week an order should be generated when a customer is subscribed.
+      - name: original_price
+        description: The original price of the line item.
+      - name: price
+        description: The price of the line item.
+      - name: product_type
+        description: The type of the product associated with the line item.
+      - name: recurring_price
+        description: The recurring price that the subscriber will be charged.
+      - name: properties
+        description: Array of custom information associated with the line item.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__customer
+    description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
+    
+    columns:
+      - name: customer_id
+        description: The unique ID of the customer.
+        tests:
+          - unique
+          - not_null
+      - name: hash
+        description: The unique string identifier used in a customer portal link.
+      - name: shopify_customer_id
+        description: Shopify's unique identifier for the customer.
+      - name: email
+        description: The email address of the customer.
+      - name: customer_full_name
+        description: The full name of the customer.
+      - name: created_at
+        description: The date and time when the customer was created.
+      - name: customer_status
+        description: The status of the customer.
+        tests:
+          - accepted_values:
+              values: ['ACTIVE','INACTIVE','ONETIMER']
+              config:
+                severity: warn
+      - name: updated_at
+        description: The date and time when the customer was last updated.
+      - name: first_charge_processed_at
+        description: Date when first charge was processed for the customer.
+      - name: active_subscriptions
+        description: The number of active subscriptions for the customer.
+      - name: total_subscriptions
+        description: The number of subscriptions the customer has.
+      - name: customer_billing_full_name
+        description: The full name of the customer's billing address.
+      - name: billing_company
+        description: The company name of the customer's billing address.
+      - name: billing_address_line_1
+        description: The first line of the customer's billing address.
+      - name: billing_address_line_2
+        description: An additional field for the customer's billing address.
+      - name: billing_zip
+        description: An additional field for the customer's billing address.
+      - name: billing_city
+        description: The customer's billing city.
+      - name: billing_province
+        description: The customer's billing province or state name.
+      - name: billing_country
+        description: The customer's billing country.
+      - name: billing_phone
+        description: The customer's billing phone.
+      - name: processor_type
+        description: What the merchant processor the customer is stored on.
+        tests:
+          - accepted_values:
+              values: ['braintree','stripe','NULL']
+              config:
+                severity: warn
+      - name: has_valid_payment_method
+        description: Boolean indicating if the payment value is valid.
+      - name: reason_payment_method_not_valid
+        description: Field indicating why the payment method is not valid.
+        tests:
+          - accepted_values:
+              values: ['MAX_RETRIES','NON_WORKING_PAYMENT_METHOD','NOT_VALIDATED','NO_PAYMENT_METHOD','NULL']
+              config:
+                severity: warn
+      - name: has_card_error_in_dunning
+        description: Boolean indicating if the customer has a credit card in dunning.
+      - name: _fivetran_deleted
+        description: Boolean indicating if a row have been deleted in the source.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__discount
+    description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
+
+    columns:
+      - name: discount_id
+        description: Unique numeric identifier for the discount in Recharge.
+        tests:
+          - unique
+          - not_null
+      - name: created_at
+        description: The date and time when the discount was created.
+      - name: updated_at
+        description: The date and time when the discount was last updated.
+      - name: starts_at
+        description: The date when the discount becomes active.
+      - name: ends_at
+        description: The expiration time of the discount, past this time the discount can no longer be redeemed, once the time of the discount has passed the status of the discount will go from 'active' to 'disabled'.
+      - name: discount_code
+        description: The code used to apply the discount.
+      - name: discount_amount
+        description: The discounted value to be applied.
+      - name: discount_type
+        description: The type of discount.
+        tests:
+          - accepted_values:
+              values: ['fixed_amount','percentage','shipping']
+              config:
+                severity: warn
+      - name: status
+        description: The status of the discount.
+        tests:
+          - accepted_values:
+              values: ['disabled','enabled','fully_disabled']
+              config:
+                severity: warn
+      - name: times_used
+        description: An integer indicating how many times the discount has been used.
+      - name: usage_limit
+        description: An integer indicating how many times the discount can been used.
+      - name: applies_to
+        description: Indicates where the discount applies.
+      - name: applies_to_resource
+        description: An indicator of the type of resource which applies_to_id refers.
+      - name: applies_to_id
+        description: A list of ids of the type indicated in applies_to_resource for which the discount can be applied.
+      - name: applies_to_product_type
+        description: Indicates which product types the discount applies to.
+      - name: duration
+        description: How long the discount can be used.
+        tests:
+          - accepted_values:
+              values: ['forever','single_use','usage_limit']
+              config:
+                severity: warn
+      - name: duration_usage_limit
+        description: An integer of how long the discount can be used in accordance to it's duration.
+      - name: minimum_order_amount
+      - name: once_per_customer
+        description: Boolean indicating whether the discount applies only once to a customer.
+      - name: applies_once
+        description: Boolean indicating whether the discount applies only once.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__one_time_product
+    description: Table of all one-times which represent non-recurring line items on a queued charges.
+
+    columns:
+      - name: one_time_product_id
+        description: The unique numeric identifier for the onetime purchase.
+        tests:
+          - unique
+          - not_null
+      - name: address_id
+        description: Unique numeric identifier for the address the onetime purchase is associated with (cannot be used with next_charge_scheduled_at).
+      - name: customer_id
+        description: Unique numeric identifier for the customer the onetime purchase is tied to.
+      - name: is_deleted
+        description: Boolean indicating if the onetime is deleted.
+      - name: created_at
+        description: The time the onetime item was first created.
+      - name: updated_at
+        description: The time the onetime item was last updated.
+      - name: next_charge_scheduled_at
+        description: Date of the onetime purchase execution.
+      - name: product_title
+        description: The name of the product in a shop's catalog.
+      - name: variant_title
+        description: The name of the variant in a shop's catalog.
+      - name: price
+        description: The price of the item before discounts, taxes, or shipping have been applied.
+      - name: quantity
+        description: The number of items in the onetime purchase.
+      - name: status
+        description: The status of the onetime product.
+        tests:
+          - accepted_values:
+              values: ['ONETIME','NULL']
+              config:
+                severity: warn
+      - name: shopify_variant_id
+        description: The variant ID as retrieved from Shopify.
+      - name: recharge_product_id
+        description: The product ID as retrieved from Recharge.
+      - name: sku
+        description: The unique identifier of the item in fulfillment.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__order
+    description: Table of all orders after a charge is successfully processed.
+
+    columns:
+      - name: order_id
+        description: The unique ID of the order.
+        tests:
+          - unique
+          - not_null
+      - name: shopify_order_id
+        description: Unique numeric identifier within Shopify for the order.
+      - name: shopify_order_number
+        description: The unique order number within Shopify.
+      - name: customer_id
+        description: The unique numeric identifier of the customer.
+      - name: customer_full_name
+        description: The full name of the customer.
+      - name: email
+        description: The email address of the customer.
+      - name: created_at
+        description: The date and time when the order was created.
+      - name: order_status
+        description: The status of the order within Shopify.
+        tests:
+          - accepted_values:
+              values: ['CANCELLED','ERROR','QUEUED','SUCCESS']
+              config:
+                severity: warn
+      - name: updated_at
+        description: The date and time when the order was last updated.
+      - name: charge_id
+        description: The unique numeric identifier of the charge.
+      - name: transaction_id
+        description: The unique alphanumeric identifier of the transaction.
+      - name: charge_status
+        description: The status of the charge.
+        tests:
+          - accepted_values:
+              values: ['ERROR','PARTIALLY_REFUNDED','REFUNDED','SKIPPED','SUCCESS','NULL']
+              config:
+                severity: warn
+      - name: is_prepaid
+        description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
+      - name: payment_processor
+        description: The type of payment the processor has chosen.
+      - name: total_price
+        description: The sum of all prices of the item in the order with taxes and discounts included (must be positive).
+      - name: order_type
+        description: Shows if the order was made through checkout or if it's a recurring charge.
+        tests:
+          - accepted_values:
+              values: ['CHECKOUT','RECURRING']
+              config:
+                severity: warn
+      - name: processed_at
+        description: The date and time when the order was submitted. 
+      - name: scheduled_at
+        description: The date and time when the order will be shipped.
+      - name: shipped_date
+        description: The date when the order will be processed.
+      - name: address_id
+        description: The ID of the customer's shipping address that this order is tied to.
+      - name: address_is_active
+        description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
+      - name: billing_address_full_name
+        description: The full name associated to the customer's billing address.
+      - name: billing_address_line_1
+        description: The first line of the billing address.
+      - name: billing_address_line_2
+        description: Any additional information associated with the customer's billing address.
+      - name: billing_address_city
+        description: The city of the billing address.
+      - name: billing_address_province
+        description: The province or state name of the billing address.
+      - name: billing_address_country
+        description: The country of the billing address.
+      - name: billing_address_zip
+        description: The zip or post code of the billing address.
+      - name: billing_address_company
+        description: The name of the company associated with the billing address.
+      - name: billing_address_phone
+        description: The phone number of the billing address.
+      - name: shipping_address_full_name
+        description: The full name associated to the customer's shipping address.
+      - name: shipping_address_line_1
+        description: The first line of the shipping address.
+      - name: shipping_address_line_2
+        description: Any additional information associated with the customer's shipping address.
+      - name: shipping_address_city
+        description: The city of the shipping_address.
+      - name: shipping_address_province
+        description: The province or state name of the shipping address.
+      - name: shipping_address_country
+        description: The country of the shipping address.
+      - name: shipping_address_zip
+        description: The zip or post code of the shipping address.
+      - name: shipping_address_company
+        description: The name of the company associated with the shipping address.
+      - name: shipping_address_phone
+        description: The phone number of the billing address.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__order_line_item
+    description: Table of all order line items. Each line containing information about an item in the order.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - index
+
+    columns:
+      - name: order_id
+        description: The ID of the order.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent order_id.
+      - name: subscription_id
+        description: The ID of the subscription tied to the purchase of the product.
+      - name: shopify_product_id
+        description: The unique numeric identifier for the Shopify product in the fulfillment.
+      - name: product_title_1
+        description: The original name of the product.
+      - name: product_title_2
+        description: The title of the product.
+      - name: product_variant_title
+        description: The title of the product variant.
+      - name: sku
+        description: A unique identifier of the item in the fulfillment.
+      - name: quantity
+        description: The number of products that were purchased.
+      - name: grams
+        description: Weight in grams of the item.
+      - name: price
+        description: The price of the item in the order.
+      - name: charge_interval_unit_type
+        description: The frequency unit type which an order should be charged by. Valid values are “day”,“week”, and “month”.
+      - name: charge_interval_frequency
+        description: The number of units (specified in order_interval_unit) between each charge.
+      - name: shipping_interval_unit_type
+        description: The frequency unit type which an order should be shipped by. Valid values are “day”,“week”, and “month”.
+      - name: shipping_interval_frequency
+        description: Shipping interval frequency options that a customer can choose from.
+      - name: property_title
+        description: The original name of the product.
+      - name: property_price
+        description: The same as price - the price of the item in the order.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__payment_source
+    description: Table of payment and billing information.
+
+    columns:
+      - name: customer_id
+        description: The unique ID of the customer.
+        tests:
+          - unique
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent customer_id.
+      - name: processor_name
+        description: Possible values - stripe, braintree, authorize, shopify_payments, mollie.
+      - name: payment_type
+        description: The type of payment this is.
+        tests:
+          - accepted_values:
+              values: ['apple_pay','credit','google_pay','paypal','unknown','NULL']
+              config:
+                severity: warn
+      - name: payment_token
+        description: The customer token at the processor.
+      - name: status
+        description: State of the payment method.
+        tests:
+          - accepted_values:
+              values: ['active','failed']
+              config:
+                severity: warn
+      - name: status_reason
+        description: The status reason for the payment method.
+      - name: cardholder_name
+        description: The name of the card holder.
+      - name: card_brand
+        description: The brand of the card.
+        tests:
+          - accepted_values:
+              values: ['american_express','mastercard','visa','NULL']
+              config:
+                severity: warn
+      - name: card_exp_month
+        description: The card expiry month.
+      - name: card_exp_year
+        description: The card expiry year.
+      - name: card_last_4
+        description: The last 4 digits of the identifier.
+      - name: has_card_error_in_dunning
+        description: Boolean indicating if the customer has a credit card in dunning.
+      - name: billing_address_full_name
+        description: The billing address full name associated to the customer.
+      - name: billing_address_line_1
+        description: The first line of the billing address associated to the customer
+      - name: billing_address_line_2
+        description: Any additional information associated to the customer's billing address.
+      - name: billing_address_city
+        description: The city associated to the customer's billing address.
+      - name: billing_address_province
+        description: The province or state name associated to the customer's billing address.
+      - name: billing_address_zip
+        description: The zip or post code associated to the customer's billing address.
+      - name: billing_address_country
+        description: The country associated to the customer's billing address.
+      - name: billing_address_company
+        description: The company name associated to the customer's billing address.
+      - name: billing_address_phone
+        description: The phone number associated to the customer's billing address.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__product
+    description: Table of all products sold on the merchant's website.
+
+    columns:
+      - name: product_id
+        description: The unique ID of the product.
+        tests:
+          - unique
+          - not_null
+      - name: product_title
+        description: The product title retrieved from Shopify.
+      - name: discount_amount
+        description: The discount amount applied on the product.
+      - name: discount_type
+        description: The type of discount.
+        tests:
+          - accepted_values:
+              values: ['percentage','NULL']
+              config:
+                severity: warn
+      - name: handle
+        description: A human-friendly unique string for the product automatically generated from Shopify.
+      - name: large_image
+        description: A large image file of the product.
+      - name: medium_image
+        description: A medium image file of the product.
+      - name: original_image
+        description: The original image file of the product.
+      - name: small_image
+        description: A small image file of the product.
+      - name: charge_interval_frequency
+        description: The number of units (specified in order_interval_unit) between each charge.
+      - name: cutoff_day_of_month
+        description: Number of day in month on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
+      - name: cutoff_day_of_week
+        description: Number of day in week on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
+      - name: expire_after_specific_number_of_charges
+        description: Number of charges until the subscription expires.
+      - name: modifiable_properties
+        description: A list of modifiable line item properties (e.g. ["box-edition", "christmas-special"])
+      - name: number_charges_until_expiration
+        description: Number of charges until the subscription expires.
+      - name: order_day_of_month
+        description: The set day of the month order is created. This is only applicable to subscriptions with order_interval_unit = “month”.
+      - name: order_day_of_week
+        description: The set day of the week order is created. This is only applicable to subscriptions with order_interval_unit = “week”; value of 0 equals to Monday, 1 to Tuesday etc.
+      - name: order_interval_frequency_options
+        description: List of order interval frequency options that a customer can choose from (e.g. order_interval_unit = month and order_internal_frequency_option for 3 would be an order every 3 months).
+      - name: order_interval_unit
+        description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
+      - name: storefront_purchase_options
+      - name: collection_id
+        description: Unique numeric identifier for the rule set charge in Recharge.
+      - name: shopify_product_id
+        description: Unique numeric identifier of the product in Shopify.
+      - name: created_at
+        description: The date and time when the product was created.
+      - name: updated_at
+        description: The date and time when the product was updated.
+      - name: is_deleted
+        description: Boolean indicating if a row have been deleted in the source.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__subscription
+    description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
+
+    columns:
+      - name: subscription_id
+        description: The unique ID of the subscription.
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Unique numeric identifier for the customer the subscription is ties to.
+      - name: address_id
+        description: Unique numeric identifier for the address the subscription is associated with.
+      - name: created_at
+        description: The date and time when the subscription was created.
+      - name: product_title
+        description: The name of the product in a shop's catalog.
+      - name: variant_title
+        description: The name of the variant in a shop's catalog.
+      - name: sku
+        description: A unique identifier of the item in fulfillment.
+      - name: price
+        description: The price of the item before discounts, taxes, or shipping have been applied.
+      - name: quantity
+        description: The number of items in the subscription.
+      - name: status
+        description: The status of the subscription; active = the subscription is active, cancelled = the subscription has been cancelled, expired = the subscription has expired - this occurs when the maximum number of charges for product have been reached.
+        tests:
+          - accepted_values:
+              values: ['ACTIVE','CANCELLED','EXPIRED','ONETIME']
+              config:
+                severity: warn
+      - name: next_charge_scheduled_at
+        description: Date of the next charge for the subscription.
+      - name: charge_interval_frequency
+        description: The number of units (specified in order_interval_unit) between each charge.
+      - name: expire_after_specific_number_of_charges
+        description: Set the number of charges until subscription expires.
+      - name: number_charges_until_expiration
+        description: Number of charges until the subscription expires.
+      - name: order_interval_frequency
+        description: The number of units (specified in order_interval_unit) between each order, e.g. order_interval_unit = 'month' and order_interval frequency = 3 indicates an order every 3 months.
+      - name: order_interval_unit
+        description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
+      - name: updated_at
+        description: The date and time when the subscription was created.
+      - name: shopify_product_id
+        description: Unique numeric identifier of the product in Shopify.
+      - name: shopify_variant_id
+        description: Unique numeric identifier of the product variant in Shopify.
+      - name: cancelled_at
+        description: The date and time when the subscription was cancelled.
+      - name: cancellation_reason
+        description: Reason provided for cancellation.
+      - name: cancellation_reason_comments
+        description: Additional comment for cancellation.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.
+
+  - name: stg_recharge__subscription_history
+    description: History table that builds over time. Does not capture history prior to connecting Fivetran.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - subscription_id
+            - updated_at
+
+    columns:
+      - name: subscription_id
+        description: Unique numeric identifier for the subscription.
+        tests:
+          - not_null
+      - name: customer_id
+        description: Unique numeric identifier for the customer the subscription is tied to.
+      - name: address_id
+        description: Unique numeric identifier for the address the subscription is associated with.
+      - name: created_at
+        description: The date and time the subscription was created.
+      - name: shopify_product_id
+        description: An object containing the product id as it appears in external platforms.
+      - name: product_title
+        description: The name of the product in a store’s catalog.
+      - name: shopify_variant_id
+        description: An object containing the variant id as it appears in external platforms.
+      - name: variant_title
+        description: The name of the variant in a shop’s catalog.
+      - name: sku
+        description: A unique identifier of the item in the fulfillment. In cases where SKU is blank, it will be dynamically pulled whenever it is used.
+      - name: price
+        description: The price of the item before discounts, taxes, or shipping have been applied.
+      - name: quantity
+        description: The number of items in the subscription.
+      - name: status
+        description: The status of the subscription.
+        tests:
+          - accepted_values:
+              values: ['ACTIVE','CANCELLED','EXPIRED','ONETIME']
+              config:
+                severity: warn
+      - name: charge_interval_unit_type
+        description: The condition of how frequent the items are charged.
+      - name: charge_interval_frequency
+        description: The number of units (specified in order_interval_unit) between each Charge. For example, order_interval_unit=month and charge_interval_frequency=3, indicate charge every 3 months.
+      - name: order_interval_unit
+        description: The frequency unit used to determine when a subscription’s order is created.
+      - name: order_interval_frequency
+        description: The frequency unit used to determine when a subscription’s order is created.
+      - name: order_day_of_month
+        description: The set day of the month order is created. Default is that there isn’t a strict day of the month when the order is created.
+      - name: order_day_of_week
+        description: The set day of the week order is created. Default is that there isn’t a strict day of the week order is created.
+      - name: shipping_interval_unit_type
+        description: The frequency unit type which an order should be shipped by. Valid values are “day”,“week”, and “month”.
+      - name: shipping_interval_frequency
+        description: Shipping interval frequency options that a customer can choose from.
+      - name: expire_after_specific_number_of_charges
+        description: Set the number of charges until subscription expires.
+      - name: number_charges_until_expiration
+      - name: updated_at
+        description: The date time at which the purchase_item record was last updated.
+      - name: next_charge_scheduled_at
+        description: Date of the next charge for the subscription.
+      - name: cancelled_at
+        description: The date and time the subscription was cancelled.
+      - name: cancellation_reason
+        description: Reason provided for cancellation.
+      - name: cancellation_reason_comments
+        description: Additional comment for cancellation.
+      - name: _fivetran_deleted
+        description: Boolean indicating if a row have been deleted in the source.
+      - name: _fivetran_synced
+        description: Timestamp indicating when Fivetran last successfully synced the row.

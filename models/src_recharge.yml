@@ -1,0 +1,941 @@
+
+version: 2
+
+sources:
+  - name: recharge
+    description: Subscriptions payments platform designed for merchants to set up and manage dynamic recurring billing across web and mobile.
+
+    database: "{% if target.type != 'spark'%}{{var ('recharge', target.database)}}{% endif %}"
+    schema: "{{var ('recharge_schema', 'recharge')}}"
+
+    database: dev_fivetran
+    schema: recharge
+
+    loader: fivetran
+    loaded_at_field: _fivetran_synced
+
+    freshness:
+      warn_after: { count: 12, period: hour }
+      error_after: { count: 24, period: hour }
+    
+    tables:
+      - name: address
+        # identifier: "{{ source('recharge','address') }}"
+        description: Table of all addresses, an address record represents a shipping address.
+        columns:
+          - name: id
+            description: Unique numeric identifier for the address.
+          - name: customer_id
+            description: Unique numeric identifier for the customer associated with the address.
+          - name: first_name
+            description: The customer's first name.
+          - name: last_name
+            description: The customer's last name.
+          - name: address_1
+            description: The street associated with the address.
+          - name: address_2
+            description: Any additional information associated with the address.
+          - name: city
+            description: The city associated with the address.
+          - name: province
+            description: The state or province associated with the address.
+          - name: country
+            description: The country associated with the address.
+          - name: zip
+            description: The zip or postal code associated with the address.
+          - name: company
+            description: The company associated with the address.
+          - name: phone
+            description: The phone number associated with the address.
+          - name: created_at
+            description: The date and time when the address was created.
+          - name: updated_at
+            description: The date and time when the address was last updated.
+          - name: cart_attribute_elevar_visitor_info
+            description: Contains visitor information about the customer such as their source.
+
+      - name: address_shipping_line
+        # identifier: "{{ source('recharge','address_shipping_line') }}"
+        description: Table of all addresses and corresponding associated shipping information.
+        columns:
+          - name: address_id
+            description: Unique numeric identifier for the address.
+          - name: index
+            description: A unique numeric row produced for every concurrent address_id.
+          - name: price
+            description: The price of the shipping amount.
+          - name: code
+            description: The type of the shipping, can contain geographical shipping information. 
+          - name: title
+            description: The type of shipping consignment.
+
+      - name: charge
+        # identifier: "{{ source('recharge','charge') }}"
+        description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
+        columns:
+          - name: id 
+            description: The unique ID of the charge.
+          - name: address_id
+            description: The customer shipping address the charge is tied to.
+          - name: customer_id
+            description: The ID of the customer associated with the charge.
+          - name: first_name
+            description: The first name of the customer.
+          - name: last_name
+            description: The last name of the customer.
+          - name: customer_hash
+            description: The hash of the customer associated with the charge.
+          - name: note
+            description: Shows the next order in sequence.
+          - name: created_at
+            description: Date and time when the charge was created.
+          - name: updated_at
+            description: Date and time when the charge was last updated.
+          - name: processed_at
+            description: Date and time when the charge was processed.
+          - name: scheduled_at
+            description: When the charge processing will next be attempted.
+          - name: shipments_count
+            description: The number of successful processed child orders on the charge.
+          - name: shopify_order_id
+            description: The unique numeric identifier within Shopify for the charge.
+          - name: sub_total
+            description: The item price without taxes and discounts. # Use subtotal_price instead
+          - name: subtotal_price
+            description: The item price without taxes and shipping applied.
+          - name: tags
+            description: Array of strings used to distinguish specific charges.
+          - name: tax_lines
+            description: Array of strings used to distinguish specific charges - the price of the shipping line.
+          - name: total_discounts
+            description: The sum of the discounts applied to the charge.
+          - name: total_line_items_price
+            description: The sum of all the prices of all the items in the charge.
+          - name: total_price
+            description: The sum of all the prices of all the items in the charge, taxes and discounts included (must be positive).
+          - name: total_tax
+            description: The sum of all the prices of all the items in the charge, taxes included.
+          - name: total_weight
+            description: The total weight of all items in the charge.
+          - name: type
+            description: The type of the charge, possible values can be; checkout or recurring.
+          - name: status
+            description: The status of the charge, possible values can be; success, error, queued, skipped, refunded or partially_refunded.
+          - name: total_refunds
+            description: The sum of all refunds that were made on a specific charge.
+          - name: transaction_id
+            description: The unique alphanumeric identifier of the transaction.
+          - name: email
+            description: The email address of the customer.
+          - name: processor_name
+            description: The payment processor used on the charge.
+          - name: has_uncommitted_changes
+            description: Specifies whether the charge is scheduled for regeneration (if the subscription is related to the charge was updated in the last 5 seconds using "commit_update":false).
+          - name: last_charge_attempt_date
+            description: The date when the charge was last attempted.
+          - name: retry_date
+            description: The date when the next attempt will be placed.
+          - name: error_type
+            description: Structured reason why the charge failed such as customer_needs_to_updated_card.
+          - name: error
+            description: Error reason as sentence text (typically returned directly from the payment processor - e.g. "customer needs to update credit card").
+          - name: number_times_tried
+            description: Shows how many times an attempt to charge was placed.
+          - name: shopify_variant_id_not_found
+            description: Indicates if Recharge was able to find the shopify_variant_id from the charge.
+          - name: billing_address_first_name
+            description: The first name of the billing address.
+          - name: billing_address_last_name
+            description: the last name of the billing address.
+          - name: billing_address_address_1
+            description: Line 1 of the billing address.
+          - name: billing_address_address_2
+            description: Line 2 of the billing address.
+          - name: billing_address_city
+            description: The city of the billing address.
+          - name: billing_address_province
+            description: The name of the province of state associated with the billing address.
+          - name: billing_address_country
+            description: The country of the billing address.
+          - name: billing_address_zip
+            description: The zip or post code of the billing address.
+          - name: billing_address_company
+            description: The company name of the billing address.
+          - name: billing_address_phone
+            description: The phone number of the billing address.
+          - name: shipping_address_first_name
+            description: The first name of the shipping address.
+          - name: shipping_address_last_name
+            description: The last name of the shipping address.
+          - name: shipping_address_address_1
+            description: Line 1 of the shipping address.
+          - name: shipping_address_address_2
+            description: Line 2 of the shipping address.
+          - name: shipping_address_city
+            description: The city of the shipping address.
+          - name: shipping_address_province
+            description: The name of the province or state associated with the shipping address.
+          - name: shipping_address_country
+            description: The country of the shipping address.
+          - name: shipping_address_zip
+            description: The zip or post code of the shipping address.
+          - name: shipping_address_company
+            description: The company name of the shipping address.
+          - name: shipping_address_phone
+            description: The phone number of the shipping address.
+          - name: client_details_browser_ip
+            description: The IP address of the buyer detected in checkout.
+          - name: client_details_user_agent
+            description: The user agent detected during checkout.
+
+      - name: charge_discount_code
+        # identifier: "{{ source('recharge','charge_discount_code') }}"
+        description: Table of all charge discount codes.
+        columns:
+          - name: charge_id
+            description: The unique ID of the charge.
+          - name: index
+            description: A unique numeric row produced for every concurrent charge_id.
+          - name: discount_id
+            description: The ID of the discount associated with the charge.
+          - name: amount
+            description: The amount of the discount.
+
+      - name: charge_line_item
+        # identifier: "{{ source('recharge','charge_line_item') }}"
+        description: Table of all charge line items, each containing information about a distinct purchase item.
+        columns:
+          - name: charge_id
+            description: The unique ID of the charge.
+          - name: index
+            description: A unique numeric row produced for every concurrent charge_id.
+          - name: subscription_id
+            description: The unique ID of the associated subscription.
+          - name: variant_title
+            description: The name of the product variant retrieved from Shopify.
+          - name: title
+            description: The product title retrieved from Shopify.
+          - name: quantity
+            description: The number of items associated to the subscription and therefore the subsequent charge.
+          - name: grams
+            description: The weight of the charge's line item in grams.
+          - name: price
+            description: The price of the charge's line item.
+          - name: sku
+            description: The SKU (stock keeping unit) of the product associated with the charge's line item.
+          - name: shopify_product_id
+            description: The product ID retrieved from Shopify.
+          - name: shopify_variant_id
+            description: The variant ID retrieved from Shopify.
+          - name: vendor
+            description: The name of the seller.
+          - name: property_charge_interval_frequency
+            description: The number of units, specified in order_interval_unit between each charge.
+          - name: property_shipping_interval_unit_type
+            description: The condition of how frequent the items are shipped.
+          - name: property_shipping_interval_frequency
+            description: The interval of how frequent the items are shipped.
+          - name: property_charge_interval_unit_type
+            description: The condition of how frequent the items are charged.
+          - name: property_title
+            description: The title of the product.
+
+      - name: charge_note_attribute
+        # identifier: "{{ source('recharge','charge_note_attribute') }}"
+        description: Table of notes associated to their corresponding charges.
+        columns:
+          - name: charge_id
+            description: The unique ID of the charge.
+          - name: index
+            description: A unique numeric row produced for every concurrent charge_id.
+          - name: note_attribute
+            description: An array of name-value pairs of order attributes on the charge.
+
+      - name: charge_shipping_line
+        # identifier: "{{ source('recharge','charge_shipping_line') }}"
+        description: Table of all shipping information associated to their corresponding charges.
+        columns:
+          - name: charge_id
+            description: The unique ID of the charge.
+          - name: index
+            description: A unique numeric row produced for every concurrent charge_id.
+          - name: price
+            description: The price of th shipping line of a charge.
+          - name: code
+            description: The code associated with the shipping line of a charge.
+          - name: title
+            description: The title of the shipping line.
+
+      - name: checkout
+        # identifier: "{{ source('recharge','checkout') }}"
+        description: Table of all checkouts to manage recurring orders, billing and payments, only available for BigCommerce and Custom. Checkouts on Shopify must go through Shopify.
+        columns:
+          - name: token
+            description: Unique ID for the checkout.
+          - name: charge_id
+            description: The unique ID of the charge.
+          - name: billing_address_first_name
+            description: The first name of the billing address.
+          - name: billing_address_last_name
+            description: The last name of the billing address.
+          - name: billing_address_address_1
+            description: Line 1 of the billing address.
+          - name: billing_address_address_2
+            description: Line 2 of the billing address.
+          - name: billing_address_city
+            description: The city of the billing address.
+          - name: billing_address_province
+            description: The state or province name of the billing address.
+          - name: billing_address_country
+            description: The country of the billing address.
+          - name: billing_address_zip
+            description: The zip or post code of the billing address.
+          - name: billing_address_company
+            description: The company name of the billing address.
+          - name: billing_address_phone
+            description: The phone number of the billing address.
+          - name: billing_address_company
+            description: The company of the billing address.
+          - name: shipping_address_first_name
+            description: The first name of the shipping address.
+          - name: shipping_address_last_name
+            description: The last name of the shipping address.
+          - name: shipping_address_address_1
+            description: Line 1 of the shipping address.
+          - name: shipping_address_address_2
+            description: Line 2 of the shipping address.
+          - name: shipping_address_city
+            description: The city of the shipping address.
+          - name: shipping_address_province
+            description: The state or province name of the shipping address.
+          - name: shipping_address_country
+            description: The country of the shipping address.
+          - name: shipping_address_zip
+            description: The zip or post code of the shipping address.
+          - name: shipping_address_company
+            description: The company of the shipping address.
+          - name: shipping_address_phone
+            description: The phone number of the shipping address.
+          - name: buyer_accepts_marketing
+            description: Boolean indicating if the buyer accepts marketing.
+          - name: completed_at
+            description: Timestamp for when the checkout was processed.
+          - name: created_at
+            description: Timestamp for when the checkout was created.
+          - name: currency
+            description: Currency of the checkout.
+          - name: discount_code
+            description: Returns addresses that have the provided discount_code.
+          - name: email
+            description: Email address for the customer.
+          - name: external_checkout_id
+            description: External checkout reference, if one exists.
+          - name: external_checkout_source
+            description: External checkout platform, if one exists.
+          - name: applied_discount_amount
+            description: Financial amount of the discount applied.
+          - name: applied_discount_applicable
+            description: Whether the discount can be applied to the checkout.
+          - name: applied_discount_non_applicable_reason
+            description: Reason why the discount could not be redeemed, if applicable.
+          - name: applied_discount_value
+            description: The value of the discount, used in combination with the value_type to determine the amount.
+          - name: applied_discount_value_type
+            description: The way the discount amount is calculated.
+          - name: shipping_address_validations_country_is_supported
+            description: Boolean indicating if the shipping address country is supported.
+          - name: shipping_address_validations_ups
+          - name: shipping_rate_shipping_rate_checkout_subtotal_price
+            description: Shipping rate subtotal price.
+          - name: shipping_rate_shipping_rate_checkout_total_price
+            description: Shipping rate total price.
+          - name: shipping_rate_shipping_rate_checkout_total_tax
+            description: Shipping rate total tax.
+          - name: shipping_rate_code
+            description: The code indicating the shipping type.
+          - name: shipping_rate_delivery_range
+          - name: shipping_rate_description
+          - name: shipping_rate_handle
+          - name: shipping_rate_name
+          - name: shipping_rate_phone_required
+          - name: shipping_rate_price
+            description: The price of the shipping rate, with the associated defined shipping_rate_code.
+          - name: shipping_rate_title
+            description: The type of shipping rate.
+          - name: requires_shipping
+            description: Boolean indicating whether or not the checkout contains items that require shipping.
+          - name: subtotal_price
+            description: Value of the checkout minus shipping and tax.
+          - name: taxes_included
+            description: Boolean indicating if the checkout contains items that are taxable.
+          - name: total_price
+            description: Full price of the checkout including shipping and tax.
+          - name: total_tax
+            description: Tax charged on the checkout.
+          - name: phone
+            description: The phone number for the customer.
+          - name: updated_at
+            description: Timestamp for the latest checkout update.
+          - name: note_attributes
+            description: Array of list name-value pairs for custom attributes.
+
+      - name: checkout_line_item
+        # identifier: "{{ source('recharge','checkout_line_item') }}"
+        description: Table of all line items to their associated checkout.
+        columns:
+          - name: checkout_token
+            description: Unique ID for the checkout.
+          - name: index
+            description: A unique numeric row produced for every concurrent checkout_id.
+          - name: product_id
+            description: An object containing the associated product ID as it appears in the external system.
+          - name: variant_id
+            description: An object containing the associated variant ID as it appears in the external system.
+          - name: image
+            description: An object containing URLS of the product image.
+          - name: title
+            description: The title of the product associated with the line item.
+          - name: type
+            description: The type of the product associated with the line item.
+          - name: variant_title
+            description: The title of the product variant associated with the line item.
+          - name: vendor
+            description: The seller of the products.
+          - name: taxable
+            description: Boolean indicating if the line item is taxable.
+          - name: requires_shipping
+            description: Boolean indicating whether or not the line item requires shipping.
+          - name: sku
+            description: The sku (stock keeping unit) of the product associated with the line item.
+          - name: tax_code
+          - name: cutoff_day_of_month
+            description: Day of the month the plan should be charged.
+          - name: cutoff_day_of_week
+            description: Day of the week the plan should be charged.
+          - name: expire_after_specific_number_of_charges
+            description: A maximum number of charges on which the subscription should appear before automatic cancellation.
+          - name: first_recurring_charge_delay
+          - name: fulfillment_service
+          - name: grams
+            description: The weight of the line item.
+          - name: quantity
+            description: The quantity of the item being purchased.
+          - name: charge_interval_frequency
+            description: Frequency at which the subscriber will be charged.
+          - name: order_interval_frequency
+            description: Frequency at which the subscriber will receive shipments on their plan.
+          - name: line_price
+            description: The price of a single unit of the Product associated with the line item.
+          - name: order_day_of_month
+            description: Day of month an order should be generated when a customer is subscribed.
+          - name: order_day_of_week
+            description: Day of week an order should be generated when a customer is subscribed.
+          - name: order_interval_unit
+            description: The unit applied to order_interval_frequency.
+          - name: order_interval_type
+            description: The unit applied to order_interval_frequency.
+          - name: original_price
+            description: The original price of the line item.
+          - name: price
+            description: The total price of the line item.
+          - name: product_type
+            description: The type of the product associated with the line item.
+          - name: recurring_price
+            description: The recurring price that the subscriber will be charged.
+          - name: properties
+            description: Array of custom information associated with the line item.
+
+      - name: customer
+        # identifier: "{{ source('recharge','customer') }}"
+        description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
+        columns:
+          - name: id
+            description: The unique ID of the customer.
+          - name: hash
+            description: The unique string identifier used in a customer portal link.
+          - name: shopify_customer_id
+            description: Shopify's unique identifier for the customer.
+          - name: email
+            description: The email address of the customer.
+          - name: created_at
+            description: The date and time when the customer was created.
+          - name: updated_at
+            description: The date and time when the customer was last updated.
+          - name: first_charge_processed_at
+            description: Date when first charge was processed for the customer.
+          - name: first_name
+            description: The customer's first name.
+          - name: last_name
+            description: The customer's last name.
+          - name: number_active_subscriptions
+            description: The number of active subscriptions for the customer.
+          - name: number_subscriptions
+            description: The number of subscriptions the customer has.
+          - name: billing_first_name
+            description: The customer's billing first name. Required when creating a customer.
+          - name: billing_last_name
+            description: The customer's billing first name. Required when creating a customer.
+          - name: billing_address_1
+            description: The first line of the customer's billing address.
+          - name: billing_address_2
+            description: An additional field for the customer's billing address.
+          - name: billing_zip
+            description: The customer's billing zip or post code.
+          - name: billing_city
+            description: The customer's billing city.
+          - name: billing_company
+            description: The customer's billing company.
+          - name: billing_province
+            description: The customer's billing province or state name.
+          - name: billing_country
+            description: The customer's billing country.
+          - name: billing_phone
+            description: The customer's billing phone.
+          - name: processor_type
+            description: What the merchant processor the customer is stored on.
+          - name: status
+            description: The customer's status - accepted values are active or inactive.
+          - name: has_valid_payment_method
+            description: Boolean indicating if the payment value is valid.
+          - name: reason_payment_method_not_valid
+            description: Field indicating why the payment method is not valid.
+          - name: has_card_error_in_dunning
+            description: Boolean indicating if the customer has a credit card in dunning.
+
+      - name: discount
+        # identifier: "{{ source('recharge','discount') }}"
+        description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
+        columns:
+          - name: id
+            description: Unique numeric identifier for the discount in Recharge.
+          - name: created_at
+            description: The date and time when the discount was created.
+          - name: updated_at
+            description: The date and time when the discount was last updated.
+          - name: starts_at
+            description: The date when the discount becomes active.
+          - name: ends_at
+            description: The expiration time of the discount, past this time the discount can no longer be redeemed, once the time of the discount has passed the status of the discount will go from 'active' to 'disabled'.
+          - name: code
+            description: The code used to apply the discount.
+          - name: value
+            description: The discounted value to be applied.
+          - name: discount_type
+            description: The type of discount.
+          - name: status
+            description: The status of the discount, accepted values - enabled, disabled, fully_disabled.
+          - name: times_used
+            description: An integer indicating how many times the discount has been used.
+          - name: usage_limit
+            description: An integer indicating how many times the discount can been used.
+          - name: applies_to
+            description: Indicates where the discount applies.
+          - name: applies_to_resource
+            description: An indicator of the type of resource which applies_to_id refers.
+          - name: applies_to_id
+            description: A list of ids of the type indicated in applies_to_resource for which the discount can be applied.
+          - name: applies_to_product_type
+            description: Indicates which product types the discount applies to.
+          - name: duration
+            description: How long the discount can be used.
+          - name: duration_usage_limit
+            description: An integer of how long the discount can be used in accordance to it's duration.
+          - name: minimum_order_amount
+          - name: once_per_customer
+            description: Boolean indicating whether the discount applies only once to a customer.
+          - name: applies_once
+            description: Boolean indicating whether the discount applies only once.
+
+      - name: one_time_product
+        # identifier: "{{ source('recharge','one_time_product') }}"
+        description: Table of all one-times which represent non-recurring line items on a queued charges.
+        columns:
+          - name: id
+            description: The unique numeric identifier for the onetime purchase.
+          - name: address_id
+            description: Unique numeric identifier for the address the onetime purchase is associated with (cannot be used with next_charge_scheduled_at).
+          - name: customer_id
+            description: Unique numeric identifier for the customer the onetime purchase is tied to.
+          - name: is_deleted
+            description: Boolean indicating if the onetime is deleted.
+          - name: created_at
+            description: The time the onetime item was first created.
+          - name: updated_at
+            description: The time the onetime item was last updated.
+          - name: next_charge_scheduled_at
+            description: Date of the onetime purchase execution.
+          - name: product_title
+            description: The name of the product in a shop's catalog.
+          - name: variant_title
+            description: The name of the variant in a shop's catalog.
+          - name: price
+            description: The price of the item before discounts, taxes, or shipping have been applied.
+          - name: quantity
+            description: The number of items in the onetime purchase.
+          - name: status
+            description: The status of the onetime product.
+          - name: shopify_variant_id
+            description: The variant ID as retrieved from Shopify.
+          - name: recharge_product_id
+            description: The product ID as retrieved from Recharge.
+          - name: sku
+            description: The unique identifier of the item in fulfillment.
+
+      - name: order_temp
+        # identifier: "{{ source('recharge','order_temp') }}"
+        description: Table of all orders after a charge is successfully processed.
+        columns:
+          - name: id
+            description: The unique ID of the order.
+          - name: customer_id
+            description: The unique numeric identifier of the customer.
+          - name: address_id
+            description: The ID of the customer's shipping address that this order is tied to.
+          - name: charge_id
+            description: The unique numeric identifier of the charge.
+          - name: is_deleted
+            description: Boolean indicating if the order (record) is deleted.
+          - name: first_name
+            description: The first name of the customer.
+          - name: last_name
+            description: The last name of the customer.
+          - name: email
+            description: The email address of the customer.
+          - name: transaction_id
+            description: The unique alphanumeric identifier of the transaction.
+          - name: address_is_active
+            description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
+          - name: charge_status
+            description: The status of the charge, possible values can be; success, error, queued, skipped, refunded or partially_refunded.
+          - name: is_prepaid
+            description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
+          - name: payment_processor
+            description: The type of payment the processor has chosen.
+          - name: status
+            description: The status of the order within Shopify.
+          - name: total_price
+            description: The sum of all prices of the item in the order with taxes and discounts included (must be positive).
+          - name: type
+            description: Shows if the order was made through checkout or if it's a recurring charge. Accepted inputs; "CHECKOUT" or "RECURRING".
+          - name: shopify_cart_token
+            description: Unique cart token generated by Shopify when an item is added to the cart.
+          - name: shopify_id
+            description: Unique numeric identifier within Shopify for the order. # Deprecated, use shopify_order_id instead
+          - name: shopify_order_id
+            description: Unique numeric identifier within Shopify for the order.
+          - name: shopify_order_number
+            description: The unique order number within Shopify.
+          - name: created_at
+            description: The date and time when the order was created.
+          - name: updated_at
+            description: The date and time when the order was last updated.
+          - name: processed_at
+            description: The date and time when the order was submitted. 
+          - name: scheduled_at
+            description: The date and time when the order will be shipped.
+          - name: shipped_date
+            description: The date when the order will be processed.
+          - name: shipping_date
+            description: The date when the order will be processed. # Deprecated, use scheduled_at instead
+          - name: billing_address_first_name
+            description: The first name of the billing address.
+          - name: billing_address_last_name
+            description: The last name of the billing address.
+          - name: billing_address_1
+            description: The first line of the billing address.
+          - name: billing_address_2
+            description: The second line of the billing address.
+          - name: billing_address_city
+            description: The city of the billing address.
+          - name: billing_address_province
+            description: The province or state name of the billing address.
+          - name: billing_address_country
+            description: The country of the billing address.
+          - name: billing_address_zip
+            description: The zip or post code of the billing address.
+          - name: billing_address_company
+            description: The name of the company associated with the billing address.
+          - name: billing_address_phone
+            description: The phone number of the billing address.
+          - name: shipping_address_first_name
+            description: The first name of the shipping address.
+          - name: shipping_address_last_name
+            description: The last name of the shipping address.
+          - name: shipping_address_address_1
+            description: The first line of the shipping address.
+          - name: shipping_address_address_2
+            description: The second line of the shipping address.
+          - name: shipping_address_city
+            description: The city of the shipping_address.
+          - name: shipping_address_province
+            description: The province or state name of the shipping address.
+          - name: shipping_address_country
+            description: The country of the shipping address.
+          - name: shipping_address_zip
+            description: The zip or post code of the shipping address.
+          - name: shipping_address_company
+            description: The name of the company associated with the shipping address.
+          - name: shipping_address_phone
+            description: The phone number of the billing address.
+
+      - name: order_line_item
+        # identifier: "{{ source('recharge','order_line_item') }}"
+        description: Table of all order line items. Each line containing information about an item in the order.
+        columns:
+          - name: order_id
+            description: The ID of the order.
+          - name: index
+            description: A unique numeric row produced for every concurrent order_id.
+          - name: subscription_id
+            description: The ID of the subscription tied to the purchase of the product.
+          - name: variant_title
+            description: The title of the product variant.
+          - name: title
+            description: The title of the product.
+          - name: quantity
+            description: The number of products that were purchased.
+          - name: grams
+            description: Weight in grams of the item.
+          - name: price
+            description: The price of the item in the order.
+          - name: sku
+            description: A unique identifier of the item in the fulfillment.
+          - name: shopify_product_id
+            description: The unique numeric identifier for the Shopify product in the fulfillment.
+          - name: shopify_variant_id
+            description: Unique numeric identifier of the product variant in Shopify.
+          - name: product_title
+            description: The name of the product in a shop's catalog. # Deprecated, use title instead
+          - name: property_charge_interval_frequency
+            description: The number of units (specified in order_interval_unit) between each charge.
+          - name: property_shipping_interval_unit_type
+            description: The frequency unit type which an order should be shipped by. Valid values are “day”,“week”, and “month”.
+          - name: property_shipping_interval_frequency
+            description: Shipping interval frequency options that a customer can choose from.
+          - name: property_price
+            description: The same as price - the price of the item in the order.
+          - name: property_charge_interval_unit_type
+            description: The frequency unit type which an order should be charged by. Valid values are “day”,“week”, and “month”.
+          - name: property_title
+            description: The original name of the product.
+
+      - name: payment_source
+        # identifier: "{{ source('recharge','payment_source') }}"
+        description: Table of payment and billing information.
+        columns:
+          - name: customer_id
+            description: The unique ID of the customer.
+          - name: index
+            description: A unique numeric row produced for every concurrent customer_id.
+          - name: billing_address_first_name
+            description: The first name associated with the billing address.
+          - name: billing_address_last_name
+            description: The last name associated with the billing address.
+          - name: billing_address_address_1
+            description: The first line of the billing address.
+          - name: billing_address_address_2
+            description: Additional information associated with the billing address.
+          - name: billing_address_city
+            description: The city associated with the billing address.
+          - name: billing_address_province
+            description: The state name or province associated with the billing address.
+          - name: billing_address_country
+            description: The country associated with the billing address.
+          - name: billing_address_zip
+            description: The zip or post code associated with the billing address.
+          - name: billing_address_company
+            description: The company name associated with the billing address.
+          - name: billing_address_phone
+            description: The phone number associated with the billing address.
+          - name: cardholder_name
+            description: The name of the card holder.
+          - name: card_brand
+            description: The brand of the card.
+          - name: card_exp_month
+            description: The card expiry month.
+          - name: card_exp_year
+            description: The card expiry year.
+          - name: card_last_4
+            description: The last 4 digits of the identifier.
+          - name: has_card_error_in_dunning
+            description: Boolean indicating if the customer has a credit card in dunning.
+          - name: payment_token
+            description: The customer token at the processor.
+          - name: payment_type
+            description: The type of payment this is.
+          - name: processor_name
+            description: Possible values - stripe, braintree, authorize, shopify_payments, mollie.
+          - name: status
+            description: State of the payment method.
+          - name: status_reason
+            description: The status reason for the payment method.
+
+      - name: product
+        # identifier: "{{ source('recharge','product') }}"
+        description: Table of all products sold on the merchant's website.
+        columns:
+          - name: id
+            description: The unique ID of the product.
+          - name: title
+            description: The product title retrieved from Shopify.
+          - name: discount_amount
+            description: The discount amount applied on the product.
+          - name: discount_type
+            description: The type of discount.
+          - name: handle
+            description: A human-friendly unique string for the product automatically generated from Shopify.
+          - name: large_image
+            description: A large image file of the product.
+          - name: medium_image
+            description: A medium image file of the product.
+          - name: original_image
+            description: The original image file of the product.
+          - name: small_image
+            description: A small image file of the product.
+          - name: subscription_defaults_charge_interval_frequency
+            description: The number of units (specified in order_interval_unit) between each charge.
+          - name: subscription_defaults_cutoff_day_of_month
+            description: Number of day in month on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
+          - name: subscription_defaults_cutoff_day_of_week
+            description: Number of day in week on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
+          - name: subscription_defaults_expire_after_specific_number_of_charges
+            description: Number of charges until the subscription expires. # Will be expired, use expire_after_specific_number_of_charges instead.
+          - name: subscription_defaults_modifiable_properties
+            description: A list of modifiable line item properties (e.g. ["box-edition", "christmas-special"])
+          - name: subscription_defaults_number_charges_until_expiration
+            description: Number of charges until the subscription expires.
+          - name: subscription_defaults_order_day_of_month
+            description: The set day of the month order is created. This is only applicable to subscriptions with order_interval_unit = “month”.
+          - name: subscription_defaults_order_day_of_week
+            description: The set day of the week order is created. This is only applicable to subscriptions with order_interval_unit = “week”; value of 0 equals to Monday, 1 to Tuesday etc.
+          - name: subscription_defaults_order_interval_frequency_options
+            description: List of order interval frequency options that a customer can choose from (e.g. order_interval_unit = month and order_internal_frequency_option for 3 would be an order every 3 months).
+          - name: subscription_defaults_order_interval_unit
+            description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
+          - name: subscription_defaults_storefront_purchase_options
+          - name: collection_id
+            description: Unique numeric identifier for the rule set charge in Recharge.
+          - name: shopify_product_id
+            description: Unique numeric identifier of the product in Shopify.
+          - name: created_at
+            description: The date and time when the product was created.
+          - name: updated_at
+            description: The date and time when the product was updated.
+          - name: is_deleted
+            description: Boolean indicating if the product has been deleted.
+
+      - name: subscription
+        # identifier: "{{ source('recharge','subscription') }}"
+        description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
+        columns:
+          - name: id
+            description: The unique ID of the subscription.
+          - name: address_id
+            description: Unique numeric identifier for the address the subscription is associated with.
+          - name: customer_id
+            description: Unique numeric identifier for the customer the subscription is ties to.
+          - name: created_at
+            description: The date and time when the subscription was created.
+          - name: cancelled_at
+            description: The date and time when the subscription was cancelled.
+          - name: next_charge_scheduled_at
+            description: Date of the next charge for the subscription.
+          - name: price
+            description: The price of the item before discounts, taxes, or shipping have been applied.
+          - name: quantity
+            description: The number of items in the subscription.
+          - name: status
+            description: The status of the subscription; active = the subscription is active, cancelled = the subscription has been cancelled, expired = the subscription has expired - this occurs when the maximum number of charges for product have been reached.
+          - name: cancellation_reason
+            description: Reason provided for cancellation.
+          - name: cancellation_reason_comments
+            description: Additional comment for cancellation.
+          - name: product_title
+            description: The name of the product in a shop's catalog.
+          - name: variant_title
+            description: The name of the variant in a shop's catalog.
+          - name: shopify_product_id
+            description: Unique numeric identifier of the product in Shopify.
+          - name: shopify_variant_id
+            description: Unique numeric identifier of the product variant in Shopify.
+          - name: sku
+            description: A unique identifier of the item in fulfillment.
+          - name: order_interval_unit
+            description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
+          - name: order_interval_frequency
+            description: The number of units (specified in order_interval_unit) between each order, e.g. order_interval_unit = 'month' and order_interval frequency = 3 indicates an order every 3 months.
+          - name: charge_interval_frequency
+            description: The number of units (specified in order_interval_unit) between each charge.
+          - name: order_day_of_week
+            description: The set day of the week order is created. This is only applicable to subscriptions with order_interval_unit = “week”.
+          - name: order_day_of_month
+            description: The set day of the month order is created. This is only applicable to subscriptions with order_interval_unit = “month”.
+          - name: expire_after_specific_number_of_charges
+            description: Set the number of charges until subscription expires.
+          - name: number_charges_until_expiration
+            description: Number of charges until the subscription expires.
+          - name: updated_at
+            description: The date and time when the subscription was created.
+
+      - name: subscription_history
+        # identifier: "{{ source('recharge','subscription_history') }}"
+        description: History table that builds over time. Does not capture history prior to connecting Fivetran.
+        columns:
+          - name: subscription_id
+            description: Unique numeric identifier for the subscription.
+          - name: updated_at
+            description: The date time at which the purchase_item record was last updated.
+          - name: address_id
+            description: Unique numeric identifier for the address the subscription is associated with.
+          - name: customer_id
+            description: Unique numeric identifier for the customer the subscription is tied to.
+          - name: created_at
+            description: The date and time the subscription was created.
+          - name: cancelled_at
+            description: The date and time the subscription was cancelled.
+          - name: next_charge_scheduled_at
+            description: Date of the next charge for the subscription.
+          - name: price
+            description: The price of the item before discounts, taxes, or shipping have been applied.
+          - name: quantity
+            description: The number of items in the subscription.
+          - name: cancellation_reason
+            description: Reason provided for cancellation.
+          - name: status
+            description: The status of the subscription.
+          - name: cancellation_reason_comments
+            description: Additional comment for cancellation.
+          - name: product_title
+            description: The name of the product in a store’s catalog.
+          - name: variant_title
+            description: The name of the variant in a shop’s catalog.
+          - name: shopify_product_id
+            description: An object containing the product id as it appears in external platforms.
+          - name: shopify_variant_id
+            description: An object containing the variant id as it appears in external platforms.
+          - name: sku
+            description: A unique identifier of the item in the fulfillment. In cases where SKU is blank, it will be dynamically pulled whenever it is used.
+          - name: order_interval_unit
+            description: The frequency unit used to determine when a subscription’s order is created.
+          - name: order_interval_frequency
+            description: The number of units (specified in order_interval_unit) between each order. For example, order_interval_unit = month and order_interval_frequency = 3, indicate order every 3 months.
+          - name: charge_interval_frequency
+            description: The number of units (specified in order_interval_unit) between each Charge. For example, order_interval_unit=month and charge_interval_frequency=3, indicate charge every 3 months.
+          - name: order_day_of_week
+            description: The set day of the week order is created. Default is that there isn’t a strict day of the week order is created.
+          - name: order_day_of_month
+            description: The set day of the month order is created. Default is that there isn’t a strict day of the month when the order is created.
+          - name: expire_after_specific_number_of_charges
+            description: Set the number of charges until subscription expires.
+          - name: number_charges_until_expiration
+          - name: _fivetran_deleted
+            description: Boolean indicating if a row have been deleted in the source.
+          - name: property_shipping_interval_unit_type
+            description: The frequency unit type which an order should be shipped by. Valid values are “day”,“week”, and “month”.
+          - name: property_shipping_interval_frequency
+            description: Shipping interval frequency options that a customer can choose from.
+          - name: property_price
+          - name: property_title
+            description: The title of the product
+          - name: property_charge_interval_unit_type
+            description: The condition of how frequent the items are charged.

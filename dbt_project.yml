@@ -1,0 +1,56 @@
+
+name: 'recharge_source'
+version: '1.0.0'
+config-version: 2
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'recharge'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/ directory
+# as tables. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+models:
+  recharge_source:
+    +materialized: table
+    tmp:
+      materialized: view
+
+vars:
+  recharge_source:
+    address: "{{ source('recharge','address') }}"
+    address_shipping_line: "{{ source('recharge','address_shipping_line') }}"
+    charge: "{{ source('recharge','charge') }}"
+    charge_discount_code: "{{ source('recharge','charge_discount_code') }}"
+    charge_line_item: "{{ source('recharge','charge_line_item') }}"
+    charge_note_attribute: "{{ source('recharge','charge_note_attribute') }}"
+    charge_shipping_line: "{{ source('recharge','charge_shipping_line') }}"
+    checkout: "{{ source('recharge','checkout') }}"
+    checkout_line_item: "{{ source('recharge','checkout_line_item') }}"
+    customer: "{{ source('recharge','customer') }}"
+    discount: "{{ source('recharge','discount') }}"
+    one_time_product: "{{ source('recharge','one_time_product') }}"
+    order: "{{ source('recharge','order_temp') }}"
+    order_line_item: "{{ source('recharge','order_line_item') }}"
+    payment_source: "{{ source('recharge','payment_source') }}"
+    product: "{{ source('recharge','product') }}"
+    subscription: "{{ source('recharge','subscription') }}"
+    subscription_history: "{{ source('recharge','subscription_history') }}"
