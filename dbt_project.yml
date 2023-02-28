@@ -54,3 +54,4 @@ vars:
     product: "{{ source('recharge','product') }}"
     subscription: "{{ source('recharge','subscription') }}"
     subscription_history: "{{ source('recharge','subscription_history') }}"
+    utm_tag: "{{ source('recharge','utm_tag') }}"
