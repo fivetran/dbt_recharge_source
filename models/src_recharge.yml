@@ -20,7 +20,7 @@ sources:
     
     tables:
       - name: address
-        # identifier: "{{ source('recharge','address') }}"
+        identifier: "{{ var('recharge_address_identifier','address') }}"
         description: Table of all addresses, an address record represents a shipping address.
         columns:
           - name: id
@@ -55,7 +55,7 @@ sources:
             description: Contains visitor information about the customer such as their source.
 
       - name: address_shipping_line
-        # identifier: "{{ source('recharge','address_shipping_line') }}"
+        identifier: "{{ var('recharge_address_shipping_line_identifier','address_shipping_line') }}"
         description: Table of all addresses and corresponding associated shipping information.
         columns:
           - name: address_id
@@ -70,7 +70,7 @@ sources:
             description: The type of shipping consignment.
 
       - name: charge
-        # identifier: "{{ source('recharge','charge') }}"
+        identifier: "{{ var('recharge_charge_identifier','charge') }}"
         description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
         columns:
           - name: id 
@@ -189,7 +189,7 @@ sources:
             description: The user agent detected during checkout.
 
       - name: charge_discount_code
-        # identifier: "{{ source('recharge','charge_discount_code') }}"
+        identifier: "{{ var('recharge_charge_discount_code_identifier','charge_discount_code') }}"
         description: Table of all charge discount codes.
         columns:
           - name: charge_id
@@ -202,7 +202,7 @@ sources:
             description: The amount of the discount.
 
       - name: charge_line_item
-        # identifier: "{{ source('recharge','charge_line_item') }}"
+        identifier: "{{ var('recharge_charge_line_item_identifier','charge_line_item') }}"
         description: Table of all charge line items, each containing information about a distinct purchase item.
         columns:
           - name: charge_id
@@ -241,7 +241,7 @@ sources:
             description: The title of the product.
 
       - name: charge_note_attribute
-        # identifier: "{{ source('recharge','charge_note_attribute') }}"
+        identifier: "{{ var('recharge_charge_note_attribute_identifier','charge_note_attribute') }}"
         description: Table of notes associated to their corresponding charges.
         columns:
           - name: charge_id
@@ -252,7 +252,7 @@ sources:
             description: An array of name-value pairs of order attributes on the charge.
 
       - name: charge_shipping_line
-        # identifier: "{{ source('recharge','charge_shipping_line') }}"
+        identifier: "{{ var('recharge_charge_shipping_line_identifier','charge_shipping_line') }}"
         description: Table of all shipping information associated to their corresponding charges.
         columns:
           - name: charge_id
@@ -267,7 +267,7 @@ sources:
             description: The title of the shipping line.
 
       - name: checkout
-        # identifier: "{{ source('recharge','checkout') }}"
+        identifier: "{{ var('recharge_checkout_identifier','checkout') }}"
         description: Table of all checkouts to manage recurring orders, billing and payments, only available for BigCommerce and Custom. Checkouts on Shopify must go through Shopify.
         columns:
           - name: token
@@ -380,7 +380,7 @@ sources:
             description: Array of list name-value pairs for custom attributes.
 
       - name: checkout_line_item
-        # identifier: "{{ source('recharge','checkout_line_item') }}"
+        identifier: "{{ var('recharge_checkout_line_item_identifier','checkout_line_item') }}"
         description: Table of all line items to their associated checkout.
         columns:
           - name: checkout_token
@@ -446,7 +446,7 @@ sources:
             description: Array of custom information associated with the line item.
 
       - name: customer
-        # identifier: "{{ source('recharge','customer') }}"
+        identifier: "{{ var('recharge_customer_identifier','customer') }}"
         description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
         columns:
           - name: id
@@ -503,7 +503,7 @@ sources:
             description: Boolean indicating if the customer has a credit card in dunning.
 
       - name: discount
-        # identifier: "{{ source('recharge','discount') }}"
+        identifier: "{{ var('recharge_discount_identifier','discount') }}"
         description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
         columns:
           - name: id
@@ -547,7 +547,7 @@ sources:
             description: Boolean indicating whether the discount applies only once.
 
       - name: one_time_product
-        # identifier: "{{ source('recharge','one_time_product') }}"
+        identifier: "{{ var('recharge_one_time_product_identifier','one_time_product') }}"
         description: Table of all one-times which represent non-recurring line items on a queued charges.
         columns:
           - name: id
@@ -582,7 +582,7 @@ sources:
             description: The unique identifier of the item in fulfillment.
 
       - name: order_temp
-        # identifier: "{{ source('recharge','order_temp') }}"
+        identifier: "{{ var('recharge_order_temp_identifier','order_temp') }}"
         description: Table of all orders after a charge is successfully processed.
         columns:
           - name: id
@@ -679,7 +679,7 @@ sources:
             description: The phone number of the billing address.
 
       - name: order_line_item
-        # identifier: "{{ source('recharge','order_line_item') }}"
+        identifier: "{{ var('recharge_order_line_item_identifier','order_line_item') }}"
         description: Table of all order line items. Each line containing information about an item in the order.
         columns:
           - name: order_id
@@ -720,7 +720,7 @@ sources:
             description: The original name of the product.
 
       - name: payment_source
-        # identifier: "{{ source('recharge','payment_source') }}"
+        identifier: "{{ var('recharge_payment_source_identifier','payment_source') }}"
         description: Table of payment and billing information.
         columns:
           - name: customer_id
@@ -771,7 +771,7 @@ sources:
             description: The status reason for the payment method.
 
       - name: product
-        # identifier: "{{ source('recharge','product') }}"
+        identifier: "{{ var('recharge_product_identifier','product') }}"
         description: Table of all products sold on the merchant's website.
         columns:
           - name: id
@@ -825,7 +825,7 @@ sources:
             description: Boolean indicating if the product has been deleted.
 
       - name: subscription
-        # identifier: "{{ source('recharge','subscription') }}"
+        identifier: "{{ var('recharge_subscription_identifier','subscription') }}"
         description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
         columns:
           - name: id
@@ -878,7 +878,7 @@ sources:
             description: The date and time when the subscription was created.
 
       - name: subscription_history
-        # identifier: "{{ source('recharge','subscription_history') }}"
+        identifier: "{{ var('recharge_subscription_history_identifier','subscription_history') }}"
         description: History table that builds over time. Does not capture history prior to connecting Fivetran.
         columns:
           - name: subscription_id

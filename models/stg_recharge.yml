@@ -4,7 +4,6 @@ version: 2
 models:
   - name: stg_recharge__address
     description: Table of all addresses, an address represents a shipping address. Each customer can have multiple addresses, subscriptions are a child object of an address.
-
     columns:
       - name: address_id
         description: The unique ID of the address.
@@ -45,11 +44,10 @@ models:
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
     tests:
-     - dbt_utils.unique_combination_of_columns:
+      - dbt_utils.unique_combination_of_columns:
         combination_of_columns:
           - address_id
           - index
-
     columns:
       - name: address_id
         description: The unique ID of the address.
@@ -70,7 +68,6 @@ models:
 
   - name: stg_recharge__charge
     description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
-
     columns:
       - name: charge_id
         description: The unique ID of the charge.
@@ -195,7 +192,6 @@ models:
           combination_of_columns:
             - charge_id
             - index
-
     columns:
       - name: charge_id
         description: The unique ID of the charge.
@@ -217,7 +213,6 @@ models:
           combination_of_columns:
             - charge_id
             - index
-
     columns:
       - name: charge_id
         description: The unique ID of the charge.
@@ -304,7 +299,6 @@ models:
 
   - name: stg_recharge__checkout
     description: Table of all checkouts to manage recurring orders, billing and payments, only available for BigCommerce and Custom. Checkouts on Shopify must go through Shopify.
-
     columns:
       - name: checkout_id
         description: Unique ID for the checkout.
@@ -418,7 +412,6 @@ models:
           combination_of_columns:
             - checkout_id
             - index
-
     columns:
       - name: checkout_id
         description: The unique ID for the checkout.
@@ -566,7 +559,6 @@ models:
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
-
     columns:
       - name: discount_id
         description: Unique numeric identifier for the discount in Recharge.
@@ -630,7 +622,6 @@ models:
 
   - name: stg_recharge__one_time_product
     description: Table of all one-times which represent non-recurring line items on a queued charges.
-
     columns:
       - name: one_time_product_id
         description: The unique numeric identifier for the onetime purchase.
@@ -675,7 +666,6 @@ models:
 
   - name: stg_recharge__order
     description: Table of all orders after a charge is successfully processed.
-
     columns:
       - name: order_id
         description: The unique ID of the order.
@@ -783,7 +773,6 @@ models:
           combination_of_columns:
             - order_id
             - index
-
     columns:
       - name: order_id
         description: The ID of the order.
@@ -826,7 +815,6 @@ models:
 
   - name: stg_recharge__payment_source
     description: Table of payment and billing information.
-
     columns:
       - name: customer_id
         description: The unique ID of the customer.
@@ -895,7 +883,6 @@ models:
 
   - name: stg_recharge__product
     description: Table of all products sold on the merchant's website.
-
     columns:
       - name: product_id
         description: The unique ID of the product.
@@ -959,7 +946,6 @@ models:
 
   - name: stg_recharge__subscription
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
-
     columns:
       - name: subscription_id
         description: The unique ID of the subscription.
@@ -1023,7 +1009,6 @@ models:
           combination_of_columns:
             - subscription_id
             - updated_at
-
     columns:
       - name: subscription_id
         description: Unique numeric identifier for the subscription.
