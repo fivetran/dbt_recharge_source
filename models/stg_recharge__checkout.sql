@@ -24,9 +24,9 @@ final as (
         charge_id,
         email,
         phone,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
-        cast(completed_at as {{ dbt_utils.type_timestamp() }}) as completed_at,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(completed_at as {{ dbt.type_timestamp() }}) as completed_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         currency,
         discount_code,
         applied_discount_amount,
@@ -74,7 +74,7 @@ final as (
         shipping_address_phone,
         shipping_address_validations_country_is_supported,
         shipping_address_validations_ups,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

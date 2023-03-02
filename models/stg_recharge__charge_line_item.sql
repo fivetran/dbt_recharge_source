@@ -37,7 +37,7 @@ final as (
         property_charge_interval_unit_type as charge_interval_unit,
         property_shipping_interval_frequency as shipping_interval_frequency,
         property_shipping_interval_unit_type as shipping_interval_unit,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

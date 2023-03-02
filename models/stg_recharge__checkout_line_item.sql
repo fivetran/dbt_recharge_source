@@ -51,7 +51,7 @@ final as (
         product_type,
         recurring_price,
         properties,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

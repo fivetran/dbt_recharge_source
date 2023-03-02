@@ -25,10 +25,10 @@ final as (
         customer_hash,
         first_name || ' ' || last_name as customer_full_name,
         email,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         type as charge_type,
         status as charge_status,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         note,
         subtotal_price,
         tax_lines,
@@ -38,15 +38,15 @@ final as (
         total_price,
         total_refunds,
         total_weight,
-        cast(scheduled_at as {{ dbt_utils.type_timestamp() }}) as scheduled_at,
-        cast(processed_at as {{ dbt_utils.type_timestamp() }}) as processed_at,
+        cast(scheduled_at as {{ dbt.type_timestamp() }}) as scheduled_at,
+        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
         processor_name,
         transaction_id,
         shopify_order_id,
         shipments_count,
         has_uncommitted_changes,
-        cast(last_charge_attempt_date as {{ dbt_utils.type_timestamp() }}) as last_charge_attempt_date,
-        cast(retry_date as {{ dbt_utils.type_timestamp() }}) as retry_date,
+        cast(last_charge_attempt_date as {{ dbt.type_timestamp() }}) as last_charge_attempt_date,
+        cast(retry_date as {{ dbt.type_timestamp() }}) as retry_date,
         error_type,
         number_times_tried as times_retried,
         address_id,
@@ -70,7 +70,7 @@ final as (
         shipping_address_phone,
         client_details_browser_ip,
         client_details_user_agent,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

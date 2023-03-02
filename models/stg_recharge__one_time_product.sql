@@ -24,8 +24,8 @@ final as (
         address_id,
         customer_id,
         is_deleted,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         next_charge_scheduled_at,
         product_title,
         variant_title,
@@ -35,7 +35,7 @@ final as (
         shopify_variant_id,
         recharge_product_id,
         sku,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

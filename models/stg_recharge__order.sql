@@ -26,9 +26,9 @@ final as (
         customer_id,
         first_name || ' ' || last_name as customer_full_name,
         email,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         status as order_status,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         charge_id,
         transaction_id,
         charge_status,
@@ -36,9 +36,9 @@ final as (
         payment_processor,
         total_price,
         type as order_type,
-        cast(processed_at as {{ dbt_utils.type_timestamp() }}) as processed_at,
-        cast(scheduled_at as {{ dbt_utils.type_timestamp() }}) as scheduled_at,
-        cast(shipped_date as {{ dbt_utils.type_timestamp() }}) as shipped_date,
+        cast(processed_at as {{ dbt.type_timestamp() }}) as processed_at,
+        cast(scheduled_at as {{ dbt.type_timestamp() }}) as scheduled_at,
+        cast(shipped_date as {{ dbt.type_timestamp() }}) as shipped_date,
         address_id,
         address_is_active,
         billing_address_first_name || ' ' || billing_address_last_name as billing_address_full_name,
@@ -59,7 +59,7 @@ final as (
         shipping_address_zip,
         shipping_address_company,
         shipping_address_phone,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

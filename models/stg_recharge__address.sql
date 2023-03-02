@@ -23,8 +23,8 @@ final as (
         id as address_id,
         customer_id,
         first_name || ' ' || last_name as customer_full_name,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         address_1 as address_line_1,
         address_2 as address_line_2,
         city,
@@ -35,7 +35,7 @@ final as (
         phone,
         cart_attribute_elevar_visitor_info as customer_visitor_info,
         _fivetran_deleted,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

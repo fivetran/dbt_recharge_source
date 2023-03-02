@@ -3,21 +3,16 @@ version: 2
 
 sources:
   - name: recharge
-    description: Subscriptions payments platform designed for merchants to set up and manage dynamic recurring billing across web and mobile.
+    schema: "{{ var('recharge_schema', 'recharge') }}"
+    database: "{% if target.type != 'spark'%}{{ var('recharge_database', target.database) }}{% endif %}"
 
-    database: "{% if target.type != 'spark'%}{{var ('recharge', target.database)}}{% endif %}"
-    schema: "{{var ('recharge_schema', 'recharge')}}"
-
-    database: dev_fivetran
-    schema: recharge
-
-    loader: fivetran
+    loader: Fivetran
     loaded_at_field: _fivetran_synced
 
-    freshness:
-      warn_after: { count: 12, period: hour }
-      error_after: { count: 24, period: hour }
-    
+    freshness: 
+      warn_after: {count: 48, period: hour}
+      error_after: {count: 168, period: hour}
+
     tables:
       - name: address
         identifier: "{{ var('recharge_address_identifier','address') }}"

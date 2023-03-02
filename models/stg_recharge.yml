@@ -45,9 +45,9 @@ models:
     description: Table of all addresses and corresponding associated shipping information.
     tests:
       - dbt_utils.unique_combination_of_columns:
-        combination_of_columns:
-          - address_id
-          - index
+          combination_of_columns:
+            - address_id
+            - index
     columns:
       - name: address_id
         description: The unique ID of the address.

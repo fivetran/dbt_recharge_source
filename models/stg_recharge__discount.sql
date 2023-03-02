@@ -21,10 +21,10 @@ final as (
 
     select
         id as discount_id,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
-        cast(starts_at as {{ dbt_utils.type_timestamp() }}) as starts_at,
-        cast(ends_at as {{ dbt_utils.type_timestamp() }}) as ends_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(starts_at as {{ dbt.type_timestamp() }}) as starts_at,
+        cast(ends_at as {{ dbt.type_timestamp() }}) as ends_at,
         code as discount_code,
         value as discount_amount,
         discount_type,
@@ -40,7 +40,7 @@ final as (
         minimum_order_amount,
         once_per_customer,
         applies_once,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

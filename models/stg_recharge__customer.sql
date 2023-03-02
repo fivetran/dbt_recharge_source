@@ -21,14 +21,14 @@ final as (
 
     select
         id as customer_id,
-        hash,
+        customer_hash,
         shopify_customer_id,
         email,
         first_name || ' ' || last_name as customer_full_name,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         status as customer_status,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
-        cast(first_charge_processed_at as {{ dbt_utils.type_timestamp() }}) as first_charge_processed_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
+        cast(first_charge_processed_at as {{ dbt.type_timestamp() }}) as first_charge_processed_at,
         number_active_subscriptions as active_subscriptions,
         number_subscriptions as total_subscriptions,
         billing_first_name || ' ' || billing_last_name as customer_billing_full_name,
@@ -45,7 +45,7 @@ final as (
         reason_payment_method_not_valid,
         has_card_error_in_dunning,
         _fivetran_deleted,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 

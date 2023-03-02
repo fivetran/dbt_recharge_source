@@ -8,24 +8,24 @@ profile: 'integration_tests'
 vars:
   recharge_source:
     recharge_schema: recharge_source_integration_tests
-    recharge_address_identifier: "address_data"
-    recharge_address_shipping_line_identifier: "address_shipping_line_data"
-    recharge_charge_identifier: "charge_data"
-    recharge_charge_discount_code_identifier: "charge_discount_code_data"
-    recharge_charge_line_item_identifier: "charge_line_item_data"
-    recharge_charge_note_attribute_identifier: "charge_note_attribute_data"
-    recharge_charge_shipping_line_identifier: "charge_shipping_line_data"
-    recharge_checkout_identifier: "checkout_data"
-    recharge_checkout_line_item_identifier: "checkout_line_item_data"
-    recharge_customer_identifier: "customer_data"
-    recharge_discount_identifier: "discount_data"
-    recharge_one_time_product_identifier: "one_time_product_data"
-    order: "{{ ref('order_data') }}"
-    recharge_order_line_item_identifier: "order_line_item_data"
-    recharge_payment_source_identifier: "payment_source_data"
-    recharge_product_identifier: "product_data"
-    recharge_subscription_identifier: "subscription_data"
-    recharge_subscription_history_identifier: "subscription_history_data"
+    recharge_address_identifier: "ADDRESS_DATA"
+    recharge_address_shipping_line_identifier: "ADDRESS_SHIPPING_LINE_DATA"
+    recharge_charge_identifier: "CHARGE_DATA"
+    recharge_charge_discount_code_identifier: "CHARGE_DISCOUNT_CODE_DATA"
+    recharge_charge_line_item_identifier: "CHARGE_LINE_ITEM_DATA"
+    recharge_charge_note_attribute_identifier: "CHARGE_NOTE_ATTRIBUTE_DATA"
+    recharge_charge_shipping_line_identifier: "CHARGE_SHIPPING_LINE_DATA"
+    recharge_checkout_identifier: "CHECKOUT_DATA"
+    recharge_checkout_line_item_identifier: "CHECKOUT_LINE_ITEM_DATA"
+    recharge_customer_identifier: "CUSTOMER_DATA"
+    recharge_discount_identifier: "DISCOUNT_DATA"
+    recharge_one_time_product_identifier: "ONE_TIME_PRODUCT_DATA"
+    recharge_order_identifier: "ORDER_DATA"
+    recharge_order_line_item_identifier: "ORDER_LINE_ITEM_DATA"
+    recharge_payment_source_identifier: "PAYMENT_SOURCE_DATA"
+    recharge_product_identifier: "PRODUCT_DATA"
+    recharge_subscription_identifier: "SUBSCRIPTION_DATA"
+    recharge_subscription_history_identifier: "SUBSCRIPTION_HISTORY_DATA"
 
 dispatch:
   - macro_namespace: dbt_utils
@@ -35,8 +35,35 @@ seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   recharge_source_integration_tests:
     +column_types:
-      _fivetran_synced: "timestamp"
-        
+      _FIVETRAN_SYNCED: "timestamp"
+      CANCELLED_AT: "timestamp"
+      CREATED_AT: "timestamp"
+      PROCESSED_AT: "timestamp"
+      NEXT_CHARGE_SCHEDULED_AT: "timestamp"
+      SCHEDULED_AT: "timestamp"
+      SUBTOTAL_PRICE: "float"
+      TOTAL_PRICE: "float"
+      UPDATED_AT: "timestamp"
+    CHARGE_DATA:
+      +column_types:
+        LAST_CHARGE_ATTEMPT_DATE: "timestamp"
+        RETRY_DATE: "timestamp"
+    CHECKOUT_DATA:
+      +column_types:
+        COMPLETED_AT: "timestamp"
+        SHIPPING_RATE_PRICE: "float"
+    CUSTOMER_DATA:
+      +column_types:
+        FIRST_CHARGE_PROCESSED_AT: "timestamp"
+    DISCOUNT_DATA:
+      +column_types:
+        STARTS_AT: "timestamp"
+        ENDS_AT: "timestamp"
+    ORDER_DATA:
+      +column_types:
+        SHIPPED_DATE: "timestamp"
+        SHIPPING_DATE: "timestamp"
+
 dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']

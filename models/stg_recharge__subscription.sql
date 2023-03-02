@@ -23,7 +23,7 @@ final as (
         id as subscription_id,
         customer_id,
         address_id,
-        cast(created_at as {{ dbt_utils.type_timestamp() }}) as created_at,
+        cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         product_title,
         variant_title,
         sku,
@@ -36,10 +36,10 @@ final as (
         number_charges_until_expiration,
         order_interval_frequency,
         order_interval_unit,
-        cast(updated_at as {{ dbt_utils.type_timestamp() }}) as updated_at,
+        cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         shopify_product_id,
         shopify_variant_id,
-        cast(cancelled_at as {{ dbt_utils.type_timestamp() }}) as cancelled_at,
+        cast(cancelled_at as {{ dbt.type_timestamp() }}) as cancelled_at,
         cancellation_reason,
         cancellation_reason_comments
     from fields

@@ -42,7 +42,7 @@ final as (
         billing_address_country,
         billing_address_company,
         billing_address_phone,
-        cast(_fivetran_synced as {{ dbt_utils.type_timestamp() }}) as _fivetran_synced
+        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
     from fields
 )
 
