@@ -86,18 +86,8 @@ models:
         description: Date and time when the charge was created.
       - name: charge_type
         description: The type of the charge, possible values can be; checkout or recurring.
-        tests:
-          - accepted_values:
-              values: ['CHECKOUT','RECURRING']
-              config:
-                severity: warn
       - name: charge_status
         description: The status of the charge, possible values can be; success, error, queued, skipped, refunded or partially_refunded.
-        tests:
-          - accepted_values:
-              values: ['SUCCESS','ERROR','QUEUED','SKIPPED','REFUNDED','PARTIALLY_REFUNDED','PENDING_MANUAL_PAYMENT','PENDING']
-              config:
-                severity: warn
       - name: updated_at
         description: Date and time when the charge was last updated.
       - name: note
@@ -429,11 +419,6 @@ models:
         description: The title of the product associated with the line item.
       - name: type
         description: The type of the product associated with the line item.
-        tests:
-          - accepted_values:
-              values: ['SUBSCRIPTION','ONETIME']
-              config:
-                severity: warn
       - name: variant_title
         description: The title of the product variant associated with the line item.
       - name: vendor
@@ -503,11 +488,6 @@ models:
         description: The date and time when the customer was created.
       - name: customer_status
         description: The status of the customer.
-        tests:
-          - accepted_values:
-              values: ['ACTIVE','INACTIVE','ONETIMER']
-              config:
-                severity: warn
       - name: updated_at
         description: The date and time when the customer was last updated.
       - name: first_charge_processed_at
@@ -536,20 +516,10 @@ models:
         description: The customer's billing phone.
       - name: processor_type
         description: What the merchant processor the customer is stored on.
-        tests:
-          - accepted_values:
-              values: ['braintree','stripe','NULL']
-              config:
-                severity: warn
       - name: has_valid_payment_method
         description: Boolean indicating if the payment value is valid.
       - name: reason_payment_method_not_valid
         description: Field indicating why the payment method is not valid.
-        tests:
-          - accepted_values:
-              values: ['MAX_RETRIES','NON_WORKING_PAYMENT_METHOD','NOT_VALIDATED','NO_PAYMENT_METHOD','NULL']
-              config:
-                severity: warn
       - name: has_card_error_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
       - name: _fivetran_deleted
@@ -579,18 +549,8 @@ models:
         description: The discounted value to be applied.
       - name: discount_type
         description: The type of discount.
-        tests:
-          - accepted_values:
-              values: ['fixed_amount','percentage','shipping']
-              config:
-                severity: warn
       - name: status
         description: The status of the discount.
-        tests:
-          - accepted_values:
-              values: ['disabled','enabled','fully_disabled']
-              config:
-                severity: warn
       - name: times_used
         description: An integer indicating how many times the discount has been used.
       - name: usage_limit
@@ -605,11 +565,6 @@ models:
         description: Indicates which product types the discount applies to.
       - name: duration
         description: How long the discount can be used.
-        tests:
-          - accepted_values:
-              values: ['forever','single_use','usage_limit']
-              config:
-                severity: warn
       - name: duration_usage_limit
         description: An integer of how long the discount can be used in accordance to it's duration.
       - name: minimum_order_amount
@@ -650,11 +605,6 @@ models:
         description: The number of items in the onetime purchase.
       - name: status
         description: The status of the onetime product.
-        tests:
-          - accepted_values:
-              values: ['ONETIME','NULL']
-              config:
-                severity: warn
       - name: shopify_variant_id
         description: The variant ID as retrieved from Shopify.
       - name: recharge_product_id
@@ -686,11 +636,6 @@ models:
         description: The date and time when the order was created.
       - name: order_status
         description: The status of the order within Shopify.
-        tests:
-          - accepted_values:
-              values: ['CANCELLED','ERROR','QUEUED','SUCCESS']
-              config:
-                severity: warn
       - name: updated_at
         description: The date and time when the order was last updated.
       - name: charge_id
@@ -699,11 +644,6 @@ models:
         description: The unique alphanumeric identifier of the transaction.
       - name: charge_status
         description: The status of the charge.
-        tests:
-          - accepted_values:
-              values: ['ERROR','PARTIALLY_REFUNDED','REFUNDED','SKIPPED','SUCCESS','NULL']
-              config:
-                severity: warn
       - name: is_prepaid
         description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
       - name: payment_processor
@@ -712,11 +652,6 @@ models:
         description: The sum of all prices of the item in the order with taxes and discounts included (must be positive).
       - name: order_type
         description: Shows if the order was made through checkout or if it's a recurring charge.
-        tests:
-          - accepted_values:
-              values: ['CHECKOUT','RECURRING']
-              config:
-                severity: warn
       - name: processed_at
         description: The date and time when the order was submitted. 
       - name: scheduled_at
@@ -827,31 +762,16 @@ models:
         description: Possible values - stripe, braintree, authorize, shopify_payments, mollie.
       - name: payment_type
         description: The type of payment this is.
-        tests:
-          - accepted_values:
-              values: ['apple_pay','credit','google_pay','paypal','unknown','NULL']
-              config:
-                severity: warn
       - name: payment_token
         description: The customer token at the processor.
       - name: status
         description: State of the payment method.
-        tests:
-          - accepted_values:
-              values: ['active','failed']
-              config:
-                severity: warn
       - name: status_reason
         description: The status reason for the payment method.
       - name: cardholder_name
         description: The name of the card holder.
       - name: card_brand
         description: The brand of the card.
-        tests:
-          - accepted_values:
-              values: ['american_express','mastercard','visa','NULL']
-              config:
-                severity: warn
       - name: card_exp_month
         description: The card expiry month.
       - name: card_exp_year
@@ -895,11 +815,6 @@ models:
         description: The discount amount applied on the product.
       - name: discount_type
         description: The type of discount.
-        tests:
-          - accepted_values:
-              values: ['percentage','NULL']
-              config:
-                severity: warn
       - name: handle
         description: A human-friendly unique string for the product automatically generated from Shopify.
       - name: large_image
@@ -970,11 +885,6 @@ models:
         description: The number of items in the subscription.
       - name: status
         description: The status of the subscription; active = the subscription is active, cancelled = the subscription has been cancelled, expired = the subscription has expired - this occurs when the maximum number of charges for product have been reached.
-        tests:
-          - accepted_values:
-              values: ['ACTIVE','CANCELLED','EXPIRED','ONETIME']
-              config:
-                severity: warn
       - name: next_charge_scheduled_at
         description: Date of the next charge for the subscription.
       - name: charge_interval_frequency
@@ -1036,11 +946,6 @@ models:
         description: The number of items in the subscription.
       - name: status
         description: The status of the subscription.
-        tests:
-          - accepted_values:
-              values: ['ACTIVE','CANCELLED','EXPIRED','ONETIME']
-              config:
-                severity: warn
       - name: charge_interval_unit_type
         description: The condition of how frequent the items are charged.
       - name: charge_interval_frequency

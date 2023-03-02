@@ -581,8 +581,12 @@ sources:
           - name: sku
             description: The unique identifier of the item in fulfillment.
 
-      - name: order_temp
-        identifier: "{{ var('recharge_order_temp_identifier','order_temp') }}"
+      - name: order
+        identifier: >
+          {%- if target.type == 'snowflake' -%} {{ var('recharge_order_identifier', 'ORDER') }} 
+          {%- else -%} {{ var('recharge_order_identifier', 'order') }} {%- endif -%}
+        quoting:
+          identifier: true
         description: Table of all orders after a charge is successfully processed.
         columns:
           - name: id
