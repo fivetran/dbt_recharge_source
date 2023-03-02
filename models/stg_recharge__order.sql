@@ -60,6 +60,7 @@ final as (
         shipping_address_company,
         shipping_address_phone,
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('recharge__order_passthrough_columns') }}
     from fields
 )
 

@@ -51,6 +51,8 @@
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()}
 ] %}
 
+{{ fivetran_utils.add_pass_through_columns(columns, var('recharge__order_passthrough_columns')) }}
+
 {{ return(columns) }}
 
 {% endmacro %}

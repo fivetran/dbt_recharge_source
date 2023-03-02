@@ -50,6 +50,7 @@ final as (
         row_number() over (partition by subscription_id order by updated_at desc) = 1 as is_most_recent_record,
         _fivetran_deleted,
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_history_passthrough_columns') }}
     from fields
 )
 

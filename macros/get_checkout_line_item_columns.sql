@@ -37,6 +37,8 @@
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()}
 ] %}
 
+{{ fivetran_utils.add_pass_through_columns(columns, var('recharge__checkout_line_item_passthrough_columns')) }}
+
 {{ return(columns) }}
 
 {% endmacro %}

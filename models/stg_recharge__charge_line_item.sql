@@ -38,6 +38,7 @@ final as (
         property_shipping_interval_frequency as shipping_interval_frequency,
         property_shipping_interval_unit_type as shipping_interval_unit,
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('recharge__charge_line_item_passthrough_columns') }}
     from fields
 )
 

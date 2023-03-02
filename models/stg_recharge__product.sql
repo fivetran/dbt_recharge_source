@@ -46,6 +46,7 @@ final as (
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         is_deleted,
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        {{ fivetran_utils.fill_pass_through_columns('recharge__product_passthrough_columns') }}
     from fields
 )
 
