@@ -19,3 +19,5 @@ dbt deps
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
+dbt run --vars '{recharge__checkout_passthrough_columns: [subscription_defaults_modifiable_properties]}' --target "$db" --full-refresh
+dbt test --vars '{recharge__checkout_passthrough_columns: [subscription_defaults_modifiable_properties]}' --target "$db"

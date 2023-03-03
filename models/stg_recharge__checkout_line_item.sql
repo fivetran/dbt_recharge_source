@@ -52,7 +52,6 @@ final as (
         recurring_price,
         properties,
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
-        {{ fivetran_utils.fill_pass_through_columns('recharge__checkout_line_item_passthrough_columns') }}
     from fields
 )
 

@@ -15,7 +15,7 @@
     {"name": "subscription_defaults_cutoff_day_of_month", "datatype": dbt.type_string()},
     {"name": "subscription_defaults_cutoff_day_of_week", "datatype": dbt.type_string()},
     {"name": "subscription_defaults_expire_after_specific_number_of_charges", "datatype": dbt.type_string()},
-    {"name": "subscription_defaults_modifiable_properties", "datatype": dbt.type_string()},
+
     {"name": "subscription_defaults_number_charges_until_expiration", "datatype": dbt.type_int()},
     {"name": "subscription_defaults_order_day_of_month", "datatype": dbt.type_string()},
     {"name": "subscription_defaults_order_day_of_week", "datatype": dbt.type_string()},

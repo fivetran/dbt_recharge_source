@@ -33,7 +33,7 @@ final as (
         subscription_defaults_cutoff_day_of_month as cutoff_day_of_month,
         subscription_defaults_cutoff_day_of_week as cutoff_day_of_week,
         subscription_defaults_expire_after_specific_number_of_charges as expire_after_specific_number_of_charges,
-        subscription_defaults_modifiable_properties as modifiable_properties,
+        {# subscription_defaults_modifiable_properties as modifiable_properties, #}
         subscription_defaults_number_charges_until_expiration as number_charges_until_expiration,
         subscription_defaults_order_day_of_month as order_day_of_month,
         subscription_defaults_order_day_of_week as order_day_of_week,
