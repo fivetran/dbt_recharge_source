@@ -26,8 +26,7 @@
     {"name": "expire_after_specific_number_of_charges", "datatype": dbt.type_int()},
     {"name": "number_charges_until_expiration", "datatype": dbt.type_int()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
-    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()}
+    {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__subscription_passthrough_columns')) }}

@@ -20,7 +20,7 @@ models:
         description: The date and time of when the customer's address record was last updated.
       - name: address_line_1
         description: The first line of the customer's address.
-      - name: address_line_1
+      - name: address_line_2
         description: Any additional address information associated with the customer.
       - name: city
         description: The city associated with the customer.
@@ -37,9 +37,9 @@ models:
       - name: customer_visitor_info
         description: Custom field to record additional customer information such as where they visited the vendor's website.
       - name: _fivetran_deleted
-        description: Boolean indicating if a row have been deleted in the source.
+        description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
@@ -62,9 +62,9 @@ models:
       - name: title
         description: The type of shipping consignment.
       - name: _fivetran_deleted
-        description: Boolean indicating if a row have been deleted in the source.
+        description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge
     description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
@@ -173,7 +173,7 @@ models:
       - name: client_details_user_agent
         description: The user agent detected during checkout.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_discount_code
     description: Table of all charge discount codes.
@@ -194,7 +194,7 @@ models:
       - name: amount
         description: The amount of the discount.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_line_item
     description: Table of all charge line items, each containing information about a distinct purchase item.
@@ -241,7 +241,7 @@ models:
       - name: shipping_interval_unit
         description: The condition of how frequent the items are shipped.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_note_attribute
     description: Table of notes associated to their corresponding charges.
@@ -261,7 +261,7 @@ models:
       - name: note_attribute
         description: An array of name-value pairs of order attributes on the charge.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_shipping_line
     description: Table of all shipping information associated to their corresponding charges.
@@ -285,7 +285,7 @@ models:
       - name: title
         description: The title of the shipping line.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__customer
     description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
@@ -296,7 +296,7 @@ models:
         tests:
           - unique
           - not_null
-      - name: hash
+      - name: customer_hash
         description: The unique string identifier used in a customer portal link.
       - name: shopify_customer_id
         description: Shopify's unique identifier for the customer.
@@ -343,9 +343,9 @@ models:
       - name: has_card_error_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
       - name: _fivetran_deleted
-        description: Boolean indicating if a row have been deleted in the source.
+        description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
@@ -388,12 +388,13 @@ models:
       - name: duration_usage_limit
         description: An integer of how long the discount can be used in accordance to it's duration.
       - name: minimum_order_amount
+        description: The minimum cart subtotal needed for the discount to be applicable. `duration` has to be `single_use` and the discount must apply to the entire order.
       - name: once_per_customer
         description: Boolean indicating whether the discount applies only once to a customer.
       - name: applies_once
         description: Boolean indicating whether the discount applies only once.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__one_time_product
     description: Table of all one-times which represent non-recurring line items on a queued charges.
@@ -432,7 +433,7 @@ models:
       - name: sku
         description: The unique identifier of the item in fulfillment.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__order
     description: Table of all orders after a charge is successfully processed.
@@ -519,7 +520,7 @@ models:
       - name: shipping_address_phone
         description: The phone number of the billing address.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__order_line_item
     description: Table of all order line items. Each line containing information about an item in the order.
@@ -566,7 +567,7 @@ models:
       - name: property_price
         description: The same as price - the price of the item in the order.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__payment_source
     description: Table of payment and billing information.
@@ -619,7 +620,7 @@ models:
       - name: billing_address_phone
         description: The phone number associated to the customer's billing address.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__product
     description: Table of all products sold on the merchant's website.
@@ -666,6 +667,7 @@ models:
       - name: order_interval_unit
         description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
       - name: storefront_purchase_options
+        description: Purchase options (valid values are "subscription_only" and "subscription_and_onetime").
       - name: collection_id
         description: Unique numeric identifier for the rule set charge in Recharge.
       - name: shopify_product_id
@@ -677,7 +679,7 @@ models:
       - name: is_deleted
         description: Boolean indicating if a row have been deleted in the source.
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__subscription
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
@@ -729,8 +731,6 @@ models:
         description: Reason provided for cancellation.
       - name: cancellation_reason_comments
         description: Additional comment for cancellation.
-      - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
 
   - name: stg_recharge__subscription_history
     description: History table that builds over time. Does not capture history prior to connecting Fivetran.
@@ -785,6 +785,7 @@ models:
       - name: expire_after_specific_number_of_charges
         description: Set the number of charges until subscription expires.
       - name: number_charges_until_expiration
+        description: Number of charges until the subscription expires.
       - name: updated_at
         description: The date time at which the purchase_item record was last updated.
       - name: next_charge_scheduled_at
@@ -796,6 +797,8 @@ models:
       - name: cancellation_reason_comments
         description: Additional comment for cancellation.
       - name: _fivetran_deleted
-        description: Boolean indicating if a row have been deleted in the source.
+        description: "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
-        description: Timestamp indicating when Fivetran last successfully synced the row.
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: is_most_recent_record
+        description: Boolean indicating whether record was the most recent instance.
