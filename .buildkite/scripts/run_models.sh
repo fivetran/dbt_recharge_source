@@ -20,10 +20,10 @@ dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{recharge__payment_source_enabled: false, \
-    recharge__one_time_product_enabled: false, \
-    recharge__checkout_passthrough_columns: [subscription_defaults_modifiable_properties]}\
-    ' --target "$db" --full-refresh
+recharge__one_time_product_enabled: false, \
+recharge__checkout_passthrough_columns: [subscription_defaults_modifiable_properties]\
+}' --target "$db" --full-refresh
 dbt test --vars '{recharge__payment_source_enabled: false, \
-    recharge__one_time_product_enabled: false, \
-    recharge__checkout_passthrough_columns: [subscription_defaults_modifiable_properties]}\
-    ' --target "$db"
+recharge__one_time_product_enabled: false, \
+recharge__checkout_passthrough_columns: [subscription_defaults_modifiable_properties]\
+}' --target "$db"
