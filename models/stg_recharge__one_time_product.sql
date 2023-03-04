@@ -1,4 +1,4 @@
-
+{{ config(enabled=var('recharge__one_time_product_enabled', True)) }}
 with base as (
 
     select *

@@ -365,6 +365,8 @@ sources:
       - name: one_time_product
         identifier: "{{ var('recharge_one_time_product_identifier','one_time_product') }}"
         description: Table of all one-times which represent non-recurring line items on a queued charges.
+        config:
+          enabled: "{{ var('recharge__one_time_product_enabled', true) }}"
         columns:
           - name: id
             description: The unique numeric identifier for the onetime purchase.
@@ -542,6 +544,8 @@ sources:
       - name: payment_source
         identifier: "{{ var('recharge_payment_source_identifier','payment_source') }}"
         description: Table of payment and billing information.
+        config:
+          enabled: "{{ var('recharge__payment_source_enabled', true) }}"
         columns:
           - name: customer_id
             description: The unique ID of the customer.

@@ -1,4 +1,4 @@
-
+{{ config(enabled=var('recharge__payment_source_enabled', True)) }}
 with base as (
 
     select *
