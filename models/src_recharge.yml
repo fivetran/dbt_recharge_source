@@ -799,8 +799,8 @@ sources:
             description: Number of day in week on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
           - name: subscription_defaults_expire_after_specific_number_of_charges
             description: Number of charges until the subscription expires. # Will be expired, use expire_after_specific_number_of_charges instead.
-          - name: subscription_defaults_modifiable_properties
-            description: A list of modifiable line item properties (e.g. ["box-edition", "christmas-special"])
+          # - name: subscription_defaults_modifiable_properties
+          #   description: A list of modifiable line item properties (e.g. ["box-edition", "christmas-special"])
           - name: subscription_defaults_number_charges_until_expiration
             description: Number of charges until the subscription expires.
           - name: subscription_defaults_order_day_of_month
