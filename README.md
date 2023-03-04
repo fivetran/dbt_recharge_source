@@ -10,15 +10,15 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
 </p>
-# Recharge Source dbt package
 
+# Recharge Source dbt package ([Docs](https://fivetran.github.io/dbt_recharge_source/))
 # 📣 What does this dbt package do?
 - Materializes [Recharge staging tables](https://fivetran.github.io/dbt_recharge_source/#!/overview/recharge_source/models/?g_v=1&g_e=seeds), which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/recharge#schemainformation). These staging tables clean, test, and prepare your Recharge data from [Fivetran's connector](https://fivetran.com/docs/applications/recharge) for analysis by doing the following:
   - Name columns for consistency across all packages and easier analysis
   - Adds freshness tests to source data
   - Adds column-level testing where applicable. For example,  all primary keys are tested for uniqueness and non-null values.
-- Generates a comprehensive data dictionary of your Recharge data.
-- These tables are designed to work simultaneously with our Recharge transformation package.
+- Generates a comprehensive data dictionary of your Recharge data through the [dbt docs site](https://fivetran.github.io/dbt_recharge_source/).
+- These tables are designed to work simultaneously with our [Recharge transformation package](https://github.com/fivetran/dbt_recharge).
 
 # 🎯 How do I use the dbt package?
 ## Step 1: Prerequisites
@@ -44,35 +44,39 @@ vars:
   recharge_schema: your_schema_name 
 ```
 
-## (Optional) Step 5: Additional configurations
-<details><summary>Expand for configurations</summary>
-
-### Passing Through Additional Metrics
-By default, this package will select `clicks`, `impressions`, and `cost` from the source reporting tables to store into the staging models. If you would like to pass through additional metrics to the staging models, add the following configurations to your `dbt_project.yml` file. These variables allow the pass-through fields to be aliased (`alias`) if desired, but not required. Use the following format for declaring the respective pass-through variables:
-
-> **Note** Ensure you exercised due diligence when adding metrics to these models. The metrics added by default (clicks, impressions, and cost) have been vetted by the Fivetran team maintaining this package for accuracy. There are metrics included within the source reports, for example, metric averages, which may be inaccurately represented at the grain for reports created in this package. You want to ensure whichever metrics you pass through are indeed appropriate to aggregate at the respective reporting levels provided in this package.
+## Step 4: Disable models for non-existent sources
+Your Recharge connector may not sync every table that this package expects. If you do not have the `ONE_TIME_PRODUCT` or `PAYMENT_SOURCE` tables synced, add the corresponding variables to your root `dbt_project.yml` file:
 
 ```yml
 vars:
-    recharge__campaign_passthrough_metrics: 
+    recharge_one_time_product_enabled: false   # Disable if you do not have the ONE_TIME_PRODUCT table. Default is True.
+    recharge_payment_source_enabled: false   # Disable if you do not have the PAYMENT_SOURCE table. Default is True.
+```
+
+## (Optional) Step 5: Additional configurations
+<details><summary>Expand for configurations</summary>
+
+### Passing Through Additional Columns
+If you would like to pass through additional columns to the staging models, add the following configurations to your `dbt_project.yml` file. These variables allow the pass-through fields to be aliased (`alias`) if desired, but not required. Use the following format for declaring the respective pass-through variables:
+
+```yml
+vars:
+    recharge__address_passthrough_columns: 
       - name: "new_custom_field"
-        alias: "custom_field"
-    recharge__ad_group_passthrough_metrics:
-      - name: "unique_string_field"
-        alias: "field_id"
-    recharge__advertised_product_passthrough_metrics: 
-      - name: "new_custom_field"
-        alias: "custom_field"
+        alias: "custom_field_name"
       - name: "a_second_field"
-    recharge__targeting_keyword_passthrough_metrics:
-      - name: "this_field"
-    recharge__search_term_ad_keyword_passthrough_metrics:
-      - name: "unique_string_field"
-        alias: "field_id"
+    # a similar pattern can be applied to the rest of the following variables.
+    recharge__charge_passthrough_columns:
+    recharge__charge_line_item_passthrough_columns: 
+    recharge__order_passthrough_columns:
+    recharge__order_line_passthrough_columns:
+    recharge__product_passthrough_columns:
+    recharge__subscription_passthrough_columns:
+    recharge__subscription_history_passthrough_columns:
 ```
 
 ### Changing the Build Schema
-By default, this package will build the Recharge staging models within a schema titled (<target_schema> + `recharge_source`) in your destination. If this is not where you would like your Amazon Ads staging data to be written, add the following configuration to your root `dbt_project.yml` file:
+By default, this package will build the Recharge staging models within a schema titled (<target_schema> + `recharge_source`) in your destination. If this is not where you would like your Recharge staging data written, add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 models:
@@ -89,7 +93,32 @@ If an individual source table has a different name than the package expects, add
 vars:
     recharge_<default_source_table_name>_identifier: your_table_name 
 ```
+#### 🚨 Snowflake Users 🚨
+You may need to provide the case-sensitive spelling of your source tables that are also Snowflake reserved words.
 
+In this package, this would apply to the `ORDER` source. If you are receiving errors for this source, include the following in your `dbt_project.yml` file:
+```yml
+vars:
+  recharge_order_identifier: '"Order"' # as an example, must include this quoting pattern and adjust for your exact casing
+```
+
+**Note!** if you have sources defined in your project's yml, the above will not work. Instead you will need to add the following where your order table is defined in your yml:
+```yml
+sources:
+  tables:
+    - name: order 
+      # Add the below
+      identifier: ORDER # Or what your order table is named, being mindful of casing
+      quoting:
+        identifier: true
+```
+</details>
+
+## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+<details><summary>Expand for more details</summary>
+
+Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core™ setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
+    
 </details>
 
 # 🔍 Does this package have dependencies?
@@ -98,17 +127,22 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/fivetran_utils
-      version: [">=0.3.0", "<0.4.0"]
+      version: [">=0.4.0", "<0.5.0"]
 
     - package: dbt-labs/dbt_utils
-      version: [">=0.8.0", "<0.9.0"]
-
-    - package: dbt-labs/spark_utils
-      version: [">=0.3.0", "<0.4.0"]
+      version: [">=1.0.0", "<2.0.0"]
 ```
           
 # 🙌 How is this package maintained and can I contribute?
+## Package Maintenance
+The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend that you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/recharge_source/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_recharge_source/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+
 ## Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions! 
 
 We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) to learn how to contribute to a dbt package!
+
+# 🏪 Are there any resources available?
+- If you have questions or want to reach out for help, refer to the [GitHub Issue](https://github.com/fivetran/dbt_recharge_source/issues/new/choose) section to find the right avenue of support for you.
+- If you would like to provide feedback to the dbt package team at Fivetran or would like to request a new dbt package, fill out our [Feedback Form](https://www.surveymonkey.com/r/DQ7K7WW).
+- Have questions or just want to say hi? Book a time during our office hours [on Calendly](https://calendly.com/fivetran-solutions-team/fivetran-solutions-team-office-hours) or email us at solutions@fivetran.com.
