@@ -26,9 +26,9 @@ vars:
     recharge_subscription_identifier: "subscription_data"
     recharge_subscription_history_identifier: "subscription_history_data"
 
-dispatch:
-  - macro_namespace: dbt_utils
-    search_order: ['spark_utils', 'dbt_utils']
+dispatch: 
+  - macro_namespace: dbt_utils 
+    search_order: ['spark_utils', 'dbt_utils'] 
 
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
@@ -72,6 +72,6 @@ seeds:
         SHIPPED_DATE: "timestamp"
         SHIPPING_DATE: "timestamp"
 
-dispatch:
-  - macro_namespace: dbt_utils
-    search_order: ['spark_utils', 'dbt_utils']
+dispatch: 
+  - macro_namespace: dbt_utils 
+    search_order: ['spark_utils', 'dbt_utils'] 

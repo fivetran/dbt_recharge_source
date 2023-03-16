@@ -17,7 +17,7 @@
   - Name columns for consistency across all packages and easier analysis
   - Adds freshness tests to source data
   - Adds column-level testing where applicable. For example,  all primary keys are tested for uniqueness and non-null values.
-- Generates a comprehensive data dictionary of your Recharge data through the [dbt docs site](https://fivetran.github.io/dbt_recharge_source/).
+- Generates a comprehensive data dictionary of your Recharge data through the [dbt docs site](https://fivetran.github.io/dbt_recharge_source/). 
 - These tables are designed to work simultaneously with our [Recharge transformation package](https://github.com/fivetran/dbt_recharge).
 
 # 🎯 How do I use the dbt package?
@@ -62,10 +62,10 @@ If you would like to pass through additional columns to the staging models, add 
 ```yml
 vars:
     recharge__address_passthrough_columns: 
-      - name: "new_custom_field"
-        alias: "custom_field_name"
+      - name: "new_custom_field" 
+        alias: "custom_field_name" 
       - name: "a_second_field"
-    # a similar pattern can be applied to the rest of the following variables.
+    # a similar pattern can be applied to the rest of the following variables. 
     recharge__charge_passthrough_columns:
     recharge__charge_line_item_passthrough_columns: 
     recharge__order_passthrough_columns:

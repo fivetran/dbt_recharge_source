@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('address_shipping_line') }}
+select *
+from {{ var('address_shipping_line') }}

@@ -25,7 +25,7 @@ final as (
         subscription_id,
         vendor,
         title,
-        property_title as title_v2,
+        property_title as title_v2, 
         variant_title,
         sku,
         grams,
@@ -33,10 +33,10 @@ final as (
         price,
         shopify_product_id,
         shopify_variant_id,
-        property_charge_interval_frequency as charge_interval_frequency,
-        property_charge_interval_unit_type as charge_interval_unit,
-        property_shipping_interval_frequency as shipping_interval_frequency,
-        property_shipping_interval_unit_type as shipping_interval_unit,
+        property_charge_interval_frequency as charge_interval_frequency, 
+        property_charge_interval_unit_type as charge_interval_unit, 
+        property_shipping_interval_frequency as shipping_interval_frequency, 
+        property_shipping_interval_unit_type as shipping_interval_unit, 
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_line_item_passthrough_columns') }}
     from fields

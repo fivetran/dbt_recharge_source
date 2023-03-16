@@ -23,14 +23,14 @@ vars:
     subscription: "{{ source('recharge','subscription') }}"
     subscription_history: "{{ source('recharge','subscription_history') }}"
 
-    recharge__address_passthrough_columns: []
-    recharge__charge_passthrough_columns: []
-    recharge__charge_line_item_passthrough_columns: []
-    recharge__order_passthrough_columns: []
-    recharge__order_line_passthrough_columns: []
-    recharge__product_passthrough_columns: []
-    recharge__subscription_passthrough_columns: []
-    recharge__subscription_history_passthrough_columns: []
+    recharge__address_passthrough_columns: [] 
+    recharge__charge_passthrough_columns: [] 
+    recharge__charge_line_item_passthrough_columns: [] 
+    recharge__order_passthrough_columns: [] 
+    recharge__order_line_passthrough_columns: [] 
+    recharge__product_passthrough_columns: [] 
+    recharge__subscription_passthrough_columns: [] 
+    recharge__subscription_history_passthrough_columns: [] 
 
 models:
   recharge_source:
