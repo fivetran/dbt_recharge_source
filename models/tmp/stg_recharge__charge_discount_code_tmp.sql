@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('charge_discount_code') }}
+select *
+from {{ var('charge_discount_code') }}

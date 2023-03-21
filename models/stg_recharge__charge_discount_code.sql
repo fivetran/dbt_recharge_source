@@ -23,8 +23,7 @@ final as (
         charge_id,
         index,
         discount_id,
-        amount,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        amount
     from fields
 )
 

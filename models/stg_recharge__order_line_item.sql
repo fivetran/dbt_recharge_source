@@ -30,14 +30,8 @@ final as (
         sku,
         quantity,
         grams,
-        price,
-        property_charge_interval_unit_type as charge_interval_unit_type,
-        property_charge_interval_frequency as charge_interval_frequency,
-        property_shipping_interval_unit_type as shipping_interval_unit_type,
-        property_shipping_interval_frequency as shipping_interval_frequency,
-        property_title,
-        property_price,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        price
+
         {{ fivetran_utils.fill_pass_through_columns('recharge__order_line_passthrough_columns') }}
     from fields
 )

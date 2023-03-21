@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('order_line_item') }}
+select *
+from {{ var('order_line_item') }}

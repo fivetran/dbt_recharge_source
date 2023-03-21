@@ -27,8 +27,7 @@
     {"name": "has_valid_payment_method", "datatype": "boolean"},
     {"name": "reason_payment_method_not_valid", "datatype": dbt.type_string()},
     {"name": "has_card_error_in_dunning", "datatype": "boolean"},
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
-    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()}
+    {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}
 
 {% if target.type == 'bigquery' %}

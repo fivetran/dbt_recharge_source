@@ -44,9 +44,9 @@ final as (
         has_valid_payment_method,
         reason_payment_method_not_valid,
         has_card_error_in_dunning,
-        _fivetran_deleted,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        _fivetran_deleted
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

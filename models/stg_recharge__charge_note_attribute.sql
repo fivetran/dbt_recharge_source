@@ -22,8 +22,7 @@ final as (
     select
         charge_id,
         index,
-        note_attribute,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        note_attribute
     from fields
 )
 

@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('charge_note_attribute') }}
+select *
+from {{ var('charge_note_attribute') }}

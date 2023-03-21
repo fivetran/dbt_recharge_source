@@ -35,8 +35,9 @@ final as (
         shopify_variant_id,
         recharge_product_id,
         sku,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        _fivetran_deleted
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

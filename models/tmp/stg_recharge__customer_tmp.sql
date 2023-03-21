@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('customer') }}
+select *
+from {{ var('customer') }}

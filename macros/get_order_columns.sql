@@ -28,27 +28,7 @@
     {"name": "scheduled_at", "datatype": dbt.type_timestamp()},
     {"name": "shipped_date", "datatype": dbt.type_timestamp()},
     {"name": "shipping_date", "datatype": dbt.type_timestamp()},
-    {"name": "billing_address_first_name", "datatype": dbt.type_string()},
-    {"name": "billing_address_last_name", "datatype": dbt.type_string()},
-    {"name": "billing_address_address_1", "datatype": dbt.type_string()},
-    {"name": "billing_address_address_2", "datatype": dbt.type_string()},
-    {"name": "billing_address_city", "datatype": dbt.type_string()},
-    {"name": "billing_address_province", "datatype": dbt.type_string()},
-    {"name": "billing_address_country", "datatype": dbt.type_string()},
-    {"name": "billing_address_zip", "datatype": dbt.type_string()},
-    {"name": "billing_address_company", "datatype": dbt.type_string()},
-    {"name": "billing_address_phone", "datatype": dbt.type_string()},
-    {"name": "shipping_address_first_name", "datatype": dbt.type_string()},
-    {"name": "shipping_address_last_name", "datatype": dbt.type_string()},
-    {"name": "shipping_address_address_1", "datatype": dbt.type_string()},
-    {"name": "shipping_address_address_2", "datatype": dbt.type_string()},
-    {"name": "shipping_address_city", "datatype": dbt.type_string()},
-    {"name": "shipping_address_province", "datatype": dbt.type_string()},
-    {"name": "shipping_address_country", "datatype": dbt.type_string()},
-    {"name": "shipping_address_zip", "datatype": dbt.type_string()},
-    {"name": "shipping_address_company", "datatype": dbt.type_string()},
-    {"name": "shipping_address_phone", "datatype": dbt.type_string()},
-    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()}
+    {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__order_passthrough_columns')) }}

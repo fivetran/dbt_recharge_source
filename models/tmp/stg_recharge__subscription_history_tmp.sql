@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('subscription_history') }}
+select *
+from {{ var('subscription_history') }}

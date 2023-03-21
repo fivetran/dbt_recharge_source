@@ -45,26 +45,27 @@ vars:
 ```
 
 ## Step 4: Disable models for non-existent sources
-Your Recharge connector may not sync every table that this package expects. If you do not have the `ONE_TIME_PRODUCT` or `PAYMENT_SOURCE` tables synced, add the corresponding variables to your root `dbt_project.yml` file:
+Your Recharge connector may not sync every table that this package expects. If you do not have the `ONE_TIME_PRODUCT` or `PAYMENT_METHOD` tables synced, add the corresponding variables to your root `dbt_project.yml` file:
 
 ```yml
 vars:
     recharge_one_time_product_enabled: false   # Disable if you do not have the ONE_TIME_PRODUCT table. Default is True.
-    recharge_payment_source_enabled: false   # Disable if you do not have the PAYMENT_SOURCE table. Default is True.
+    recharge_payment_method_enabled: false   # Disable if you do not have the PAYMENT_METHOD table. Default is True.
 ```
 
 ## (Optional) Step 5: Additional configurations
 <details><summary>Expand for configurations</summary>
 
 ### Passing Through Additional Columns
-If you would like to pass through additional columns to the staging models, add the following configurations to your `dbt_project.yml` file. These variables allow the pass-through fields to be aliased (`alias`) if desired, but not required. Use the following format for declaring the respective pass-through variables:
-
+This package includes all source columns defined in the macros folder. If you would like to pass through additional columns to the staging models, add the following configurations to your `dbt_project.yml` file. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables in your root `dbt_project.yml`.
 ```yml
 vars:
     recharge__address_passthrough_columns: 
       - name: "new_custom_field"
         alias: "custom_field_name"
+        transform_sql:  "cast(custom_field_name as int64)"
       - name: "a_second_field"
+        transform_sql:  "cast(a_second_field as string)"
     # a similar pattern can be applied to the rest of the following variables.
     recharge__charge_passthrough_columns:
     recharge__charge_line_item_passthrough_columns: 

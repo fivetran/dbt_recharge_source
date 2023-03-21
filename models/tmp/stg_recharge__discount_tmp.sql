@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('discount') }}
+select *
+from {{ var('discount') }}

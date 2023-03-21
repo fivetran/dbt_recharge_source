@@ -38,9 +38,7 @@ final as (
         duration,
         duration_usage_limit,
         minimum_order_amount,
-        once_per_customer,
-        applies_once,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        once_per_customer as is_once_per_customer
     from fields
 )
 

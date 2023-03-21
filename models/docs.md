@@ -7,5 +7,5 @@ Unique ID used by Fivetran to sync and dedupe data.
 {% enddocs %}
 
 {% docs _fivetran_synced %}
-Timestamp of when a record was last synced.
+Timestamp of when Fivetran synced a record.
 {% enddocs %}

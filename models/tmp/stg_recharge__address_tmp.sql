@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('address') }}
+select *
+from {{ var('address') }}

@@ -32,14 +32,11 @@ final as (
         price,
         quantity,
         status,
-        property_charge_interval_unit_type as charge_interval_unit_type,
         charge_interval_frequency,
         order_interval_unit,
         order_interval_frequency,
         order_day_of_month,
         order_day_of_week,
-        property_shipping_interval_unit_type as shipping_interval_unit_type,
-        property_shipping_interval_frequency as shipping_interval_frequency,
         expire_after_specific_number_of_charges,
         number_charges_until_expiration,
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
@@ -48,10 +45,12 @@ final as (
         cancellation_reason,
         cancellation_reason_comments,
         row_number() over (partition by subscription_id order by updated_at desc) = 1 as is_most_recent_record,
-        _fivetran_deleted,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        _fivetran_deleted
+
         {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_history_passthrough_columns') }}
+
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

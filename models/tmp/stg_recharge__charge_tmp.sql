@@ -1,5 +1,3 @@
 
-select
-    *
-from
-    {{ var('charge') }}
+select *
+from {{ var('charge') }}

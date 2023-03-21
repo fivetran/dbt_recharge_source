@@ -33,11 +33,12 @@ final as (
         country,
         company,
         phone,
-        cart_attribute_elevar_visitor_info as customer_visitor_info,
-        _fivetran_deleted,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        _fivetran_deleted
+
         {{ fivetran_utils.fill_pass_through_columns('recharge__address_passthrough_columns') }}
+
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

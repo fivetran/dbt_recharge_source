@@ -25,9 +25,9 @@ final as (
         price,
         code,
         title,
-        _fivetran_deleted,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        _fivetran_deleted
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

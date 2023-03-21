@@ -24,8 +24,7 @@ final as (
         index,
         price,
         code,
-        title,
-        cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
+        title
     from fields
 )
 

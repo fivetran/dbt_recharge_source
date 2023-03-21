@@ -34,12 +34,8 @@ models:
         description: The company name associated with the customer.
       - name: phone
         description: The phone number associated with the customer.
-      - name: customer_visitor_info
-        description: Custom field to record additional customer information such as where they visited the vendor's website.
       - name: _fivetran_deleted
         description: "{{ doc('_fivetran_deleted') }}"
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
@@ -63,8 +59,6 @@ models:
         description: The type of shipping consignment.
       - name: _fivetran_deleted
         description: "{{ doc('_fivetran_deleted') }}"
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge
     description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
@@ -132,48 +126,12 @@ models:
         description: Shows how many times an attempt to charge was placed.
       - name: address_id
         description: The customer shipping address the charge is tied to.
-      - name: billing_address_full_name
-        description: The full name of the billing address.
-      - name: billing_address_line_1
-        description: Line 1 of the billing address.
-      - name: billing_address_line_2
-        description: Line 2 of the billing address.
-      - name: billing_address_city
-        description: The city of the billing address.
-      - name: billing_address_province
-        description: The province or state name associated with the billing address.
-      - name: billing_address_zip
-        description: The zip or post code of the billing address.
-      - name: billing_address_country
-        description: The country of the billing address.
-      - name: billing_address_company
-        description: The company name of the billing address.
-      - name: billing_address_phone
-        description: The phone number of the billing address.
-      - name: shipping_address_full_name
-        description: The full name of the shipping address.
-      - name: shipping_address_line_1
-        description: Line 1 of the shipping address.
-      - name: shipping_address_line_2
-        description: Line 2 of the shipping address.
-      - name: shipping_address_city
-        description: The city of the shipping address.
-      - name: shipping_address_province
-        description: The name of the province or state associated with the shipping address.
-      - name: shipping_address_zip
-        description: The zip or post code of the shipping address.
-      - name: shipping_address_country
-        description: The country of the shipping address.
-      - name: shipping_address_company
-        description: The company name of the shipping address.
-      - name: shipping_address_phone
-        description: The phone number of the shipping address.
       - name: client_details_browser_ip
         description: The IP address of the buyer detected in checkout.
       - name: client_details_user_agent
         description: The user agent detected during checkout.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__charge_discount_code
     description: Table of all charge discount codes.
@@ -193,8 +151,6 @@ models:
         description: The ID of the discount associated to the charge.
       - name: amount
         description: The amount of the discount.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_line_item
     description: Table of all charge line items, each containing information about a distinct purchase item.
@@ -216,7 +172,7 @@ models:
         description: The name of the seller.
       - name: title
         description: The product title retrieved from Shopify.
-      - name: title_v2
+      - name: property_title
         description: The title of the product.
       - name: variant_title
         description: The name of the product variant.
@@ -232,16 +188,6 @@ models:
         description: The product ID retrieved from Shopify.
       - name: shopify_variant_id
         description: The variant ID retrieved from Shopify.
-      - name: charge_interval_frequency
-        description: The number of units, specified in order_interval_unit between each charge.
-      - name: charge_interval_unit
-        description: The condition of how frequent the items are charged.
-      - name: shipping_interval_frequency
-        description: The interval of how frequent the items are shipped.
-      - name: shipping_interval_unit
-        description: The condition of how frequent the items are shipped.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_note_attribute
     description: Table of notes associated to their corresponding charges.
@@ -260,8 +206,6 @@ models:
         description: A unique numeric row produced for every concurrent charge_id.
       - name: note_attribute
         description: An array of name-value pairs of order attributes on the charge.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__charge_shipping_line
     description: Table of all shipping information associated to their corresponding charges.
@@ -284,8 +228,6 @@ models:
         description: The code associated with the shipping line of a charge.
       - name: title
         description: The title of the shipping line.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__customer
     description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
@@ -344,8 +286,6 @@ models:
         description: Boolean indicating if the customer has a credit card in dunning.
       - name: _fivetran_deleted
         description: "{{ doc('_fivetran_deleted') }}"
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
@@ -389,12 +329,8 @@ models:
         description: An integer of how long the discount can be used in accordance to it's duration.
       - name: minimum_order_amount
         description: The minimum cart subtotal needed for the discount to be applicable. `duration` has to be `single_use` and the discount must apply to the entire order.
-      - name: once_per_customer
+      - name: is_once_per_customer
         description: Boolean indicating whether the discount applies only once to a customer.
-      - name: applies_once
-        description: Boolean indicating whether the discount applies only once.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_recharge__one_time_product
     description: Table of all one-times which represent non-recurring line items on a queued charges.
@@ -432,8 +368,8 @@ models:
         description: The product ID as retrieved from Recharge.
       - name: sku
         description: The unique identifier of the item in fulfillment.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__order
     description: Table of all orders after a charge is successfully processed.
@@ -483,44 +419,8 @@ models:
         description: The ID of the customer's shipping address that this order is tied to.
       - name: address_is_active
         description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
-      - name: billing_address_full_name
-        description: The full name associated to the customer's billing address.
-      - name: billing_address_line_1
-        description: The first line of the billing address.
-      - name: billing_address_line_2
-        description: Any additional information associated with the customer's billing address.
-      - name: billing_address_city
-        description: The city of the billing address.
-      - name: billing_address_province
-        description: The province or state name of the billing address.
-      - name: billing_address_country
-        description: The country of the billing address.
-      - name: billing_address_zip
-        description: The zip or post code of the billing address.
-      - name: billing_address_company
-        description: The name of the company associated with the billing address.
-      - name: billing_address_phone
-        description: The phone number of the billing address.
-      - name: shipping_address_full_name
-        description: The full name associated to the customer's shipping address.
-      - name: shipping_address_line_1
-        description: The first line of the shipping address.
-      - name: shipping_address_line_2
-        description: Any additional information associated with the customer's shipping address.
-      - name: shipping_address_city
-        description: The city of the shipping_address.
-      - name: shipping_address_province
-        description: The province or state name of the shipping address.
-      - name: shipping_address_country
-        description: The country of the shipping address.
-      - name: shipping_address_zip
-        description: The zip or post code of the shipping address.
-      - name: shipping_address_company
-        description: The name of the company associated with the shipping address.
-      - name: shipping_address_phone
-        description: The phone number of the billing address.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__order_line_item
     description: Table of all order line items. Each line containing information about an item in the order.
@@ -554,22 +454,8 @@ models:
         description: Weight in grams of the item.
       - name: price
         description: The price of the item in the order.
-      - name: charge_interval_unit_type
-        description: The frequency unit type which an order should be charged by. Valid values are “day”,“week”, and “month”.
-      - name: charge_interval_frequency
-        description: The number of units (specified in order_interval_unit) between each charge.
-      - name: shipping_interval_unit_type
-        description: The frequency unit type which an order should be shipped by. Valid values are “day”,“week”, and “month”.
-      - name: shipping_interval_frequency
-        description: Shipping interval frequency options that a customer can choose from.
-      - name: property_title
-        description: The original name of the product.
-      - name: property_price
-        description: The same as price - the price of the item in the order.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
-  - name: stg_recharge__payment_source
+  - name: stg_recharge__payment_method
     description: Table of payment and billing information.
     columns:
       - name: customer_id
@@ -601,28 +487,8 @@ models:
         description: The last 4 digits of the identifier.
       - name: has_card_error_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
-      - name: billing_address_full_name
-        description: The billing address full name associated to the customer.
-      - name: billing_address_line_1
-        description: The first line of the billing address associated to the customer
-      - name: billing_address_line_2
-        description: Any additional information associated to the customer's billing address.
-      - name: billing_address_city
-        description: The city associated to the customer's billing address.
-      - name: billing_address_province
-        description: The province or state name associated to the customer's billing address.
-      - name: billing_address_zip
-        description: The zip or post code associated to the customer's billing address.
-      - name: billing_address_country
-        description: The country associated to the customer's billing address.
-      - name: billing_address_company
-        description: The company name associated to the customer's billing address.
-      - name: billing_address_phone
-        description: The phone number associated to the customer's billing address.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
 
-  - name: stg_recharge__product
+  - name: stg_recharge__plan
     description: Table of all products sold on the merchant's website.
     columns:
       - name: product_id
@@ -646,28 +512,6 @@ models:
         description: The original image file of the product.
       - name: small_image
         description: A small image file of the product.
-      - name: charge_interval_frequency
-        description: The number of units (specified in order_interval_unit) between each charge.
-      - name: cutoff_day_of_month
-        description: Number of day in month on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
-      - name: cutoff_day_of_week
-        description: Number of day in week on which the customer will be charged. Cut-off windows create an interval between the day a customer goes through Recharge checkout to purchase a new subscription and when the client charges that customer again for their recurring order.
-      - name: expire_after_specific_number_of_charges
-        description: Number of charges until the subscription expires.
-      - name: modifiable_properties
-        description: A list of modifiable line item properties (e.g. ["box-edition", "christmas-special"])
-      - name: number_charges_until_expiration
-        description: Number of charges until the subscription expires.
-      - name: order_day_of_month
-        description: The set day of the month order is created. This is only applicable to subscriptions with order_interval_unit = “month”.
-      - name: order_day_of_week
-        description: The set day of the week order is created. This is only applicable to subscriptions with order_interval_unit = “week”; value of 0 equals to Monday, 1 to Tuesday etc.
-      - name: order_interval_frequency_options
-        description: List of order interval frequency options that a customer can choose from (e.g. order_interval_unit = month and order_internal_frequency_option for 3 would be an order every 3 months).
-      - name: order_interval_unit
-        description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
-      - name: storefront_purchase_options
-        description: Purchase options (valid values are "subscription_only" and "subscription_and_onetime").
       - name: collection_id
         description: Unique numeric identifier for the rule set charge in Recharge.
       - name: shopify_product_id
@@ -678,8 +522,8 @@ models:
         description: The date and time when the product was updated.
       - name: is_deleted
         description: Boolean indicating if a row have been deleted in the source.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__subscription
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
@@ -731,7 +575,9 @@ models:
         description: Reason provided for cancellation.
       - name: cancellation_reason_comments
         description: Additional comment for cancellation.
-
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+        
   - name: stg_recharge__subscription_history
     description: History table that builds over time. Does not capture history prior to connecting Fivetran.
     tests:
@@ -766,8 +612,6 @@ models:
         description: The number of items in the subscription.
       - name: status
         description: The status of the subscription.
-      - name: charge_interval_unit_type
-        description: The condition of how frequent the items are charged.
       - name: charge_interval_frequency
         description: The number of units (specified in order_interval_unit) between each Charge. For example, order_interval_unit=month and charge_interval_frequency=3, indicate charge every 3 months.
       - name: order_interval_unit
@@ -778,10 +622,6 @@ models:
         description: The set day of the month order is created. Default is that there isn’t a strict day of the month when the order is created.
       - name: order_day_of_week
         description: The set day of the week order is created. Default is that there isn’t a strict day of the week order is created.
-      - name: shipping_interval_unit_type
-        description: The frequency unit type which an order should be shipped by. Valid values are “day”,“week”, and “month”.
-      - name: shipping_interval_frequency
-        description: Shipping interval frequency options that a customer can choose from.
       - name: expire_after_specific_number_of_charges
         description: Set the number of charges until subscription expires.
       - name: number_charges_until_expiration
@@ -798,7 +638,5 @@ models:
         description: Additional comment for cancellation.
       - name: _fivetran_deleted
         description: "{{ doc('_fivetran_deleted') }}"
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
       - name: is_most_recent_record
         description: Boolean indicating whether record was the most recent instance.
