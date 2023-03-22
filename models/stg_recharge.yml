@@ -409,6 +409,8 @@ models:
         description: The ID of the customer's shipping address that this order is tied to.
       - name: address_is_active
         description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
+      - name: is_deleted
+        description: Boolean indicating if the order (record) is deleted.
 
   - name: stg_recharge__order_line_item
     description: Table of all order line items. Each line containing information about an item in the order.
