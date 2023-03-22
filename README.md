@@ -144,6 +144,6 @@ A small team of analytics engineers at Fivetran develops these dbt packages. How
 We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) to learn how to contribute to a dbt package!
 
 # 🏪 Are there any resources available?
-- If you have questions or want to reach out for help, refer to the [GitHub Issue](https://github.com/fivetran/dbt_recharge_source/issues/new/choose) section to find the right avenue of support for you.
+- If you have questions or want to reach out for help, please refer to the [GitHub Issue](https://github.com/fivetran/dbt_microsoft_ads/issues/new/choose) section to find the right avenue of support for you.
 - If you would like to provide feedback to the dbt package team at Fivetran or would like to request a new dbt package, fill out our [Feedback Form](https://www.surveymonkey.com/r/DQ7K7WW).
-- Have questions or just want to say hi? Book a time during our office hours [on Calendly](https://calendly.com/fivetran-solutions-team/fivetran-solutions-team-office-hours) or email us at solutions@fivetran.com.
+- Have questions or want to be part of the community discourse? Create a post in the [Fivetran community](https://community.fivetran.com/t5/user-group-for-dbt/gh-p/dbt-user-group) and our team along with the community can join in on the discussion!

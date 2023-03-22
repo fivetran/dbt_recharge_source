@@ -34,8 +34,7 @@ final as (
         status,
         shopify_variant_id,
         recharge_product_id,
-        sku,
-        _fivetran_deleted
+        sku
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

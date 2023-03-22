@@ -33,8 +33,7 @@ final as (
         shopify_product_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
-        is_deleted,
-        _fivetran_deleted
+        is_deleted
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__plan_passthrough_columns') }}
 

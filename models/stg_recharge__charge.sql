@@ -51,8 +51,7 @@ final as (
         number_times_tried as times_retried,
         address_id,
         client_details_browser_ip,
-        client_details_user_agent,
-        _fivetran_deleted
+        client_details_user_agent
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns') }}
 

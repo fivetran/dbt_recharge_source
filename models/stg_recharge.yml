@@ -34,8 +34,6 @@ models:
         description: The company name associated with the customer.
       - name: phone
         description: The phone number associated with the customer.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
@@ -57,8 +55,6 @@ models:
         description: The type of the shipping, can contain geographical shipping information. 
       - name: title
         description: The type of shipping consignment.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__charge
     description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
@@ -130,8 +126,6 @@ models:
         description: The IP address of the buyer detected in checkout.
       - name: client_details_user_agent
         description: The user agent detected during checkout.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__charge_discount_code
     description: Table of all charge discount codes.
@@ -284,8 +278,6 @@ models:
         description: Field indicating why the payment method is not valid.
       - name: has_card_error_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
@@ -368,8 +360,6 @@ models:
         description: The product ID as retrieved from Recharge.
       - name: sku
         description: The unique identifier of the item in fulfillment.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__order
     description: Table of all orders after a charge is successfully processed.
@@ -419,8 +409,6 @@ models:
         description: The ID of the customer's shipping address that this order is tied to.
       - name: address_is_active
         description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__order_line_item
     description: Table of all order line items. Each line containing information about an item in the order.
@@ -522,8 +510,6 @@ models:
         description: The date and time when the product was updated.
       - name: is_deleted
         description: Boolean indicating if a row have been deleted in the source.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__subscription
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
@@ -575,8 +561,6 @@ models:
         description: Reason provided for cancellation.
       - name: cancellation_reason_comments
         description: Additional comment for cancellation.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
         
   - name: stg_recharge__subscription_history
     description: History table that builds over time. Does not capture history prior to connecting Fivetran.
@@ -636,7 +620,5 @@ models:
         description: Reason provided for cancellation.
       - name: cancellation_reason_comments
         description: Additional comment for cancellation.
-      - name: _fivetran_deleted
-        description: "{{ doc('_fivetran_deleted') }}"
       - name: is_most_recent_record
         description: Boolean indicating whether record was the most recent instance.

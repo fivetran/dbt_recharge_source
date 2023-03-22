@@ -41,8 +41,7 @@ final as (
         shopify_variant_id,
         cast(cancelled_at as {{ dbt.type_timestamp() }}) as cancelled_at,
         cancellation_reason,
-        cancellation_reason_comments,
-        _fivetran_deleted
+        cancellation_reason_comments
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_passthrough_columns') }}
 

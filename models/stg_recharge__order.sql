@@ -40,8 +40,7 @@ final as (
         cast(scheduled_at as {{ dbt.type_timestamp() }}) as scheduled_at,
         cast(shipped_date as {{ dbt.type_timestamp() }}) as shipped_date,
         address_id,
-        address_is_active,
-        _fivetran_deleted
+        address_is_active
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__order_passthrough_columns') }}
 

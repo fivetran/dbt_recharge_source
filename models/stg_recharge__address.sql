@@ -32,8 +32,7 @@ final as (
         zip,
         country,
         company,
-        phone,
-        _fivetran_deleted
+        phone
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__address_passthrough_columns') }}
 

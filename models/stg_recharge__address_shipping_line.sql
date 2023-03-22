@@ -24,8 +24,7 @@ final as (
         index,
         price,
         code,
-        title,
-        _fivetran_deleted
+        title
     from fields
     where not coalesce(_fivetran_deleted, false)
 )
