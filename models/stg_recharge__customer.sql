@@ -26,7 +26,6 @@ final as (
         email,
         first_name || ' ' || last_name as customer_full_name,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
-        status as customer_status,
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         cast(first_charge_processed_at as {{ dbt.type_timestamp() }}) as first_charge_processed_at,
         number_active_subscriptions as active_subscriptions,

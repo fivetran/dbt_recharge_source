@@ -242,8 +242,6 @@ models:
         description: The full name of the customer.
       - name: created_at
         description: The date and time when the customer was created.
-      - name: customer_status
-        description: The status of the customer.
       - name: updated_at
         description: The date and time when the customer was last updated.
       - name: first_charge_processed_at

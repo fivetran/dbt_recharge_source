@@ -273,8 +273,6 @@ sources:
             description: The customer's billing phone.
           - name: processor_type
             description: What the merchant processor the customer is stored on.
-          - name: status
-            description: The customer's status - accepted values are active or inactive.
           - name: has_valid_payment_method
             description: Boolean indicating if the payment value is valid.
           - name: reason_payment_method_not_valid

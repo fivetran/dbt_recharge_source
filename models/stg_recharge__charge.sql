@@ -51,7 +51,10 @@ final as (
         number_times_tried as times_retried,
         address_id,
         client_details_browser_ip,
-        client_details_user_agent
+        client_details_user_agent,
+        tags,
+        error,
+        shopify_variant_id_not_found
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns') }}
 

@@ -23,7 +23,6 @@
     {"name": "billing_country", "datatype": dbt.type_string()},
     {"name": "billing_phone", "datatype": dbt.type_string()},
     {"name": "processor_type", "datatype": dbt.type_string()},
-    {"name": "status", "datatype": dbt.type_string()},
     {"name": "has_valid_payment_method", "datatype": "boolean"},
     {"name": "reason_payment_method_not_valid", "datatype": dbt.type_string()},
     {"name": "has_card_error_in_dunning", "datatype": "boolean"},
