@@ -268,8 +268,6 @@ models:
         description: The customer's billing country.
       - name: billing_phone
         description: The customer's billing phone.
-      - name: processor_type
-        description: What the merchant processor the customer is stored on.
       - name: has_valid_payment_method
         description: Boolean indicating if the payment value is valid.
       - name: reason_payment_method_not_valid

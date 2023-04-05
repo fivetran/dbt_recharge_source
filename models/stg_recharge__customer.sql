@@ -39,7 +39,6 @@ final as (
         billing_province,
         billing_country,
         billing_phone,
-        processor_type,
         has_valid_payment_method,
         reason_payment_method_not_valid,
         has_card_error_in_dunning
