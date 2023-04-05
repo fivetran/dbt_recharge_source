@@ -44,12 +44,12 @@ final as (
         cast(cancelled_at as {{ dbt.type_timestamp() }}) as cancelled_at,
         cancellation_reason,
         cancellation_reason_comments,
-        row_number() over (partition by subscription_id order by updated_at desc) = 1 as is_most_recent_record
+        _fivetran_synced,
+        row_number() over (partition by subscription_id order by _fivetran_synced desc) = 1 as is_most_recent_record
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_history_passthrough_columns') }}
 
     from fields
-    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

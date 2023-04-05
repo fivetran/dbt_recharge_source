@@ -27,6 +27,7 @@
     {"name": "expire_after_specific_number_of_charges", "datatype": dbt.type_int()},
     {"name": "number_charges_until_expiration", "datatype": dbt.type_int()},
     {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": "type_timestamp"},
     {"name": "property_shipping_interval_unit_type", "datatype": dbt.type_string()},
     {"name": "property_shipping_interval_frequency", "datatype": dbt.type_string()},
     {"name": "property_charge_interval_unit_type", "datatype": dbt.type_string()}
