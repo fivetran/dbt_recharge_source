@@ -223,6 +223,28 @@ models:
       - name: title
         description: The title of the shipping line.
 
+  - name: stg_recharge__charge_tax_line
+    description: Table of tax line information associated to their corresponding charges.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - charge_id
+            - index
+    
+    columns:
+      - name: charge_id
+        description: The unique ID of the charge.
+        tests:
+          - not_null
+      - name: index
+        description: A unique numeric row produced for every concurrent charge_id.
+      - name: price
+        description: The total tax associated with the listed jurisdiction.
+      - name: rate
+        description: The tax rate associated with the listed jurisdiction.
+      - name: title
+        description: The title/name of the taxing jurisdiction.
+
   - name: stg_recharge__customer
     description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
     

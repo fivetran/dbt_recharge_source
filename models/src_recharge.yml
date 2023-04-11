@@ -225,6 +225,25 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
+      - name: charge_tax_line
+        identifier: "{{ var('recharge_charge_tax_line_identifier','charge_tax_line') }}"
+        description: Table of tax line information associated to their corresponding charges.
+        config:
+          enabled: "{{ var('recharge__charge_tax_line_enabled', true) }}"
+        columns:
+          - name: charge_id
+            description: The unique ID of the charge.
+          - name: index
+            description: A unique numeric row produced for every concurrent charge_id.
+          - name: price
+            description: The total tax associated with the listed jurisdiction.
+          - name: rate
+            description: The tax rate associated with the listed jurisdiction.
+          - name: title
+            description: The title/name of the taxing jurisdiction.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
       - name: customer
         identifier: "{{ var('recharge_customer_identifier','customer') }}"
         description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
