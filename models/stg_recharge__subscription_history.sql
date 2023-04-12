@@ -38,7 +38,6 @@ final as (
         order_day_of_month,
         order_day_of_week,
         expire_after_specific_number_of_charges,
-        number_charges_until_expiration,
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         cast(next_charge_scheduled_at as {{ dbt.type_timestamp() }}) as next_charge_scheduled_at,
         cast(cancelled_at as {{ dbt.type_timestamp() }}) as cancelled_at,

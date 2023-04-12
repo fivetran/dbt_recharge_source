@@ -563,8 +563,6 @@ models:
         description: The number of units (specified in order_interval_unit) between each charge.
       - name: expire_after_specific_number_of_charges
         description: Set the number of charges until subscription expires.
-      - name: number_charges_until_expiration
-        description: Number of charges until the subscription expires.
       - name: order_interval_frequency
         description: The number of units (specified in order_interval_unit) between each order, e.g. order_interval_unit = 'month' and order_interval frequency = 3 indicates an order every 3 months.
       - name: order_interval_unit
@@ -627,9 +625,7 @@ models:
       - name: order_day_of_week
         description: The set day of the week order is created. Default is that there isn’t a strict day of the week order is created.
       - name: expire_after_specific_number_of_charges
-        description: Set the number of charges until subscription expires.
-      - name: number_charges_until_expiration
-        description: Number of charges until the subscription expires.
+        description: Set the number of charges until subscription expires..
       - name: updated_at
         description: The date time at which the purchase_item record was last updated.
       - name: next_charge_scheduled_at

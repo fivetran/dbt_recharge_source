@@ -24,7 +24,6 @@
     {"name": "order_day_of_week", "datatype": dbt.type_int()},
     {"name": "order_day_of_month", "datatype": dbt.type_int()},
     {"name": "expire_after_specific_number_of_charges", "datatype": dbt.type_int()},
-    {"name": "number_charges_until_expiration", "datatype": dbt.type_int()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}

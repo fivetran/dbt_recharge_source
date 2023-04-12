@@ -599,8 +599,6 @@ sources:
             description: The set day of the month order is created. This is only applicable to subscriptions with order_interval_unit = “month”.
           - name: expire_after_specific_number_of_charges
             description: Set the number of charges until subscription expires.
-          - name: number_charges_until_expiration
-            description: Number of charges until the subscription expires.
           - name: updated_at
             description: The date and time when the subscription was created.
           - name: _fivetran_deleted
@@ -658,8 +656,6 @@ sources:
             description: The set day of the month order is created. Default is that there isn’t a strict day of the month when the order is created.
           - name: expire_after_specific_number_of_charges
             description: Set the number of charges until subscription expires.
-          - name: number_charges_until_expiration
-            description: Number of charges until the subscription expires.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
           - name: _fivetran_synced

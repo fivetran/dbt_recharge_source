@@ -33,7 +33,6 @@ final as (
         next_charge_scheduled_at,
         charge_interval_frequency,
         expire_after_specific_number_of_charges,
-        number_charges_until_expiration,
         order_interval_frequency,
         order_interval_unit,
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
