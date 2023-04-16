@@ -6,12 +6,12 @@ models:
     description: Table of all addresses, an address represents a shipping address. Each customer can have multiple addresses, subscriptions are a child object of an address.
     columns:
       - name: address_id
-        description: The unique ID of the address.
+        description: "{{ doc('address_id') }}"
         tests:
           - unique
           - not_null
       - name: customer_id
-        description: Unique numeric identifier for the customer associated with the address.
+        description: "{{ doc('customer_id') }}"
       - name: customer_full_name
         description: The full name of the customer.
       - name: created_at
@@ -44,7 +44,7 @@ models:
             - index
     columns:
       - name: address_id
-        description: The unique ID of the address.
+        description: "{{ doc('address_id') }}"
         tests:
           - not_null
       - name: index
@@ -60,46 +60,52 @@ models:
     description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
     columns:
       - name: charge_id
-        description: The unique ID of the charge.
+        description: "{{ doc('charge_id') }}"
         tests:
           - unique
           - not_null
       - name: customer_id
-        description: The ID of the customer associated with the charge.
+        description: "{{ doc('customer_id') }}"
       - name: customer_hash
         description: The hash of the customer associated with the charge.
       - name: customer_full_name
         description: The full name of the customer.
       - name: email
-        description: The hash of the customer associated with the charge.
+        description: The email address of the customer.
       - name: created_at
         description: Date and time when the charge was created.
       - name: charge_type
-        description: The type of the charge, possible values can be; checkout or recurring.
+        description: "{{ doc('type') }}"
       - name: charge_status
-        description: The status of the charge, possible values can be; success, error, queued, skipped, refunded or partially_refunded.
+        description: "{{ doc('charge_status') }}"
       - name: updated_at
         description: Date and time when the charge was last updated.
       - name: note
         description: Shows the next order in sequence.
       - name: subtotal_price
-        description: The item price without taxes and shipping applied.
+        description: The combined price of all line_items without taxes and shipping.
+      - name: tags
+        description: A comma-separated list of tags on the charge.
+      - name: error
+        description: Error reason as sentence text (typically returned directly from the payment processor - e.g. "customer needs to update credit card").
+      - name: shopify_variant_id_not_found
+        description: Indicates if Recharge was able to find the shopify_variant_id from the charge.
       - name: tax_lines
-        description: Array of strings used to distinguish specific charges - the price of the shipping line.
+        description: An array of tax lines that apply to the charge.
       - name: total_discounts
         description: The sum of the discounts applied to the charge.
       - name: total_line_items_price
         description: The sum of all the prices of all the items in the charge.
       - name: total_tax
-        description: The sum of all the prices of all the items in the charge, taxes included.
+        description: The total tax due associated with the charge.
       - name: total_price
         description: The sum of all the prices of all the items in the charge, taxes and discounts included (must be positive).
       - name: total_refunds
-        description: The sum of all refunds that were made on a specific charge.
+        description: The sum of all refunds that were applied to the charge.
       - name: total_weight
-        description: The total weight of all items in the charge.
+        description: The total weight of all items in the charge in grams.
       - name: scheduled_at
-        description: When the charge processing will next be attempted.
+        description: The date time of when the associated charge is/was scheduled to process.
       - name: processed_at
         description: Date and time when the charge was processed.
       - name: processor_name
@@ -121,7 +127,7 @@ models:
       - name: times_retried
         description: Shows how many times an attempt to charge was placed.
       - name: address_id
-        description: The customer shipping address the charge is tied to.
+        description: "{{ doc('address_id') }}"
       - name: client_details_browser_ip
         description: The IP address of the buyer detected in checkout.
       - name: client_details_user_agent
@@ -136,7 +142,7 @@ models:
             - index
     columns:
       - name: charge_id
-        description: The unique ID of the charge.
+        description: "{{ doc('charge_id') }}"
         tests:
           - not_null
       - name: index
@@ -155,13 +161,13 @@ models:
             - index
     columns:
       - name: charge_id
-        description: The unique ID of the charge.
+        description: "{{ doc('charge_id') }}"
         tests:
           - not_null
       - name: index
         description: A unique numeric row produced for every concurrent charge_id.
       - name: subscription_id
-        description: The unique ID of the associated subscription.
+        description: "{{ doc('subscription_id') }}"
       - name: vendor
         description: The name of the seller.
       - name: title
@@ -193,7 +199,7 @@ models:
     
     columns:
       - name: charge_id
-        description: The unique ID of the charge.
+        description: "{{ doc('charge_id') }}"
         tests:
           - not_null
       - name: index
@@ -211,7 +217,7 @@ models:
     
     columns:
       - name: charge_id
-        description: The unique ID of the charge.
+        description: "{{ doc('charge_id') }}"
         tests:
           - not_null
       - name: index
@@ -233,7 +239,7 @@ models:
     
     columns:
       - name: charge_id
-        description: The unique ID of the charge.
+        description: "{{ doc('charge_id') }}"
         tests:
           - not_null
       - name: index
@@ -250,7 +256,7 @@ models:
     
     columns:
       - name: customer_id
-        description: The unique ID of the customer.
+        description: "{{ doc('customer_id') }}"
         tests:
           - unique
           - not_null
@@ -269,9 +275,9 @@ models:
       - name: first_charge_processed_at
         description: Date when first charge was processed for the customer.
       - name: active_subscriptions
-        description: The number of active subscriptions for the customer.
+        description: The number of active subscriptions associated with the customer.
       - name: total_subscriptions
-        description: The number of subscriptions the customer has.
+        description: The total number of subscriptions associated with the customer.
       - name: customer_billing_full_name
         description: The full name of the customer's billing address.
       - name: billing_company
@@ -281,15 +287,15 @@ models:
       - name: billing_address_line_2
         description: An additional field for the customer's billing address.
       - name: billing_zip
-        description: An additional field for the customer's billing address.
+        description: The postal code of the customer's billing address.
       - name: billing_city
-        description: The customer's billing city.
+        description: The city of the customer's billing address.
       - name: billing_province
-        description: The customer's billing province or state name.
+        description: The province of the customer's billing address.
       - name: billing_country
-        description: The customer's billing country.
+        description: The country of the customer's billing address.
       - name: billing_phone
-        description: The customer's billing phone.
+        description: The phone number associated with the customer's billing address.
       - name: has_valid_payment_method
         description: Boolean indicating if the payment value is valid.
       - name: reason_payment_method_not_valid
@@ -320,7 +326,7 @@ models:
       - name: discount_type
         description: The type of discount.
       - name: status
-        description: The status of the discount.
+        description: The status of the discount. Possible values are ENABLED, DISABLED, or FULLY_DISABLED.
       - name: times_used
         description: An integer indicating how many times the discount has been used.
       - name: usage_limit
@@ -351,7 +357,7 @@ models:
           - unique
           - not_null
       - name: address_id
-        description: Unique numeric identifier for the address the onetime purchase is associated with (cannot be used with next_charge_scheduled_at).
+        description: The unique identifier of the address. Cannot be used with `next_charge_scheduled_at`.
       - name: customer_id
         description: Unique numeric identifier for the customer the onetime purchase is tied to.
       - name: is_deleted
@@ -383,7 +389,7 @@ models:
     description: Table of all orders after a charge is successfully processed.
     columns:
       - name: order_id
-        description: The unique ID of the order.
+        description: "{{ doc('charge_id') }}"
         tests:
           - unique
           - not_null
@@ -400,7 +406,7 @@ models:
       - name: created_at
         description: The date and time when the order was created.
       - name: order_status
-        description: The status of the order within Shopify.
+        description: The status of the order. Possible values are SUCCESS, ERROR, QUEUED, or CANCELLED
       - name: updated_at
         description: The date and time when the order was last updated.
       - name: charge_id
@@ -408,15 +414,15 @@ models:
       - name: transaction_id
         description: The unique alphanumeric identifier of the transaction.
       - name: charge_status
-        description: The status of the charge.
+        description: "{{ doc('charge_status') }}"
       - name: is_prepaid
         description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
       - name: payment_processor
         description: The type of payment the processor has chosen.
       - name: total_price
-        description: The sum of all prices of the item in the order with taxes and discounts included (must be positive).
+        description: The total amount due of the Order.
       - name: order_type
-        description: Shows if the order was made through checkout or if it's a recurring charge.
+        description: "{{ doc('type') }}"
       - name: processed_at
         description: The date and time when the order was submitted. 
       - name: scheduled_at
@@ -424,7 +430,7 @@ models:
       - name: shipped_date
         description: The date when the order will be processed.
       - name: address_id
-        description: The ID of the customer's shipping address that this order is tied to.
+        description: "{{ doc('address_id') }}"
       - name: address_is_active
         description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
       - name: is_deleted
@@ -439,13 +445,13 @@ models:
             - index
     columns:
       - name: order_id
-        description: The ID of the order.
+        description: "{{ doc('charge_id') }}"
         tests:
           - not_null
       - name: index
         description: A unique numeric row produced for every concurrent order_id.
       - name: subscription_id
-        description: The ID of the subscription tied to the purchase of the product.
+        description: "{{ doc('subscription_id') }}"
       - name: shopify_product_id
         description: The unique numeric identifier for the Shopify product in the fulfillment.
       - name: product_title_1
@@ -467,7 +473,7 @@ models:
     description: Table of payment and billing information.
     columns:
       - name: customer_id
-        description: The unique ID of the customer.
+        description: "{{ doc('customer_id') }}"
         tests:
           - unique
           - not_null
@@ -535,14 +541,14 @@ models:
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
     columns:
       - name: subscription_id
-        description: The unique ID of the subscription.
+        description: "{{ doc('subscription_id') }}"
         tests:
           - unique
           - not_null
       - name: customer_id
-        description: Unique numeric identifier for the customer the subscription is ties to.
+        description: "{{ doc('customer_id') }}"
       - name: address_id
-        description: Unique numeric identifier for the address the subscription is associated with.
+        description: "{{ doc('address_id') }}"
       - name: created_at
         description: The date and time when the subscription was created.
       - name: product_title
@@ -589,13 +595,13 @@ models:
             - updated_at
     columns:
       - name: subscription_id
-        description: Unique numeric identifier for the subscription.
+        description: "{{ doc('subscription_id') }}"
         tests:
           - not_null
       - name: customer_id
-        description: Unique numeric identifier for the customer the subscription is tied to.
+        description: "{{ doc('customer_id') }}"
       - name: address_id
-        description: Unique numeric identifier for the address the subscription is associated with.
+        description: "{{ doc('address_id') }}"
       - name: created_at
         description: The date and time the subscription was created.
       - name: shopify_product_id
@@ -619,13 +625,13 @@ models:
       - name: order_interval_unit
         description: The frequency unit used to determine when a subscription’s order is created.
       - name: order_interval_frequency
-        description: The frequency unit used to determine when a subscription’s order is created.
+        description: The number of units (specified in order_interval_unit) between each order.
       - name: order_day_of_month
         description: The set day of the month order is created. Default is that there isn’t a strict day of the month when the order is created.
       - name: order_day_of_week
         description: The set day of the week order is created. Default is that there isn’t a strict day of the week order is created.
       - name: expire_after_specific_number_of_charges
-        description: Set the number of charges until subscription expires..
+        description: Set number of charges until subscription expires.
       - name: updated_at
         description: The date time at which the purchase_item record was last updated.
       - name: next_charge_scheduled_at
@@ -638,3 +644,5 @@ models:
         description: Additional comment for cancellation.
       - name: is_most_recent_record
         description: Boolean indicating whether record was the most recent instance.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
