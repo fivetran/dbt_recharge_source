@@ -419,7 +419,7 @@ models:
         description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
       - name: payment_processor
         description: The type of payment the processor has chosen.
-      - name: total_price
+      - name: order_total_price
         description: The total amount due of the Order.
       - name: order_type
         description: "{{ doc('type') }}"

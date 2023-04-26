@@ -34,7 +34,7 @@ final as (
         charge_status,
         is_prepaid,
         payment_processor,
-        total_price,
+        total_price as order_total_price,
         type as order_type,
         cast(processed_at as {{ dbt.type_timestamp() }}) as order_processed_at,
         cast(scheduled_at as {{ dbt.type_timestamp() }}) as order_scheduled_at,
