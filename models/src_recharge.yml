@@ -99,7 +99,7 @@ sources:
           - name: sub_total
             description: The item price without taxes and discounts. # Use subtotal_price instead
           - name: subtotal_price
-            description: The combined price of all line_items without taxes and shipping.
+            description: The combined price of all order line_items minus any discounts. Does not include taxes and shipping.
           - name: tags
             description: A comma-separated list of tags on the charge.
           - name: tax_lines

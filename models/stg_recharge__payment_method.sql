@@ -25,7 +25,7 @@ final as (
         processor_name,
         payment_type,
         payment_token,
-        status,
+        status as payment_status,
         status_reason,
         cardholder_name,
         card_brand,

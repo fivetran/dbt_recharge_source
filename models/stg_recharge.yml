@@ -14,9 +14,9 @@ models:
         description: "{{ doc('customer_id') }}"
       - name: customer_full_name
         description: The full name of the customer.
-      - name: created_at
+      - name: address_created_at
         description: The date and time the customer address was recorded.
-      - name: updated_at
+      - name: address_updated_at
         description: The date and time of when the customer's address record was last updated.
       - name: address_line_1
         description: The first line of the customer's address.
@@ -72,13 +72,13 @@ models:
         description: The full name of the customer.
       - name: email
         description: The email address of the customer.
-      - name: created_at
+      - name: charge_created_at
         description: Date and time when the charge was created.
       - name: charge_type
         description: "{{ doc('type') }}"
       - name: charge_status
         description: "{{ doc('charge_status') }}"
-      - name: updated_at
+      - name: charge_updated_at
         description: Date and time when the charge was last updated.
       - name: note
         description: Shows the next order in sequence.
@@ -104,9 +104,9 @@ models:
         description: The sum of all refunds that were applied to the charge.
       - name: total_weight
         description: The total weight of all items in the charge in grams.
-      - name: scheduled_at
+      - name: charge_scheduled_at
         description: The date time of when the associated charge is/was scheduled to process.
-      - name: processed_at
+      - name: charge_processed_at
         description: Date and time when the charge was processed.
       - name: processor_name
         description: The payment processor used on the charge.
@@ -268,9 +268,9 @@ models:
         description: The email address of the customer.
       - name: customer_full_name
         description: The full name of the customer.
-      - name: created_at
+      - name: customer_created_at
         description: The date and time when the customer was created.
-      - name: updated_at
+      - name: customer_updated_at
         description: The date and time when the customer was last updated.
       - name: first_charge_processed_at
         description: Date when first charge was processed for the customer.
@@ -311,13 +311,13 @@ models:
         tests:
           - unique
           - not_null
-      - name: created_at
+      - name: discount_created_at
         description: The date and time when the discount was created.
-      - name: updated_at
+      - name: discount_updated_at
         description: The date and time when the discount was last updated.
-      - name: starts_at
+      - name: discount_starts_at
         description: The date when the discount becomes active.
-      - name: ends_at
+      - name: discount_ends_at
         description: The expiration time of the discount, past this time the discount can no longer be redeemed, once the time of the discount has passed the status of the discount will go from 'active' to 'disabled'.
       - name: discount_code
         description: The code used to apply the discount.
@@ -325,7 +325,7 @@ models:
         description: The discounted value to be applied.
       - name: discount_type
         description: The type of discount.
-      - name: status
+      - name: discount_status
         description: The status of the discount. Possible values are ENABLED, DISABLED, or FULLY_DISABLED.
       - name: times_used
         description: An integer indicating how many times the discount has been used.
@@ -362,11 +362,11 @@ models:
         description: Unique numeric identifier for the customer the onetime purchase is tied to.
       - name: is_deleted
         description: Boolean indicating if the onetime is deleted.
-      - name: created_at
+      - name: one_time_created_at
         description: The time the onetime item was first created.
-      - name: updated_at
+      - name: one_time_updated_at
         description: The time the onetime item was last updated.
-      - name: next_charge_scheduled_at
+      - name: one_time_next_charge_scheduled_at
         description: Date of the onetime purchase execution.
       - name: product_title
         description: The name of the product in a shop's catalog.
@@ -376,7 +376,7 @@ models:
         description: The price of the item before discounts, taxes, or shipping have been applied.
       - name: quantity
         description: The number of items in the onetime purchase.
-      - name: status
+      - name: one_time_status
         description: The status of the onetime product.
       - name: shopify_variant_id
         description: The variant ID as retrieved from Shopify.
@@ -403,11 +403,11 @@ models:
         description: The full name of the customer.
       - name: email
         description: The email address of the customer.
-      - name: created_at
+      - name: order_created_at
         description: The date and time when the order was created.
       - name: order_status
         description: The status of the order. Possible values are SUCCESS, ERROR, QUEUED, or CANCELLED
-      - name: updated_at
+      - name: order_updated_at
         description: The date and time when the order was last updated.
       - name: charge_id
         description: The unique numeric identifier of the charge.
@@ -423,11 +423,11 @@ models:
         description: The total amount due of the Order.
       - name: order_type
         description: "{{ doc('type') }}"
-      - name: processed_at
+      - name: order_processed_at
         description: The date and time when the order was submitted. 
-      - name: scheduled_at
+      - name: order_scheduled_at
         description: The date and time when the order will be shipped.
-      - name: shipped_date
+      - name: order_shipped_date
         description: The date when the order will be processed.
       - name: address_id
         description: "{{ doc('address_id') }}"
@@ -485,7 +485,7 @@ models:
         description: The type of payment this is.
       - name: payment_token
         description: The customer token at the processor.
-      - name: status
+      - name: payment_status
         description: State of the payment method.
       - name: status_reason
         description: The status reason for the payment method.
@@ -530,9 +530,9 @@ models:
         description: Unique numeric identifier for the rule set charge in Recharge.
       - name: shopify_product_id
         description: Unique numeric identifier of the product in Shopify.
-      - name: created_at
+      - name: plan_created_at
         description: The date and time when the product was created.
-      - name: updated_at
+      - name: plan_updated_at
         description: The date and time when the product was updated.
       - name: is_deleted
         description: Boolean indicating if a row have been deleted in the source.
@@ -549,7 +549,7 @@ models:
         description: "{{ doc('customer_id') }}"
       - name: address_id
         description: "{{ doc('address_id') }}"
-      - name: created_at
+      - name: subscription_created_at
         description: The date and time when the subscription was created.
       - name: product_title
         description: The name of the product in a shop's catalog.
@@ -561,9 +561,9 @@ models:
         description: The price of the item before discounts, taxes, or shipping have been applied.
       - name: quantity
         description: The number of items in the subscription.
-      - name: status
+      - name: subscription_status
         description: The status of the subscription; active = the subscription is active, cancelled = the subscription has been cancelled, expired = the subscription has expired - this occurs when the maximum number of charges for product have been reached.
-      - name: next_charge_scheduled_at
+      - name: subscription_next_charge_scheduled_at
         description: Date of the next charge for the subscription.
       - name: charge_interval_frequency
         description: The number of units (specified in order_interval_unit) between each charge.
@@ -573,13 +573,13 @@ models:
         description: The number of units (specified in order_interval_unit) between each order, e.g. order_interval_unit = 'month' and order_interval frequency = 3 indicates an order every 3 months.
       - name: order_interval_unit
         description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
-      - name: updated_at
+      - name: subscription_updated_at
         description: The date and time when the subscription was created.
       - name: shopify_product_id
         description: Unique numeric identifier of the product in Shopify.
       - name: shopify_variant_id
         description: Unique numeric identifier of the product variant in Shopify.
-      - name: cancelled_at
+      - name: subscription_cancelled_at
         description: The date and time when the subscription was cancelled.
       - name: cancellation_reason
         description: Reason provided for cancellation.
@@ -592,7 +592,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - subscription_id
-            - updated_at
+            - subscription_updated_at
     columns:
       - name: subscription_id
         description: "{{ doc('subscription_id') }}"
@@ -602,7 +602,7 @@ models:
         description: "{{ doc('customer_id') }}"
       - name: address_id
         description: "{{ doc('address_id') }}"
-      - name: created_at
+      - name: subscription_created_at
         description: The date and time the subscription was created.
       - name: shopify_product_id
         description: An object containing the product id as it appears in external platforms.
@@ -618,7 +618,7 @@ models:
         description: The price of the item before discounts, taxes, or shipping have been applied.
       - name: quantity
         description: The number of items in the subscription.
-      - name: status
+      - name: subscription_status
         description: The status of the subscription.
       - name: charge_interval_frequency
         description: The number of units (specified in order_interval_unit) between each Charge. For example, order_interval_unit=month and charge_interval_frequency=3, indicate charge every 3 months.
@@ -632,11 +632,11 @@ models:
         description: The set day of the week order is created. Default is that there isn’t a strict day of the week order is created.
       - name: expire_after_specific_number_of_charges
         description: Set number of charges until subscription expires.
-      - name: updated_at
+      - name: subscription_updated_at
         description: The date time at which the purchase_item record was last updated.
-      - name: next_charge_scheduled_at
+      - name: subscription_next_charge_scheduled_at
         description: Date of the next charge for the subscription.
-      - name: cancelled_at
+      - name: subscription_cancelled_at
         description: The date and time the subscription was cancelled.
       - name: cancellation_reason
         description: Reason provided for cancellation.
