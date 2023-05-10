@@ -26,7 +26,15 @@ To use this dbt package, you must have the following:
 - At least one Fivetran Recharge connector syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
-## Step 2: Install the package
+### Databricks dispatch configuration
+If you are using a Databricks destination with this package, you must add the following (or a variation of the following) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
+```yml
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
+```
+
+## Step 2: Install the package (skip if also using the `shopify` transformation package)
 If you are **not** using the [Recharge transformation package](https://github.com/fivetran/dbt_recharge), include the following package version in your `packages.yml` file. If you are installing the transform package, the source package is automatically installed as a dependency.
 
 Include the following recharge_source package version in your `packages.yml` file.
