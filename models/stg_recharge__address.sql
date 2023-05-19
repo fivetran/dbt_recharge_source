@@ -30,7 +30,7 @@ final as (
         city,
         province,
         zip,
-        country,
+        country_code,
         company,
         phone
 

@@ -11,7 +11,7 @@ vars:
     charge: "{{ source('recharge','charge') }}"
     charge_discount_code: "{{ source('recharge','charge_discount_code') }}"
     charge_line_item: "{{ source('recharge','charge_line_item') }}"
-    charge_note_attribute: "{{ source('recharge','charge_note_attribute') }}"
+    charge_order_attribute: "{{ source('recharge','charge_order_attribute') }}"
     charge_shipping_line: "{{ source('recharge','charge_shipping_line') }}"
     charge_tax_line: "{{ source('recharge','charge_tax_line') }}"
     customer: "{{ source('recharge','customer') }}"

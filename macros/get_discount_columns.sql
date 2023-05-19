@@ -9,18 +9,13 @@
     {"name": "ends_at", "datatype": dbt.type_timestamp()},
     {"name": "code", "datatype": dbt.type_string()},
     {"name": "value", "datatype": dbt.type_float()},
-    {"name": "discount_type", "datatype": dbt.type_string()},
     {"name": "status", "datatype": dbt.type_string()},
-    {"name": "times_used", "datatype": dbt.type_int()},
-    {"name": "usage_limit", "datatype": dbt.type_int()},
+    {"name": "usage_limits", "datatype": dbt.type_int()},
     {"name": "applies_to", "datatype": dbt.type_string()},
     {"name": "applies_to_resource", "datatype": dbt.type_string()},
     {"name": "applies_to_id", "datatype": dbt.type_int()},
     {"name": "applies_to_product_type", "datatype": dbt.type_string()},
-    {"name": "duration", "datatype": dbt.type_string()},
-    {"name": "duration_usage_limit", "datatype": dbt.type_int()},
-    {"name": "minimum_order_amount", "datatype": dbt.type_int()},
-    {"name": "once_per_customer", "datatype": "boolean"}
+    {"name": "minimum_order_amount", "datatype": dbt.type_int()}
 ] %}
 
 {{ return(columns) }}

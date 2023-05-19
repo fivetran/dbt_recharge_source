@@ -28,8 +28,8 @@ models:
         description: The province or state name associated with the customer.
       - name: zip
         description: The zip or post code associated with the customer.
-      - name: country
-        description: The country associated with the customer.
+      - name: country_code
+        description: The country code associated with the address.
       - name: company
         description: The company name associated with the customer.
       - name: phone
@@ -88,8 +88,8 @@ models:
         description: A comma-separated list of tags on the charge.
       - name: error
         description: Error reason as sentence text (typically returned directly from the payment processor - e.g. "customer needs to update credit card").
-      - name: shopify_variant_id_not_found
-        description: Indicates if Recharge was able to find the shopify_variant_id from the charge.
+      - name: external_variant_id_ecommerce_not_found
+        description: Indicates if Recharge was able to find the external_variant_id_ecommerce from the charge.
       - name: tax_lines
         description: An array of tax lines that apply to the charge.
       - name: total_discounts
@@ -102,24 +102,22 @@ models:
         description: The sum of all the prices of all the items in the charge, taxes and discounts included (must be positive).
       - name: total_refunds
         description: The sum of all refunds that were applied to the charge.
-      - name: total_weight
+      - name: total_weight_grams
         description: The total weight of all items in the charge in grams.
       - name: charge_scheduled_at
         description: The date time of when the associated charge is/was scheduled to process.
       - name: charge_processed_at
         description: Date and time when the charge was processed.
-      - name: processor_name
+      - name: payment_processor
         description: The payment processor used on the charge.
-      - name: transaction_id
+      - name: external_transaction_id_payment_processor
         description: The unique alphanumeric identifier of the transaction.
-      - name: shopify_order_id
-        description: The unique numeric identifier within Shopify for the charge.
-      - name: shipments_count
-        description: The number of successful processed child orders on the charge.
+      - name: external_order_id_ecommerce
+        description: The unique numeric identifier within your external ecommerce platform for the charge.
+      - name: orders_count
+        description: The number of orders generated from this charge (Will be >1 for prepaid).
       - name: has_uncommitted_changes
         description: Specifies whether the charge is scheduled for regeneration (if the subscription is related to the charge was updated in the last 5 seconds using "commit_update":false).
-      - name: last_charge_attempt_date
-        description: The date when the charge was last attempted.
       - name: retry_date
         description: The date when the next attempt will be placed.
       - name: error_type
@@ -166,12 +164,10 @@ models:
           - not_null
       - name: index
         description: A unique numeric row produced for every concurrent charge_id.
-      - name: subscription_id
-        description: "{{ doc('subscription_id') }}"
       - name: vendor
         description: The name of the seller.
       - name: title
-        description: The product title retrieved from Shopify.
+        description: The product title that links to your external ecommerce platform.
       - name: property_title
         description: The title of the product.
       - name: variant_title
@@ -184,12 +180,16 @@ models:
         description: The number of items associated to the subscription and therefore the subsequent charge.
       - name: price
         description: The price of the charge's line item.
-      - name: shopify_product_id
-        description: The product ID retrieved from Shopify.
-      - name: shopify_variant_id
-        description: The variant ID retrieved from Shopify.
+      - name: external_product_id_ecommerce
+        description: The product ID that links to your external ecommerce platform.
+      - name: external_variant_id_ecommerce
+        description: The variant ID that links to your external ecommerce platform.
+      - name: purchase_item_id
+        description: The subscription or onetime ID associated with the line_item.
+      - name: purchase_item_type
+        description: Possible values are SUBSCRIPTION, ONETIME.
 
-  - name: stg_recharge__charge_note_attribute
+  - name: stg_recharge__charge_order_attribute
     description: Table of notes associated to their corresponding charges.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -204,7 +204,7 @@ models:
           - not_null
       - name: index
         description: A unique numeric row produced for every concurrent charge_id.
-      - name: note_attribute
+      - name: order_attribute
         description: An array of name-value pairs of order attributes on the charge.
 
   - name: stg_recharge__charge_shipping_line
@@ -262,7 +262,7 @@ models:
           - not_null
       - name: customer_hash
         description: The unique string identifier used in a customer portal link.
-      - name: shopify_customer_id
+      - name: external_customer_id_ecommerce
         description: Shopify's unique identifier for the customer.
       - name: email
         description: The email address of the customer.
@@ -274,33 +274,15 @@ models:
         description: The date and time when the customer was last updated.
       - name: first_charge_processed_at
         description: Date when first charge was processed for the customer.
-      - name: active_subscriptions
+      - name: subscriptions_active_count
         description: The number of active subscriptions associated with the customer.
-      - name: total_subscriptions
+      - name: subscriptions_total_count
         description: The total number of subscriptions associated with the customer.
       - name: customer_billing_full_name
         description: The full name of the customer's billing address.
-      - name: billing_company
-        description: The company name of the customer's billing address.
-      - name: billing_address_line_1
-        description: The first line of the customer's billing address.
-      - name: billing_address_line_2
-        description: An additional field for the customer's billing address.
-      - name: billing_zip
-        description: The postal code of the customer's billing address.
-      - name: billing_city
-        description: The city of the customer's billing address.
-      - name: billing_province
-        description: The province of the customer's billing address.
-      - name: billing_country
-        description: The country of the customer's billing address.
-      - name: billing_phone
-        description: The phone number associated with the customer's billing address.
       - name: has_valid_payment_method
         description: Boolean indicating if the payment value is valid.
-      - name: reason_payment_method_not_valid
-        description: Field indicating why the payment method is not valid.
-      - name: has_card_error_in_dunning
+      - name: has_payment_method_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
 
   - name: stg_recharge__discount
@@ -323,13 +305,9 @@ models:
         description: The code used to apply the discount.
       - name: discount_amount
         description: The discounted value to be applied.
-      - name: discount_type
-        description: The type of discount.
       - name: discount_status
         description: The status of the discount. Possible values are ENABLED, DISABLED, or FULLY_DISABLED.
-      - name: times_used
-        description: An integer indicating how many times the discount has been used.
-      - name: usage_limit
+      - name: usage_limits
         description: An integer indicating how many times the discount can been used.
       - name: applies_to
         description: Indicates where the discount applies.
@@ -339,14 +317,8 @@ models:
         description: A list of ids of the type indicated in applies_to_resource for which the discount can be applied.
       - name: applies_to_product_type
         description: Indicates which product types the discount applies to.
-      - name: duration
-        description: How long the discount can be used.
-      - name: duration_usage_limit
-        description: An integer of how long the discount can be used in accordance to it's duration.
       - name: minimum_order_amount
         description: The minimum cart subtotal needed for the discount to be applicable. `duration` has to be `single_use` and the discount must apply to the entire order.
-      - name: is_once_per_customer
-        description: Boolean indicating whether the discount applies only once to a customer.
 
   - name: stg_recharge__one_time_product
     description: Table of all one-times which represent non-recurring line items on a queued charges.
@@ -376,12 +348,8 @@ models:
         description: The price of the item before discounts, taxes, or shipping have been applied.
       - name: quantity
         description: The number of items in the onetime purchase.
-      - name: one_time_status
-        description: The status of the onetime product.
-      - name: shopify_variant_id
-        description: The variant ID as retrieved from Shopify.
-      - name: recharge_product_id
-        description: The product ID as retrieved from Recharge.
+      - name: external_variant_id_ecommerce
+        description: The variant ID that links to your external ecommerce platform.
       - name: sku
         description: The unique identifier of the item in fulfillment.
 
@@ -393,10 +361,10 @@ models:
         tests:
           - unique
           - not_null
-      - name: shopify_order_id
-        description: Unique numeric identifier within Shopify for the order.
-      - name: shopify_order_number
-        description: The unique order number within Shopify.
+      - name: external_order_id_ecommerce
+        description: Unique numeric identifier within your external ecommerce platform for the order.
+      - name: external_order_number_ecommerce
+        description: The unique order number within your external ecommerce platform.
       - name: customer_id
         description: The unique numeric identifier of the customer.
       - name: customer_full_name
@@ -417,8 +385,6 @@ models:
         description: "{{ doc('charge_status') }}"
       - name: is_prepaid
         description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
-      - name: payment_processor
-        description: The type of payment the processor has chosen.
       - name: order_total_price
         description: The total amount due of the Order.
       - name: order_type
@@ -431,8 +397,6 @@ models:
         description: The date when the order will be processed.
       - name: address_id
         description: "{{ doc('address_id') }}"
-      - name: address_is_active
-        description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
       - name: is_deleted
         description: Boolean indicating if the order (record) is deleted.
 
@@ -450,13 +414,9 @@ models:
           - not_null
       - name: index
         description: A unique numeric row produced for every concurrent order_id.
-      - name: subscription_id
-        description: "{{ doc('subscription_id') }}"
-      - name: shopify_product_id
-        description: The unique numeric identifier for the Shopify product in the fulfillment.
-      - name: product_title_1
-        description: The original name of the product.
-      - name: product_title_2
+      - name: external_product_id_ecommerce
+        description: The unique numeric identifier for your external ecommerce platform product in the fulfillment.
+      - name: product_title
         description: The title of the product.
       - name: product_variant_title
         description: The title of the product variant.
@@ -468,6 +428,10 @@ models:
         description: Weight in grams of the item.
       - name: price
         description: The price of the item in the order.
+      - name: purchase_item_id
+        description: The subscription or onetime ID associated with the line_item.
+      - name: purchase_item_type
+        description: Possible values are SUBSCRIPTION, ONETIME.
 
   - name: stg_recharge__payment_method
     description: Table of payment and billing information.
@@ -479,8 +443,8 @@ models:
           - not_null
       - name: index
         description: A unique numeric row produced for every concurrent customer_id.
-      - name: processor_name
-        description: Possible values - stripe, braintree, authorize, shopify_payments, mollie.
+      - name: payment_processor
+        description: Possible values are STRIPE, BRAINTREE, AUTHORIZE, SHOPIFY_PAYMENTS, MOLLIE.
       - name: payment_type
         description: The type of payment this is.
       - name: payment_token
@@ -499,7 +463,7 @@ models:
         description: The card expiry year.
       - name: card_last_4
         description: The last 4 digits of the identifier.
-      - name: has_card_error_in_dunning
+      - name: has_payment_method_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
 
   - name: stg_recharge__plan
@@ -511,13 +475,13 @@ models:
           - unique
           - not_null
       - name: product_title
-        description: The product title retrieved from Shopify.
+        description: The product title that links to your external ecommerce platform.
       - name: discount_amount
         description: The discount amount applied on the product.
       - name: discount_type
         description: The type of discount.
       - name: handle
-        description: A human-friendly unique string for the product automatically generated from Shopify.
+        description: A human-friendly unique string for the product automatically generated from your external ecommerce platform.
       - name: large_image
         description: A large image file of the product.
       - name: medium_image
@@ -528,8 +492,8 @@ models:
         description: A small image file of the product.
       - name: collection_id
         description: Unique numeric identifier for the rule set charge in Recharge.
-      - name: shopify_product_id
-        description: Unique numeric identifier of the product in Shopify.
+      - name: external_product_id_ecommerce
+        description: Unique numeric identifier of the product in your external ecommerce platform.
       - name: plan_created_at
         description: The date and time when the product was created.
       - name: plan_updated_at
@@ -575,10 +539,10 @@ models:
         description: The frequency with which a subscription should have the order created with (valid values are “day”, “week”, and “month”).
       - name: subscription_updated_at
         description: The date and time when the subscription was created.
-      - name: shopify_product_id
-        description: Unique numeric identifier of the product in Shopify.
-      - name: shopify_variant_id
-        description: Unique numeric identifier of the product variant in Shopify.
+      - name: external_product_id_ecommerce
+        description: Unique numeric identifier of the product in your external ecommerce platform.
+      - name: external_variant_id_ecommerce
+        description: Unique numeric identifier of the product variant in your external ecommerce platform.
       - name: subscription_cancelled_at
         description: The date and time when the subscription was cancelled.
       - name: cancellation_reason
@@ -604,11 +568,11 @@ models:
         description: "{{ doc('address_id') }}"
       - name: subscription_created_at
         description: The date and time the subscription was created.
-      - name: shopify_product_id
+      - name: external_product_id_ecommerce
         description: An object containing the product id as it appears in external platforms.
       - name: product_title
         description: The name of the product in a store’s catalog.
-      - name: shopify_variant_id
+      - name: external_variant_id_ecommerce
         description: An object containing the variant id as it appears in external platforms.
       - name: variant_title
         description: The name of the variant in a shop’s catalog.

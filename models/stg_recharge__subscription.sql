@@ -36,8 +36,8 @@ final as (
         order_interval_frequency,
         order_interval_unit,
         cast(updated_at as {{ dbt.type_timestamp() }}) as subscription_updated_at,
-        shopify_product_id,
-        shopify_variant_id,
+        external_product_id_ecommerce,
+        external_variant_id_ecommerce,
         cast(cancelled_at as {{ dbt.type_timestamp() }}) as subscription_cancelled_at,
         cancellation_reason,
         cancellation_reason_comments

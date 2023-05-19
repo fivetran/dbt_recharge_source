@@ -12,7 +12,7 @@
     {"name": "original_image", "datatype": dbt.type_string()},
     {"name": "small_image", "datatype": dbt.type_string()},
     {"name": "collection_id", "datatype": dbt.type_int()},
-    {"name": "shopify_product_id", "datatype": dbt.type_int()},
+    {"name": "external_product_id_ecommerce", "datatype": dbt.type_int()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "is_deleted", "datatype": "boolean"},

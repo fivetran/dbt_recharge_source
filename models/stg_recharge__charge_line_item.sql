@@ -22,7 +22,6 @@ final as (
     select
         charge_id,
         index,
-        subscription_id,
         vendor,
         title,
         property_title,
@@ -31,8 +30,10 @@ final as (
         grams,
         quantity,
         price,
-        shopify_product_id,
-        shopify_variant_id
+        external_product_id_ecommerce,
+        external_variant_id_ecommerce,
+        purchase_item_id,
+        purchase_item_type
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_line_item_passthrough_columns') }}
 

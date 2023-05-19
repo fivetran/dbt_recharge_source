@@ -30,8 +30,8 @@ sources:
             description: The city associated with the address.
           - name: province
             description: The state or province associated with the address.
-          - name: country
-            description: The country associated with the address.
+          - name: country_code
+            description: The country code associated with the address.
           - name: zip
             description: The zip or postal code associated with the address.
           - name: company
@@ -76,10 +76,6 @@ sources:
             description: "{{ doc('address_id') }}"
           - name: customer_id
             description: "{{ doc('customer_id') }}"
-          - name: first_name
-            description: The first name of the customer.
-          - name: last_name
-            description: The last name of the customer.
           - name: customer_hash
             description: The hash of the customer associated with the charge.
           - name: note
@@ -92,12 +88,10 @@ sources:
             description: Date and time when the charge was processed.
           - name: scheduled_at
             description: The date time of when the associated charge is/was scheduled to process.
-          - name: shipments_count
-            description: The number of successful processed child orders on the charge.
-          - name: shopify_order_id
-            description: The unique numeric identifier within Shopify for the charge.
-          - name: sub_total
-            description: The item price without taxes and discounts. # Use subtotal_price instead
+          - name: orders_count
+            description: The number of orders generated from this charge (Will be >1 for prepaid).
+          - name: external_order_id_ecommerce
+            description: The unique numeric identifier within your external ecommerce platform for the charge.
           - name: subtotal_price
             description: The combined price of all order line_items minus any discounts. Does not include taxes and shipping.
           - name: tags
@@ -112,7 +106,7 @@ sources:
             description: The sum of all the prices of all the items in the charge, taxes and discounts included (must be positive).
           - name: total_tax
             description: The total tax due associated with the charge.
-          - name: total_weight
+          - name: total_weight_grams
             description: The total weight of all items in the charge in grams.
           - name: type
             description: "{{ doc('type') }}"
@@ -120,11 +114,11 @@ sources:
             description: "{{ doc('charge_status') }}"
           - name: total_refunds 
             description: The sum of all refunds that were applied to the charge.
-          - name: transaction_id
+          - name: external_transaction_id_payment_processor
             description: The unique identifier of the transaction.
           - name: email
             description: The email address of the customer.
-          - name: processor_name
+          - name: payment_processor
             description: The payment processor used on the charge.
           - name: has_uncommited_changes
             description: Specifies whether the charge is scheduled for regeneration (if the subscription is related to the charge was updated in the last 5 seconds using "commit_update":false).
@@ -136,10 +130,10 @@ sources:
             description: Structured reason why the charge failed such as customer_needs_to_updated_card.
           - name: error
             description: Error reason as sentence text (typically returned directly from the payment processor - e.g. "customer needs to update credit card").
-          - name: number_times_tried
+          - name: charge_attempts
             description: Shows how many times an attempt to charge was placed.
-          - name: shopify_variant_id_not_found
-            description: Indicates if Recharge was able to find the shopify_variant_id from the charge.
+          - name: external_variant_id_ecommerce_not_found
+            description: Indicates if Recharge was able to find the external_variant_id_ecommerce from the charge.
           - name: client_details_browser_ip
             description: The IP address of the buyer detected in checkout.
           - name: client_details_user_agent
@@ -170,12 +164,10 @@ sources:
             description: "{{ doc('charge_id') }}"
           - name: index
             description: A unique numeric row produced for every concurrent charge_id.
-          - name: subscription_id
-            description: "{{ doc('subscription_id') }}"
           - name: variant_title
-            description: The name of the product variant retrieved from Shopify.
+            description: The name of the product variant that links to your external ecommerce platform.
           - name: title
-            description: The product title retrieved from Shopify.
+            description: The product title that links to your external ecommerce platform.
           - name: quantity
             description: The number of items associated to the subscription and therefore the subsequent charge.
           - name: grams
@@ -184,26 +176,30 @@ sources:
             description: The price of the charge's line item.
           - name: property_title
             description: The title of the product.
+          - name: purchase_item_id
+            description: The subscription or onetime ID associated with the line_item.
+          - name: purchase_item_type
+            description: Possible values are SUBSCRIPTION, ONETIME.
           - name: sku
             description: The SKU (stock keeping unit) of the product associated with the charge's line item.
-          - name: shopify_product_id
-            description: The product ID retrieved from Shopify.
-          - name: shopify_variant_id
-            description: The variant ID retrieved from Shopify.
+          - name: external_product_id_ecommerce
+            description: The product ID that links to your external ecommerce platform.
+          - name: external_variant_id_ecommerce
+            description: The variant ID that links to your external ecommerce platform.
           - name: vendor
             description: The name of the seller.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
-      - name: charge_note_attribute
-        identifier: "{{ var('recharge_charge_note_attribute_identifier','charge_note_attribute') }}"
+      - name: charge_order_attribute
+        identifier: "{{ var('recharge_charge_order_attribute_identifier','charge_order_attribute') }}"
         description: Table of notes associated to their corresponding charges.
         columns:
           - name: charge_id
             description: "{{ doc('charge_id') }}"
           - name: index
             description: A unique numeric row produced for every concurrent charge_id.
-          - name: note_attribute
+          - name: order_attribute
             description: An array of name-value pairs of order attributes on the charge.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -252,7 +248,7 @@ sources:
             description: The unique ID of the customer.
           - name: hash
             description: The unique string identifier used in a customer portal link.
-          - name: shopify_customer_id
+          - name: external_customer_id_ecommerce
             description: Shopify's unique identifier for the customer.
           - name: email
             description: The email address of the customer.
@@ -266,35 +262,13 @@ sources:
             description: The customer's first name.
           - name: last_name
             description: The customer's last name.
-          - name: number_active_subscriptions
+          - name: subscriptions_active_count
             description: The number of active subscriptions associated with the customer.
-          - name: number_subscriptions
+          - name: subscriptions_total_count
             description: The total number of subscriptions associated with the customer.
-          - name: billing_first_name
-            description: The customer's billing first name. Required when creating a customer.
-          - name: billing_last_name
-            description: The customer's billing first name. Required when creating a customer.
-          - name: billing_company
-            description: The name of the company associated with the customer's billing address.
-          - name: billing_address_1
-            description: The first line of the customer's billing address.
-          - name: billing_address_2
-            description: An additional field for the customer's billing address.
-          - name: billing_zip
-            description: The postal code of the customer's billing address.
-          - name: billing_city
-            description: The city of the customer's billing address.
-          - name: billing_province
-            description: The province of the customer's billing address.
-          - name: billing_country
-            description: The country of the customer's billing address.
-          - name: billing_phone
-            description: The phone number associated with the customer's billing address.
           - name: has_valid_payment_method
             description: Boolean indicating if the payment value is valid.
-          - name: reason_payment_method_not_valid
-            description: Field indicating why the payment method is not valid.
-          - name: has_card_error_in_dunning
+          - name: has_payment_method_in_dunning
             description: Boolean indicating if the customer has a credit card in dunning.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
@@ -321,13 +295,9 @@ sources:
             description: The code used to apply the discount.
           - name: value
             description: The discounted value to be applied.
-          - name: discount_type
-            description: The type of discount.
           - name: status
             description: "{{ doc('discount_status') }}"
-          - name: times_used
-            description: An integer indicating how many times the discount has been used.
-          - name: usage_limit
+          - name: usage_limits
             description: An integer indicating how many times the discount can been used.
           - name: applies_to
             description: Indicates where the discount applies.
@@ -337,14 +307,8 @@ sources:
             description: A list of ids of the type indicated in applies_to_resource for which the discount can be applied.
           - name: applies_to_product_type
             description: Indicates which product types the discount applies to.
-          - name: duration
-            description: How long the discount can be used.
-          - name: duration_usage_limit
-            description: An integer of how long the discount can be used in accordance to it's duration.
           - name: minimum_order_amount
             description: The minimum cart subtotal needed for the discount to be applicable. `duration` has to be `single_use` and the discount must apply to the entire order.
-          - name: once_per_customer
-            description: Boolean indicating whether the discount applies only once to a customer.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
@@ -376,12 +340,8 @@ sources:
             description: The price of the item before discounts, taxes, or shipping have been applied.
           - name: quantity
             description: The number of items in the onetime purchase.
-          - name: status
-            description: The status of the onetime product.
-          - name: shopify_variant_id
-            description: The variant ID as retrieved from Shopify.
-          - name: recharge_product_id
-            description: The product ID as retrieved from Recharge.
+          - name: external_variant_id_ecommerce
+            description: The variant ID that links to your external ecommerce platform.
           - name: sku
             description: The unique identifier of the item in fulfillment.
           - name: _fivetran_synced
@@ -405,36 +365,26 @@ sources:
             description: The unique numeric identifier of the charge.
           - name: is_deleted
             description: Boolean indicating if the order (record) is deleted.
-          - name: first_name
-            description: The first name of the customer.
-          - name: last_name
-            description: The last name of the customer.
           - name: email
             description: The email address of the customer.
           - name: transaction_id
             description: The unique alphanumeric identifier of the transaction.
-          - name: address_is_active
-            description: Indicates if the address is currently active, accepted values range from 0 = "No" and 1 = "Yes".
           - name: charge_status
             description:  "{{ doc('charge_status') }}"
           - name: is_prepaid
             description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
-          - name: payment_processor
-            description: The type of payment the processor has chosen.
           - name: status
             description:  "{{ doc('order_status') }}"
           - name: total_price
             description: The sum of all prices of the item in the order with taxes and discounts included (must be positive).
           - name: type
             description: "{{ doc('type') }}"
-          - name: shopify_cart_token
-            description: Unique cart token generated by Shopify when an item is added to the cart.
-          - name: shopify_id
-            description: Unique numeric identifier within Shopify for the order. # Deprecated, use shopify_order_id instead
-          - name: shopify_order_id
-            description: Unique numeric identifier within Shopify for the order.
-          - name: shopify_order_number
-            description: The unique order number within Shopify.
+          - name: external_cart_token
+            description: Unique cart token generated by your external ecommerce platform when an item is added to the cart.
+          - name: external_order_id_ecommerce
+            description: Unique numeric identifier within your external ecommerce platform for the order.
+          - name: external_order_number_ecommerce
+            description: The unique order number within your external ecommerce platform.
           - name: created_at
             description: The date and time when the order was created.
           - name: updated_at
@@ -445,8 +395,6 @@ sources:
             description: The date and time when the order will be shipped.
           - name: shipped_date
             description: The date when the order will be processed.
-          - name: shipping_date
-            description: The date when the order will be processed. # Deprecated, use scheduled_at instead
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
@@ -458,8 +406,6 @@ sources:
             description: "{{ doc('order_id') }}"
           - name: index
             description: A unique numeric row produced for every concurrent order_id.
-          - name: subscription_id
-            description: "{{ doc('subscription_id') }}"
           - name: variant_title
             description: The title of the product variant.
           - name: title
@@ -470,13 +416,17 @@ sources:
             description: Weight in grams of the item.
           - name: price
             description: The price of the item in the order.
+          - name: purchase_item_id
+            description: The subscription or onetime ID associated with the line_item.
+          - name: purchase_item_type
+            description: Possible values are SUBSCRIPTION, ONETIME.
           - name: sku
             description: A unique identifier of the item in the fulfillment.
-          - name: shopify_product_id
-            description: The unique numeric identifier for the Shopify product in the fulfillment.
-          - name: shopify_variant_id
-            description: Unique numeric identifier of the product variant in Shopify.
-          - name: product_title
+          - name: external_product_id_ecommerce
+            description: The unique numeric identifier for your external ecommerce platform product in the fulfillment.
+          - name: external_variant_id_ecommerce
+            description: Unique numeric identifier of the product variant in your external ecommerce platform.
+          - name: title
             description: The name of the product in a shop's catalog. # Deprecated, use title instead
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -501,13 +451,13 @@ sources:
             description: The card expiry year.
           - name: card_last_4
             description: The last 4 digits of the identifier.
-          - name: has_card_error_in_dunning
+          - name: has_payment_method_in_dunning
             description: Boolean indicating if the customer has a credit card in dunning.
           - name: payment_token
             description: The customer token at the processor.
           - name: payment_type
             description: The type of payment this is.
-          - name: processor_name
+          - name: payment_processor
             description: Possible values - stripe, braintree, authorize, shopify_payments, mollie.
           - name: status
             description: State of the payment method.
@@ -523,13 +473,13 @@ sources:
           - name: id
             description: The unique ID of the product.
           - name: title
-            description: The product title retrieved from Shopify.
+            description: The product title that links to your external ecommerce platform.
           - name: discount_amount
             description: The discount amount applied on the product.
           - name: discount_type
             description: The type of discount.
           - name: handle
-            description: A human-friendly unique string for the product automatically generated from Shopify.
+            description: A human-friendly unique string for the product automatically generated from your external ecommerce platform.
           - name: large_image
             description: A large image file of the product.
           - name: medium_image
@@ -540,8 +490,8 @@ sources:
             description: A small image file of the product.
           - name: collection_id
             description: Unique numeric identifier for the rule set charge in Recharge.
-          - name: shopify_product_id
-            description: Unique numeric identifier of the product in Shopify.
+          - name: external_product_id_ecommerce
+            description: Unique numeric identifier of the product in your external ecommerce platform.
           - name: created_at
             description: The date and time when the product was created.
           - name: updated_at
@@ -581,10 +531,10 @@ sources:
             description: The name of the product in a shop's catalog.
           - name: variant_title
             description: The name of the variant in a shop's catalog.
-          - name: shopify_product_id
-            description: Unique numeric identifier of the product in Shopify.
-          - name: shopify_variant_id
-            description: Unique numeric identifier of the product variant in Shopify.
+          - name: external_product_id_ecommerce
+            description: Unique numeric identifier of the product in your external ecommerce platform.
+          - name: external_variant_id_ecommerce
+            description: Unique numeric identifier of the product variant in your external ecommerce platform.
           - name: sku
             description: A unique identifier of the item in fulfillment.
           - name: order_interval_unit
@@ -638,9 +588,9 @@ sources:
             description: The name of the product in a store’s catalog.
           - name: variant_title
             description: The name of the variant in a shop’s catalog.
-          - name: shopify_product_id
+          - name: external_product_id_ecommerce
             description: An object containing the product id as it appears in external platforms.
-          - name: shopify_variant_id
+          - name: external_variant_id_ecommerce
             description: An object containing the variant id as it appears in external platforms.
           - name: sku
             description: A unique identifier of the item in the fulfillment. In cases where SKU is blank, it will be dynamically pulled whenever it is used.

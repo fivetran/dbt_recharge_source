@@ -13,9 +13,7 @@
     {"name": "variant_title", "datatype": dbt.type_string()},
     {"name": "price", "datatype": dbt.type_int()},
     {"name": "quantity", "datatype": dbt.type_int()},
-    {"name": "status", "datatype": dbt.type_string()},
-    {"name": "shopify_variant_id", "datatype": dbt.type_int()},
-    {"name": "recharge_product_id", "datatype": dbt.type_int()},
+    {"name": "external_variant_id_ecommerce", "datatype": dbt.type_int()},
     {"name": "sku", "datatype": dbt.type_string()},
     {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}

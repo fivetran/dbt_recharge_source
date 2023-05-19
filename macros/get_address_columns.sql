@@ -10,12 +10,13 @@
     {"name": "address_2", "datatype": dbt.type_string()},
     {"name": "city", "datatype": dbt.type_string()},
     {"name": "province", "datatype": dbt.type_string()},
-    {"name": "country", "datatype": dbt.type_string()},
+    {"name": "country_code", "datatype": dbt.type_string()},
     {"name": "zip", "datatype": dbt.type_string()},
     {"name": "company", "datatype": dbt.type_string()},
     {"name": "phone", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
+    {"name": "payment_method_id", "datatype": dbt.type_int()},
     {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}
 

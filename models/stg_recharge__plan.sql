@@ -30,7 +30,7 @@ final as (
         original_image,
         small_image,
         collection_id,
-        shopify_product_id,
+        external_product_id_ecommerce,
         cast(created_at as {{ dbt.type_timestamp() }}) as plan_created_at,
         cast(updated_at as {{ dbt.type_timestamp() }}) as plan_updated_at,
         is_deleted

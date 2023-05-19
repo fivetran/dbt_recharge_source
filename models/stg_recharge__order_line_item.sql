@@ -22,15 +22,15 @@ final as (
     select
         order_id,
         index,
-        subscription_id,
-        shopify_product_id,
-        product_title as product_title_1,
-        title as product_title_2,
-        variant_title product_variant_title,
+        external_product_id_ecommerce,
+        title as product_title,
+        variant_title as product_variant_title,
         sku,
         quantity,
         grams,
-        price
+        price,
+        purchase_item_id,
+        purchase_item_type
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__order_line_passthrough_columns') }}
     from fields

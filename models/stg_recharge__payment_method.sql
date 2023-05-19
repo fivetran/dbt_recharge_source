@@ -22,7 +22,7 @@ final as (
     select
         customer_id,
         index,
-        processor_name,
+        payment_processor,
         payment_type,
         payment_token,
         status as payment_status,
@@ -32,7 +32,7 @@ final as (
         card_exp_month,
         card_exp_year,
         card_last_4,
-        has_card_error_in_dunning
+        has_payment_method_in_dunning
     from fields
 )
 
