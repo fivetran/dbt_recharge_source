@@ -16,7 +16,6 @@
     {"name": "phone", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
-    {"name": "payment_method_id", "datatype": dbt.type_int()},
     {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}
 

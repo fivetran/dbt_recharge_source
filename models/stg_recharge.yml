@@ -416,7 +416,7 @@ models:
         description: A unique numeric row produced for every concurrent order_id.
       - name: external_product_id_ecommerce
         description: The unique numeric identifier for your external ecommerce platform product in the fulfillment.
-      - name: product_title
+      - name: order_line_item_title
         description: The title of the product.
       - name: product_variant_title
         description: The title of the product variant.

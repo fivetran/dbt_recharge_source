@@ -23,7 +23,7 @@ final as (
         order_id,
         index,
         external_product_id_ecommerce,
-        title as product_title,
+        title as order_line_item_title,
         variant_title as product_variant_title,
         sku,
         quantity,
