@@ -42,8 +42,6 @@ sources:
             description: The date and time when the address was created.
           - name: updated_at
             description: The date and time when the address was last updated.
-          - name: payment_method_id
-            description: Unique numeric identifier for the Payment Method associated to the Address.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
           - name: _fivetran_synced

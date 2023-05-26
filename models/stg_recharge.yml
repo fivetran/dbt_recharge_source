@@ -36,8 +36,6 @@ models:
         description: The company name associated with the customer.
       - name: phone
         description: The phone number associated with the customer.
-      - name: payment_method_id
-        description: Unique numeric identifier for the Payment Method associated to the Address.
 
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
