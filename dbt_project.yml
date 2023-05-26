@@ -19,7 +19,6 @@ vars:
     one_time_product: "{{ source('recharge','one_time_product') }}"
     order: "{{ source('recharge','order') }}"
     order_line_item: "{{ source('recharge','order_line_item') }}"
-    payment_method: "{{ source('recharge','payment_method') }}"
     subscription: "{{ source('recharge','subscription') }}"
     subscription_history: "{{ source('recharge','subscription_history') }}"
     recharge__address_passthrough_columns: [] 

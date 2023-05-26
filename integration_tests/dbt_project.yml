@@ -22,7 +22,6 @@ vars:
     # order: "{{ ref('order_data') }}" # Comment out for generating docs -- Uncomment this before sending to buildkite.
     recharge_order_identifier: "order_data" # Uncomment for generating docs -- Comment this out before sending to buildkite.
     recharge_order_line_item_identifier: "order_line_item_data"
-    recharge_payment_method_identifier: "payment_method_data"
     recharge_subscription_identifier: "subscription_data"
     recharge_subscription_history_identifier: "subscription_history_data"
 
@@ -55,6 +54,9 @@ seeds:
       +column_types:
         RETRY_DATE: "timestamp"
         LAST_CHARGE_ATTEMPT_DATE: "timestamp"
+    charge_discount_data:
+      +column_types:
+        VALUE: "float"
     customer_data:
       +column_types:
         FIRST_CHARGE_PROCESSED_AT: "timestamp"
