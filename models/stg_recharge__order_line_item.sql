@@ -28,7 +28,7 @@ final as (
         sku,
         quantity,
         grams,
-        total_price,
+        cast(total_price as {{ dbt.type_float() }}) as total_price,
         unit_price,
         tax_due,
         taxable,
