@@ -32,7 +32,7 @@
     {"name": "error_type", "datatype": dbt.type_string()},
     {"name": "error", "datatype": dbt.type_string()},
     {"name": "charge_attempts", "datatype": dbt.type_int()},
-    {"name": "external_variant_id_ecommerce_not_found", "datatype": dbt.type_string()},
+    {"name": "external_variant_id_not_found", "datatype": dbt.type_string()},
     {"name": "client_details_browser_ip", "datatype": dbt.type_string()},
     {"name": "client_details_user_agent", "datatype": dbt.type_string()},
     {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}

@@ -134,7 +134,7 @@ sources:
             description: Error reason as sentence text (typically returned directly from the payment processor - e.g. "customer needs to update credit card").
           - name: charge_attempts
             description: Shows how many times an attempt to charge was placed.
-          - name: external_variant_id_ecommerce_not_found
+          - name: external_variant_id_not_found
             description: Indicates if Recharge was able to find the external_variant_id_ecommerce from the charge.
           - name: client_details_browser_ip
             description: The IP address of the buyer detected in checkout.
@@ -261,7 +261,7 @@ sources:
           - name: hash
             description: The unique string identifier used in a customer portal link.
           - name: external_customer_id_ecommerce
-            description: Shopify's unique identifier for the customer.
+            description: External platform's unique identifier for the customer.
           - name: email
             description: The email address of the customer.
           - name: created_at
@@ -282,10 +282,10 @@ sources:
             description: Boolean indicating if the payment value is valid.
           - name: has_payment_method_in_dunning
             description: Boolean indicating if the customer has a credit card in dunning.
+          - name: tax_exempt
+            description: Boolean indicating if the customer is tax exempt.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
-          - name: _fivetran_synced
-            description: "{{ doc('_fivetran_synced') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
@@ -352,6 +352,8 @@ sources:
             description: The price of the item before discounts, taxes, or shipping have been applied.
           - name: quantity
             description: The number of items in the onetime purchase.
+          - name: external_product_id_ecommerce
+            description: The product ID that links to your external ecommerce platform.
           - name: external_variant_id_ecommerce
             description: The variant ID that links to your external ecommerce platform.
           - name: sku
@@ -480,7 +482,7 @@ sources:
           - name: payment_type
             description: The type of payment this is.
           - name: payment_processor
-            description: Possible values - stripe, braintree, authorize, shopify_payments, mollie.
+            description: Possible values - STRIPE, BRAINTREE, AUTHORIZE, SHOPIFY_PAYMENTS, MOLLIE.
           - name: status
             description: State of the payment method.
           - name: status_reason

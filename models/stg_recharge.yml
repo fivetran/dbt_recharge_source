@@ -90,7 +90,7 @@ models:
         description: A comma-separated list of tags on the charge.
       - name: error
         description: Error reason as sentence text (typically returned directly from the payment processor - e.g. "customer needs to update credit card").
-      - name: external_variant_id_ecommerce_not_found
+      - name: external_variant_id_not_found
         description: Indicates if Recharge was able to find the external_variant_id_ecommerce from the charge.
       - name: tax_lines
         description: An array of tax lines that apply to the charge.
@@ -275,7 +275,7 @@ models:
       - name: customer_hash
         description: The unique string identifier used in a customer portal link.
       - name: external_customer_id_ecommerce
-        description: Shopify's unique identifier for the customer.
+        description: External platform's identifier for the customer.
       - name: email
         description: The email address of the customer.
       - name: customer_full_name
@@ -296,6 +296,8 @@ models:
         description: Boolean indicating if the payment value is valid.
       - name: has_payment_method_in_dunning
         description: Boolean indicating if the customer has a credit card in dunning.
+      - name: tax_exempt
+        description: Boolean indicating if the customer is tax exempt.
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
@@ -360,6 +362,8 @@ models:
         description: The price of the item before discounts, taxes, or shipping have been applied.
       - name: quantity
         description: The number of items in the onetime purchase.
+      - name: external_product_id_ecommerce
+        description: The product ID that links to your external ecommerce platform.
       - name: external_variant_id_ecommerce
         description: The variant ID that links to your external ecommerce platform.
       - name: sku

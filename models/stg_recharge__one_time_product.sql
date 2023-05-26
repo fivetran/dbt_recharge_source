@@ -31,6 +31,7 @@ final as (
         variant_title,
         price,
         quantity,
+        external_product_id_ecommerce,
         external_variant_id_ecommerce,
         sku
     from fields
