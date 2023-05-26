@@ -20,19 +20,15 @@ fields as (
 final as (
 
     select
+        id as payment_method_id,
         customer_id,
-        index,
-        payment_processor,
+        created_at,
+        default,
         payment_type,
-        payment_token,
-        status as payment_status,
+        processor_name,
+        status,
         status_reason,
-        cardholder_name,
-        card_brand,
-        card_exp_month,
-        card_exp_year,
-        card_last_4,
-        has_payment_method_in_dunning
+        updated_at
     from fields
 )
 

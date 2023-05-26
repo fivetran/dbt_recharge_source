@@ -23,7 +23,6 @@ vars:
     recharge_order_identifier: "order_data" # Uncomment for generating docs -- Comment this out before sending to buildkite.
     recharge_order_line_item_identifier: "order_line_item_data"
     recharge_payment_method_identifier: "payment_method_data"
-    recharge_plan_identifier: "plan_data"
     recharge_subscription_identifier: "subscription_data"
     recharge_subscription_history_identifier: "subscription_history_data"
 

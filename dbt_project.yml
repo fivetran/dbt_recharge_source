@@ -20,7 +20,6 @@ vars:
     order: "{{ source('recharge','order') }}"
     order_line_item: "{{ source('recharge','order_line_item') }}"
     payment_method: "{{ source('recharge','payment_method') }}"
-    plan: "{{ source('recharge','plan') }}"
     subscription: "{{ source('recharge','subscription') }}"
     subscription_history: "{{ source('recharge','subscription_history') }}"
     recharge__address_passthrough_columns: [] 
@@ -28,7 +27,6 @@ vars:
     recharge__charge_line_item_passthrough_columns: [] 
     recharge__order_passthrough_columns: [] 
     recharge__order_line_passthrough_columns: [] 
-    recharge__plan_passthrough_columns: [] 
     recharge__subscription_passthrough_columns: [] 
     recharge__subscription_history_passthrough_columns: []
 

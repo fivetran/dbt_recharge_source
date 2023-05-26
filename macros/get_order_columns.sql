@@ -14,7 +14,6 @@
     {"name": "status", "datatype": dbt.type_string()},
     {"name": "total_price", "datatype": dbt.type_float()},
     {"name": "type", "datatype": dbt.type_string()},
-    {"name": "external_cart_token", "datatype": dbt.type_string()},
     {"name": "external_order_id_ecommerce", "datatype": dbt.type_string()},
     {"name": "external_order_number_ecommerce", "datatype": dbt.type_int()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},

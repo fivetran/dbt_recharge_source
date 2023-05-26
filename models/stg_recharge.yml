@@ -466,70 +466,27 @@ models:
   - name: stg_recharge__payment_method
     description: Table of payment and billing information.
     columns:
+      - name: payment_method_id
+        description: The unique payment method id for a customer.
+        tests:
+          - unique
+          - not_null
       - name: customer_id
         description: "{{ doc('customer_id') }}"
-        tests:
-          - unique
-          - not_null
-      - name: index
-        description: A unique numeric row produced for every concurrent customer_id.
-      - name: payment_processor
-        description: Possible values are STRIPE, BRAINTREE, AUTHORIZE, SHOPIFY_PAYMENTS, MOLLIE.
+      - name: created_at
+            description: The date and time when the payment method was created.
+      - name: default
+        description: Boolean if this is the default Payment_method for the Customer.
       - name: payment_type
-        description: The type of payment this is.
-      - name: payment_token
-        description: The customer token at the processor.
-      - name: payment_status
-        description: State of the payment method.
+        description: Possible values - CREDIT_CARD, PAYPAL, APPLE_PAY, GOOGLE_PAY, SEPA_DEBIT
+      - name: processor_name
+        description: Possible values - STRIPE, BRAINTREE, AUTHORIZE, SHOPIFY_PAYMENTS, MOLLIE
+      - name: status
+        description: Possible values - UNVALIDATED, VALID, INVALID, EMPTY
       - name: status_reason
         description: The status reason for the payment method.
-      - name: cardholder_name
-        description: The name of the card holder.
-      - name: card_brand
-        description: The brand of the card.
-      - name: card_exp_month
-        description: The card expiry month.
-      - name: card_exp_year
-        description: The card expiry year.
-      - name: card_last_4
-        description: The last 4 digits of the identifier.
-      - name: has_payment_method_in_dunning
-        description: Boolean indicating if the customer has a credit card in dunning.
-
-  - name: stg_recharge__plan
-    description: Table of all products sold on the merchant's website.
-    columns:
-      - name: product_id
-        description: The unique ID of the product.
-        tests:
-          - unique
-          - not_null
-      - name: product_title
-        description: The product title that links to your external ecommerce platform.
-      - name: discount_amount
-        description: The discount amount applied to the product price when purchased through this Plan.
-      - name: discount_type
-        description: The type of discount.
-      - name: handle
-        description: A human-friendly unique string for the product automatically generated from your external ecommerce platform.
-      - name: large_image
-        description: A large image file of the product.
-      - name: medium_image
-        description: A medium image file of the product.
-      - name: original_image
-        description: The original image file of the product.
-      - name: small_image
-        description: A small image file of the product.
-      - name: collection_id
-        description: Unique numeric identifier for the rule set charge in Recharge.
-      - name: external_product_id_ecommerce
-        description: Unique numeric identifier of the product in your external ecommerce platform.
-      - name: plan_created_at
-        description: The date and time when the product was created.
-      - name: plan_updated_at
-        description: The date and time when the product was updated.
-      - name: is_deleted
-        description: Boolean indicating if a row have been deleted in the source.
+      - name: updated_at
+        description: Last time the Payment_method was updated.
 
   - name: stg_recharge__subscription
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
