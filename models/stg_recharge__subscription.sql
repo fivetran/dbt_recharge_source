@@ -27,7 +27,7 @@ final as (
         product_title,
         variant_title,
         sku,
-        price,
+        cast(price as {{ dbt.type_float() }}) as price,
         quantity,
         status as subscription_status,
         next_charge_scheduled_at as subscription_next_charge_scheduled_at,

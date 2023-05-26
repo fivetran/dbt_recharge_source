@@ -28,7 +28,12 @@ final as (
         sku,
         quantity,
         grams,
-        price,
+        total_price,
+        unit_price,
+        tax_due,
+        taxable,
+        taxable_amount,
+        unit_price_includes_tax,
         purchase_item_id,
         purchase_item_type
 

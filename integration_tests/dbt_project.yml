@@ -42,7 +42,7 @@ seeds:
       NEXT_CHARGE_SCHEDULED_AT: "timestamp"
       SCHEDULED_AT: "timestamp"
       SUBTOTAL_PRICE: "float"
-      TOTAL_PRICE: "float"
+      TOTAL_PRICE: "{{ 'string' if target.name in ['bigquery', 'spark', 'databricks'] else 'varchar' }}"
       UPDATED_AT: "timestamp"
       ID: "{{ 'INT64' if target.type == 'bigquery' else 'bigint' }}"
       ADDRESS_ID: "{{ 'INT64' if target.type == 'bigquery' else 'bigint' }}"

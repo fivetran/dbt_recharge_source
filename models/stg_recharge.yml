@@ -34,6 +34,8 @@ models:
         description: The company name associated with the customer.
       - name: phone
         description: The phone number associated with the customer.
+      - name: payment_method_id
+        description: Unique numeric identifier for the Payment Method associated to the Address.
 
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
@@ -177,9 +179,19 @@ models:
       - name: grams
         description: The weight of the charge's line item in grams.
       - name: quantity
-        description: The number of items associated to the subscription and therefore the subsequent charge.
-      - name: price
-        description: The price of the charge's line item.
+        description: The quantity of the line_item.
+      - name: total_price
+        description: The total price of the line_item including tax.
+      - name: unit_price
+        description: The unit price of the line_item.
+      - name: tax_due
+        description: The total tax due associated with the line_item.
+      - name: taxable
+        description: A boolean indicating if the line_item is taxable or non-taxable.
+      - name: taxable_amount
+        description: The taxable revenue associated with the line_item.
+      - name: unit_price_includes_tax
+        description: A boolean indicator if tax is included in the price of an item.
       - name: external_product_id_ecommerce
         description: The product ID that links to your external ecommerce platform.
       - name: external_variant_id_ecommerce
@@ -303,7 +315,7 @@ models:
         description: The expiration time of the discount, past this time the discount can no longer be redeemed, once the time of the discount has passed the status of the discount will go from 'active' to 'disabled'.
       - name: discount_code
         description: The code used to apply the discount.
-      - name: discount_amount
+      - name: discount_value
         description: The discounted value to be applied.
       - name: discount_status
         description: The status of the discount. Possible values are ENABLED, DISABLED, or FULLY_DISABLED.
@@ -384,7 +396,7 @@ models:
       - name: charge_status
         description: "{{ doc('charge_status') }}"
       - name: is_prepaid
-        description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
+        description: Boolean indicating if the Order is prepaid.
       - name: order_total_price
         description: The total amount due of the Order.
       - name: order_type
@@ -426,8 +438,18 @@ models:
         description: The number of products that were purchased.
       - name: grams
         description: Weight in grams of the item.
-      - name: price
-        description: The price of the item in the order.
+      - name: total_price
+        description: The total price of the line_item including tax.
+      - name: unit_price
+        description: The unit price of the line_item.
+      - name: tax_due
+        description: The total tax due associated with the line_item.
+      - name: taxable
+        description: A boolean indicating if the line_item is taxable or non-taxable.
+      - name: taxable_amount
+        description: The taxable revenue associated with the line_item.
+      - name: unit_price_includes_tax
+        description: A boolean indicator if tax is included in the price of an item.
       - name: purchase_item_id
         description: The subscription or onetime ID associated with the line_item.
       - name: purchase_item_type
@@ -477,7 +499,7 @@ models:
       - name: product_title
         description: The product title that links to your external ecommerce platform.
       - name: discount_amount
-        description: The discount amount applied on the product.
+        description: The discount amount applied to the product price when purchased through this Plan.
       - name: discount_type
         description: The type of discount.
       - name: handle

@@ -34,7 +34,7 @@ final as (
         total_discounts,
         total_line_items_price,
         total_tax,
-        total_price,
+        cast(total_price as {{ dbt.type_float() }}) as total_price,
         total_refunds,
         total_weight_grams,
         cast(scheduled_at as {{ dbt.type_timestamp() }}) as charge_scheduled_at,

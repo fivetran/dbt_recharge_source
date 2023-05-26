@@ -15,8 +15,8 @@
     {"name": "external_product_id_ecommerce", "datatype": dbt.type_int()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
-    {"name": "is_deleted", "datatype": "boolean"},
-    {"name": "_fivetran_deleted", "datatype": "boolean"}
+    {"name": "is_deleted", "datatype": dbt.type_boolean()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__plan_passthrough_columns')) }}

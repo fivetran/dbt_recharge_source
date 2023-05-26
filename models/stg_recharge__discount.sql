@@ -26,7 +26,7 @@ final as (
         cast(starts_at as {{ dbt.type_timestamp() }}) as discount_starts_at,
         cast(ends_at as {{ dbt.type_timestamp() }}) as discount_ends_at,
         code as discount_code,
-        value as discount_amount,
+        value as discount_value,
         status as discount_status,
         usage_limits,
         applies_to,

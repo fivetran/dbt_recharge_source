@@ -12,10 +12,10 @@
     {"name": "last_name", "datatype": dbt.type_string()},
     {"name": "subscriptions_active_count", "datatype": dbt.type_int()},
     {"name": "subscriptions_total_count", "datatype": dbt.type_int()},
-    {"name": "has_valid_payment_method", "datatype": "boolean"},
-    {"name": "has_payment_method_in_dunning", "datatype": "boolean"},
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
-    {"name": "tax_exempt", "datatype": "boolean"}
+    {"name": "has_valid_payment_method", "datatype": dbt.type_boolean()},
+    {"name": "has_payment_method_in_dunning", "datatype": dbt.type_boolean()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
+    {"name": "tax_exempt", "datatype": dbt.type_boolean()}
 ] %}
 
 {% if target.type == 'bigquery' %}

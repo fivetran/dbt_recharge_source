@@ -27,7 +27,7 @@
     {"name": "external_transaction_id_payment_processor", "datatype": dbt.type_string()},
     {"name": "email", "datatype": dbt.type_string()},
     {"name": "payment_processor", "datatype": dbt.type_string()},
-    {"name": "has_uncommitted_changes", "datatype": "boolean"},
+    {"name": "has_uncommitted_changes", "datatype": dbt.type_boolean()},
     {"name": "retry_date", "datatype": dbt.type_timestamp()},
     {"name": "error_type", "datatype": dbt.type_string()},
     {"name": "error", "datatype": dbt.type_string()},
@@ -35,7 +35,7 @@
     {"name": "external_variant_id_ecommerce_not_found", "datatype": dbt.type_string()},
     {"name": "client_details_browser_ip", "datatype": dbt.type_string()},
     {"name": "client_details_user_agent", "datatype": dbt.type_string()},
-    {"name": "_fivetran_deleted", "datatype": "boolean"}
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__charge_passthrough_columns')) }}

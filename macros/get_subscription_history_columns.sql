@@ -25,7 +25,7 @@
     {"name": "order_day_of_week", "datatype": dbt.type_int()},
     {"name": "order_day_of_month", "datatype": dbt.type_int()},
     {"name": "expire_after_specific_number_of_charges", "datatype": dbt.type_int()},
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": "type_timestamp"},
     {"name": "property_shipping_interval_unit_type", "datatype": dbt.type_string()},
     {"name": "property_shipping_interval_frequency", "datatype": dbt.type_string()},

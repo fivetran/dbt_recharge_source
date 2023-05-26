@@ -42,6 +42,8 @@ sources:
             description: The date and time when the address was created.
           - name: updated_at
             description: The date and time when the address was last updated.
+          - name: payment_method_id
+            description: Unique numeric identifier for the Payment Method associated to the Address.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
           - name: _fivetran_synced
@@ -168,12 +170,22 @@ sources:
             description: The name of the product variant that links to your external ecommerce platform.
           - name: title
             description: The product title that links to your external ecommerce platform.
-          - name: quantity
-            description: The number of items associated to the subscription and therefore the subsequent charge.
           - name: grams
             description: The weight of the charge's line item in grams.
-          - name: price
-            description: The price of the charge's line item.
+          - name: quantity
+            description: The quantity of the line_item.
+          - name: total_price
+            description: The total price of the line_item including tax.
+          - name: unit_price
+            description: The unit price of the line_item.
+          - name: tax_due
+            description: The total tax due associated with the line_item.
+          - name: taxable
+            description: A boolean indicating if the line_item is taxable or non-taxable.
+          - name: taxable_amount
+            description: The taxable revenue associated with the line_item.
+          - name: unit_price_includes_tax
+            description: A boolean indicator if tax is included in the price of an item.
           - name: property_title
             description: The title of the product.
           - name: purchase_item_id
@@ -372,7 +384,7 @@ sources:
           - name: charge_status
             description:  "{{ doc('charge_status') }}"
           - name: is_prepaid
-            description: An order that has been paid for a pre-determined number of months, accepted values; 0 = "No" and 1 = "Yes".
+            description:  Boolean indicating if the Order is prepaid.
           - name: status
             description:  "{{ doc('order_status') }}"
           - name: total_price
@@ -414,8 +426,18 @@ sources:
             description: The number of products that were purchased.
           - name: grams
             description: Weight in grams of the item.
-          - name: price
-            description: The price of the item in the order.
+          - name: total_price
+            description: The total price of the line_item including tax.
+          - name: unit_price
+            description: The unit price of the line_item.
+          - name: tax_due
+            description: The total tax due associated with the line_item.
+          - name: taxable
+            description: A boolean indicating if the line_item is taxable or non-taxable.
+          - name: taxable_amount
+            description: The taxable revenue associated with the line_item.
+          - name: unit_price_includes_tax
+            description: A boolean indicator if tax is included in the price of an item.
           - name: purchase_item_id
             description: The subscription or onetime ID associated with the line_item.
           - name: purchase_item_type
@@ -475,9 +497,9 @@ sources:
           - name: title
             description: The product title that links to your external ecommerce platform.
           - name: discount_amount
-            description: The discount amount applied on the product.
+            description: The discounted value to be applied.
           - name: discount_type
-            description: The type of discount.
+            description: The type of discount. Possible values - fixed_amount, percentage, shipping
           - name: handle
             description: A human-friendly unique string for the product automatically generated from your external ecommerce platform.
           - name: large_image

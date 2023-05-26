@@ -29,7 +29,7 @@ final as (
         external_variant_id_ecommerce,
         variant_title,
         sku,
-        price,
+        cast(price as {{ dbt.type_float() }}) as price,
         quantity,
         status as subscription_status,
         charge_interval_frequency,

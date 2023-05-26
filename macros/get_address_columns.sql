@@ -16,7 +16,8 @@
     {"name": "phone", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
-    {"name": "_fivetran_deleted", "datatype": "boolean"}
+    {"name": "payment_method_id", "datatype": dbt.type_int()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__address_passthrough_columns')) }}
