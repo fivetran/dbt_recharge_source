@@ -133,7 +133,7 @@ models:
       - name: client_details_user_agent
         description: The user agent detected during checkout.
 
-  - name: stg_recharge__charge_discount_code
+  - name: stg_recharge__charge_discount
     description: Table of all charge discount codes.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -148,9 +148,13 @@ models:
       - name: index
         description: A unique numeric row produced for every concurrent charge_id.
       - name: discount_id
-        description: The ID of the discount associated to the charge.
-      - name: amount
-        description: The amount of the discount.
+        description: The ID of the discount associated with the charge.
+      - name: code
+        description: The code used to apply the discount.
+      - name: value
+        description: The discounted value to be applied.
+      - name: value_type
+        description: Possible values - FIXED_AMOUNT, PERCENTAGE, SHIPPING
 
   - name: stg_recharge__charge_line_item
     description: Table of all charge line items, each containing information about a distinct purchase item.

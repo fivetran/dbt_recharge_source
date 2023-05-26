@@ -143,18 +143,22 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
-      - name: charge_discount_code
-        identifier: "{{ var('recharge_charge_discount_code_identifier','charge_discount_code') }}"
+      - name: charge_discount
+        identifier: "{{ var('recharge_charge_discount_identifier','charge_discount') }}"
         description: Table of all charge discount codes.
         columns:
           - name: charge_id
             description: "{{ doc('charge_id') }}"
           - name: index
             description: A unique numeric row produced for every concurrent charge_id.
-          - name: discount_id
+          - name: id
             description: The ID of the discount associated with the charge.
-          - name: amount
-            description: The amount of the discount.
+          - name: code
+            description: The code used to apply the discount.
+          - name: value
+            description: The discounted value to be applied.
+          - name: value_type
+            description: Possible values - FIXED_AMOUNT, PERCENTAGE, SHIPPING
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
