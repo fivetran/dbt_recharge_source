@@ -149,7 +149,7 @@ models:
         description: The ID of the discount associated with the charge.
       - name: code
         description: The code used to apply the discount.
-      - name: value
+      - name: discount_value
         description: The discounted value to be applied.
       - name: value_type
         description: Possible values - FIXED_AMOUNT, PERCENTAGE, SHIPPING

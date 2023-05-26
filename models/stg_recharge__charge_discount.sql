@@ -24,7 +24,7 @@ final as (
         index,
         id as discount_id, 
         code,
-        value,
+        cast(value as {{ dbt.type_float() }}) as discount_value,
         value_type
     from fields
 )
