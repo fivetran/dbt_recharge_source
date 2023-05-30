@@ -33,7 +33,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 ```
 
-## Step 2: Install the package (skip if also using the `shopify` transformation package)
+## Step 2: Install the package (skip if also using the `recharge` transformation package)
 If you are **not** using the [Recharge transformation package](https://github.com/fivetran/dbt_recharge), include the following package version in your `packages.yml` file. If you are installing the transform package, the source package is automatically installed as a dependency.
 
 Include the following recharge_source package version in your `packages.yml` file.
