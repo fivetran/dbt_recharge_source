@@ -34,8 +34,7 @@
     {"name": "charge_attempts", "datatype": dbt.type_int()},
     {"name": "external_variant_id_not_found", "datatype": dbt.type_string()},
     {"name": "client_details_browser_ip", "datatype": dbt.type_string()},
-    {"name": "client_details_user_agent", "datatype": dbt.type_string()},
-    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
+    {"name": "client_details_user_agent", "datatype": dbt.type_string()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__charge_passthrough_columns')) }}

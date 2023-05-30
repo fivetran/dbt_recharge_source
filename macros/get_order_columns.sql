@@ -20,8 +20,7 @@
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "processed_at", "datatype": dbt.type_timestamp()},
     {"name": "scheduled_at", "datatype": dbt.type_timestamp()},
-    {"name": "shipped_date", "datatype": dbt.type_timestamp()},
-    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
+    {"name": "shipped_date", "datatype": dbt.type_timestamp()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('recharge__order_passthrough_columns')) }}

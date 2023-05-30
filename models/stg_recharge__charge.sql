@@ -57,7 +57,6 @@ final as (
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns') }}
 
     from fields
-    where not coalesce(_fivetran_deleted, false)
 )
 
 select *
