@@ -1,4 +1,3 @@
-# WORK IN PROGRESS !!
 <p align="center">
     <a alt="License"
         href="https://github.com/fivetran/dbt_recharge_source/blob/main/LICENSE">
