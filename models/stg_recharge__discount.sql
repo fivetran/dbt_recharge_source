@@ -25,20 +25,15 @@ final as (
         cast(updated_at as {{ dbt.type_timestamp() }}) as discount_updated_at,
         cast(starts_at as {{ dbt.type_timestamp() }}) as discount_starts_at,
         cast(ends_at as {{ dbt.type_timestamp() }}) as discount_ends_at,
-        code as discount_code,
-        value as discount_amount,
-        discount_type,
-        status as discount_status,
-        times_used,
-        usage_limit,
+        code,
+        value,
+        status,
+        usage_limits,
         applies_to,
         applies_to_resource,
         applies_to_id,
         applies_to_product_type,
-        duration,
-        duration_usage_limit,
-        minimum_order_amount,
-        once_per_customer as is_once_per_customer
+        minimum_order_amount
     from fields
 )
 

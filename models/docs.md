@@ -15,11 +15,15 @@ The unique identifier of the address.
 {% enddocs %}
 
 {% docs charge_id %}
-TThe unique identifier of the charge.
+The unique identifier of the charge.
 {% enddocs %}
 
 {% docs customer_id %}
 The unique identifier of the customer.
+{% enddocs %}
+
+{% docs discount_id %}
+The unique identifier of the discount.
 {% enddocs %}
 
 {% docs order_id %}

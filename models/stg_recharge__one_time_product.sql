@@ -31,9 +31,8 @@ final as (
         variant_title,
         price,
         quantity,
-        status as one_time_status,
-        shopify_variant_id,
-        recharge_product_id,
+        external_product_id_ecommerce,
+        external_variant_id_ecommerce,
         sku
     from fields
     where not coalesce(_fivetran_deleted, false)

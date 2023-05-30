@@ -22,15 +22,21 @@ final as (
     select
         order_id,
         index,
-        subscription_id,
-        shopify_product_id,
-        product_title as product_title_1,
-        title as product_title_2,
-        variant_title product_variant_title,
+        external_product_id_ecommerce,
+        external_variant_id_ecommerce,
+        title as order_line_item_title,
+        variant_title as product_variant_title,
         sku,
         quantity,
         grams,
-        price
+        cast(total_price as {{ dbt.type_float() }}) as total_price,
+        unit_price,
+        tax_due,
+        taxable,
+        taxable_amount,
+        unit_price_includes_tax,
+        purchase_item_id,
+        purchase_item_type
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__order_line_passthrough_columns') }}
     from fields
