@@ -22,6 +22,10 @@ The unique identifier of the charge.
 The unique identifier of the customer.
 {% enddocs %}
 
+{% docs discount_id %}
+The unique identifier of the discount.
+{% enddocs %}
+
 {% docs order_id %}
 The unique identifier of the order.
 {% enddocs %}

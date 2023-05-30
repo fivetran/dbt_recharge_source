@@ -18,7 +18,6 @@
     {"name": "external_product_id_ecommerce", "datatype": dbt.type_int()},
     {"name": "external_variant_id_ecommerce", "datatype": dbt.type_int()},
     {"name": "vendor", "datatype": dbt.type_string()},
-    {"name": "property_title", "datatype": dbt.type_string()},
     {"name": "purchase_item_id", "datatype": dbt.type_int()},
     {"name": "purchase_item_type", "datatype": dbt.type_string()}
 ] %}

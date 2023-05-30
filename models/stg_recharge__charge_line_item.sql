@@ -24,7 +24,6 @@ final as (
         index,
         vendor,
         title,
-        property_title,
         variant_title,
         sku,
         grams,

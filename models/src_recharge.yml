@@ -47,6 +47,21 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
+      - name: address_discounts
+        identifier: "{{ var('recharge_address_discounts_identifier','address_discounts') }}"
+        description: Table of addresses and associated discounts.
+        columns:
+          - name: address_id
+            description: "{{ doc('address_id') }}"
+          - name: index
+            description: A unique numeric row produced for every concurrent address_id.
+          - name: id
+            description: "{{ doc('discount_id') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
       - name: address_shipping_line
         identifier: "{{ var('recharge_address_shipping_line_identifier','address_shipping_line') }}"
         description: Table of all addresses and corresponding associated shipping information.
@@ -150,7 +165,7 @@ sources:
           - name: index
             description: A unique numeric row produced for every concurrent charge_id.
           - name: id
-            description: The ID of the discount associated with the charge.
+            description: "{{ doc('discount_id') }}"
           - name: code
             description: The code used to apply the discount.
           - name: value
@@ -188,8 +203,6 @@ sources:
             description: The taxable revenue associated with the line_item.
           - name: unit_price_includes_tax
             description: A boolean indicator if tax is included in the price of an item.
-          - name: property_title
-            description: The title of the product.
           - name: purchase_item_id
             description: The subscription or onetime ID associated with the line_item.
           - name: purchase_item_type
@@ -296,7 +309,7 @@ sources:
         description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
         columns:
           - name: id
-            description: Unique numeric identifier for the discount in Recharge.
+            description: "{{ doc('discount_id') }}"
           - name: created_at
             description: The date and time when the discount was created.
           - name: updated_at
