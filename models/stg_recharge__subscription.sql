@@ -35,6 +35,8 @@ final as (
         expire_after_specific_number_of_charges,
         order_interval_frequency,
         order_interval_unit,
+        order_day_of_week,
+        order_day_of_month,
         cast(updated_at as {{ dbt.type_timestamp() }}) as subscription_updated_at,
         external_product_id_ecommerce,
         external_variant_id_ecommerce,
