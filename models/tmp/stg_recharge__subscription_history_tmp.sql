@@ -1,7 +1,3 @@
-
-select *
-from {{ var('subscription_history') }}
-
 {{
     fivetran_utils.union_data(
         table_identifier='subscription_history', 
@@ -9,7 +5,7 @@ from {{ var('subscription_history') }}
         schema_variable='recharge_schema', 
         default_database=target.database,
         default_schema='recharge',
-        default_variable_source='subscription_history_source',
+        default_variable='subscription_history_source',
         union_schema_variable='recharge_union_schemas',
         union_database_variable='recharge_union_databases'
     )

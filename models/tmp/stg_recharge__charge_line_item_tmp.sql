@@ -1,7 +1,3 @@
-
-select *
-from {{ var('charge_line_item') }}
-
 {{
     fivetran_utils.union_data(
         table_identifier='charge_line_item', 
@@ -9,7 +5,7 @@ from {{ var('charge_line_item') }}
         schema_variable='recharge_schema', 
         default_database=target.database,
         default_schema='recharge',
-        default_variable_source='charge_line_item_source',
+        default_variable='charge_line_item_source',
         union_schema_variable='recharge_union_schemas',
         union_database_variable='recharge_union_databases'
     )

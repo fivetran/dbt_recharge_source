@@ -1,7 +1,3 @@
-
-select *
-from {{ var('discount') }}
-
 {{
     fivetran_utils.union_data(
         table_identifier='discount', 
@@ -9,7 +5,7 @@ from {{ var('discount') }}
         schema_variable='recharge_schema', 
         default_database=target.database,
         default_schema='recharge',
-        default_variable_source='discount_source',
+        default_variable='discount_source',
         union_schema_variable='recharge_union_schemas',
         union_database_variable='recharge_union_databases'
     )
