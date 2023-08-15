@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_address_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -33,7 +38,8 @@ final as (
         zip,
         country_code,
         company,
-        phone
+        phone,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__address_passthrough_columns') }}
 

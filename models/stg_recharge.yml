@@ -2,8 +2,14 @@
 version: 2
 
 models:
+
   - name: stg_recharge__address
     description: Table of all addresses, an address represents a shipping address. Each customer can have multiple addresses, subscriptions are a child object of an address.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - address_id
+            - source_relation
     columns:
       - name: address_id
         description: "{{ doc('address_id') }}"
@@ -36,6 +42,8 @@ models:
         description: The company name associated with the customer.
       - name: phone
         description: The phone number associated with the customer.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__address_discounts
     description: Table of all addresses and corresponding associated shipping information.
@@ -44,6 +52,7 @@ models:
           combination_of_columns:
             - address_id
             - index
+            - source_relation
     columns:
       - name: address_id
         description: "{{ doc('address_id') }}"
@@ -53,6 +62,8 @@ models:
         description: A unique numeric row produced for every concurrent address_id.
       - name: discount_id
         description: "{{ doc('discount_id') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__address_shipping_line
     description: Table of all addresses and corresponding associated shipping information.
@@ -61,6 +72,7 @@ models:
           combination_of_columns:
             - address_id
             - index
+            - source_relation
     columns:
       - name: address_id
         description: "{{ doc('address_id') }}"
@@ -74,14 +86,20 @@ models:
         description: The type of the shipping, can contain geographical shipping information. 
       - name: title
         description: The type of shipping consignment.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__charge
     description: Table of all charges (financial transactions) linked to the purchase of an item. A charge is linked to a corresponding order, an order is created once the corresponding charge is successful.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - charge_id
+            - source_relation
     columns:
       - name: charge_id
         description: "{{ doc('charge_id') }}"
         tests:
-          - unique
           - not_null
       - name: customer_id
         description: "{{ doc('customer_id') }}"
@@ -147,6 +165,8 @@ models:
         description: The IP address of the buyer detected in checkout.
       - name: client_details_user_agent
         description: The user agent detected during checkout.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__charge_discount
     description: Table of all charge discount codes.
@@ -155,6 +175,7 @@ models:
           combination_of_columns:
             - charge_id
             - index
+            - source_relation
     columns:
       - name: charge_id
         description: "{{ doc('charge_id') }}"
@@ -170,6 +191,8 @@ models:
         description: The discounted value to be applied.
       - name: value_type
         description: Possible values - FIXED_AMOUNT, PERCENTAGE, SHIPPING
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__charge_line_item
     description: Table of all charge line items, each containing information about a distinct purchase item.
@@ -178,6 +201,7 @@ models:
           combination_of_columns:
             - charge_id
             - index
+            - source_relation
     columns:
       - name: charge_id
         description: "{{ doc('charge_id') }}"
@@ -217,6 +241,8 @@ models:
         description: The subscription or onetime ID associated with the line_item.
       - name: purchase_item_type
         description: Possible values are SUBSCRIPTION, ONETIME.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__charge_order_attribute
     description: Table of notes associated to their corresponding charges.
@@ -225,6 +251,7 @@ models:
           combination_of_columns:
             - charge_id
             - index
+            - source_relation
     
     columns:
       - name: charge_id
@@ -235,6 +262,8 @@ models:
         description: A unique numeric row produced for every concurrent charge_id.
       - name: order_attribute
         description: An array of name-value pairs of order attributes on the charge.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__charge_shipping_line
     description: Table of all shipping information associated to their corresponding charges.
@@ -243,6 +272,7 @@ models:
           combination_of_columns:
             - charge_id
             - index
+            - source_relation
     
     columns:
       - name: charge_id
@@ -257,6 +287,8 @@ models:
         description: The code associated with the shipping line of a charge.
       - name: title
         description: The title of the shipping line.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__charge_tax_line
     description: Table of tax line information associated to their corresponding charges.
@@ -265,7 +297,7 @@ models:
           combination_of_columns:
             - charge_id
             - index
-    
+            - source_relation
     columns:
       - name: charge_id
         description: "{{ doc('charge_id') }}"
@@ -279,15 +311,20 @@ models:
         description: The tax rate associated with the listed jurisdiction.
       - name: title
         description: The title/name of the taxing jurisdiction.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__customer
     description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
-    
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - source_relation
     columns:
       - name: customer_id
         description: "{{ doc('customer_id') }}"
         tests:
-          - unique
           - not_null
       - name: customer_hash
         description: The unique string identifier used in a customer portal link.
@@ -315,14 +352,20 @@ models:
         description: Boolean indicating if the customer has a credit card in dunning.
       - name: tax_exempt
         description: Boolean indicating if the customer is tax exempt.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - discount_id
+            - source_relation
     columns:
       - name: discount_id
         description: Unique numeric identifier for the discount in Recharge.
         tests:
-          - unique
           - not_null
       - name: discount_created_at
         description: The date and time when the discount was created.
@@ -350,14 +393,20 @@ models:
         description: Indicates which product types the discount applies to.
       - name: minimum_order_amount
         description: The minimum cart subtotal needed for the discount to be applicable. `duration` has to be `single_use` and the discount must apply to the entire order.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__one_time_product
     description: Table of all one-times which represent non-recurring line items on a queued charges.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - one_time_product_id
+            - source_relation
     columns:
       - name: one_time_product_id
         description: The unique numeric identifier for the onetime purchase.
         tests:
-          - unique
           - not_null
       - name: address_id
         description: The unique identifier of the address. Cannot be used with `next_charge_scheduled_at`.
@@ -385,14 +434,20 @@ models:
         description: The variant ID that links to your external ecommerce platform.
       - name: sku
         description: The unique identifier of the item in fulfillment.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__order
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - source_relation
     description: Table of all orders after a charge is successfully processed.
     columns:
       - name: order_id
         description: "{{ doc('charge_id') }}"
         tests:
-          - unique
           - not_null
       - name: external_order_id_ecommerce
         description: Unique numeric identifier within your external ecommerce platform for the order.
@@ -430,6 +485,8 @@ models:
         description: "{{ doc('address_id') }}"
       - name: is_deleted
         description: Boolean indicating if the order (record) is deleted.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__order_line_item
     description: Table of all order line items. Each line containing information about an item in the order.
@@ -438,6 +495,7 @@ models:
           combination_of_columns:
             - order_id
             - index
+            - source_relation
     columns:
       - name: order_id
         description: "{{ doc('charge_id') }}"
@@ -475,14 +533,20 @@ models:
         description: The subscription or onetime ID associated with the line_item.
       - name: purchase_item_type
         description: Possible values are SUBSCRIPTION, ONETIME.
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: stg_recharge__subscription
     description: Table of all subscriptions for the merchant. Subscriptions are individual items a customer receives on a recurring basis.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - subscription_id
+            - source_relation
     columns:
       - name: subscription_id
         description: "{{ doc('subscription_id') }}"
         tests:
-          - unique
           - not_null
       - name: customer_id
         description: "{{ doc('customer_id') }}"
@@ -528,7 +592,9 @@ models:
         description: Reason provided for cancellation.
       - name: cancellation_reason_comments
         description: Additional comment for cancellation.
-        
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
   - name: stg_recharge__subscription_history
     description: History table that builds over time. Does not capture history prior to connecting Fivetran.
     tests:
@@ -536,6 +602,7 @@ models:
           combination_of_columns:
             - subscription_id
             - subscription_updated_at
+            - source_relation
     columns:
       - name: subscription_id
         description: "{{ doc('subscription_id') }}"
@@ -589,3 +656,5 @@ models:
         description: Boolean indicating whether record was the most recent instance.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"

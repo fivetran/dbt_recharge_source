@@ -1,3 +1,5 @@
+# dbt_recharge_source v0.2.0
+- Added union schema functionality
 # dbt_recharge_source v0.1.0
 🎉 This is the initial release of this package! 🎉
 ## 📣 What does this dbt package do?

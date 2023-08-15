@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_customer_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -33,7 +38,8 @@ final as (
         subscriptions_total_count,
         has_valid_payment_method,
         has_payment_method_in_dunning,
-        tax_exempt
+        tax_exempt,
+        source_relation
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

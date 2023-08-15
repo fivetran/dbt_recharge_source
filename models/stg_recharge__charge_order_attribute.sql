@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_charge_order_attribute_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -22,7 +27,8 @@ final as (
     select
         charge_id,
         index,
-        order_attribute
+        order_attribute,
+        source_relation
     from fields
 )
 

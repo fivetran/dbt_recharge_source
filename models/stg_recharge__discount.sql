@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_discount_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -33,7 +38,8 @@ final as (
         applies_to_resource,
         applies_to_id,
         applies_to_product_type,
-        minimum_order_amount
+        minimum_order_amount,
+        source_relation
     from fields
 )
 

@@ -54,4 +54,6 @@ The status of the subscription. Possible values are ACTIVE, CANCELLED, EXPIRED.
 Possible values are CHECKOUT, RECURRING.
 {% enddocs %}
 
- "{{ doc('address_id') }}"
+{% docs source_relation %}
+The source of the record if the unioning functionality is being used. If not this field will be empty. 
+{% enddocs %}

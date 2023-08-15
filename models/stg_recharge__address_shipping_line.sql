@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_address_shipping_line_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -24,7 +29,8 @@ final as (
         index,
         price,
         code,
-        title
+        title,
+        source_relation
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

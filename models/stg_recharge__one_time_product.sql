@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_one_time_product_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -33,7 +38,8 @@ final as (
         quantity,
         external_product_id_ecommerce,
         external_variant_id_ecommerce,
-        sku
+        sku,
+        source_relation
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

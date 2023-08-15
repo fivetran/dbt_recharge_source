@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_subscription_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -42,7 +47,8 @@ final as (
         external_variant_id_ecommerce,
         cast(cancelled_at as {{ dbt.type_timestamp() }}) as subscription_cancelled_at,
         cancellation_reason,
-        cancellation_reason_comments
+        cancellation_reason_comments,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_passthrough_columns') }}
 

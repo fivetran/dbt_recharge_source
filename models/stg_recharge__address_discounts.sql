@@ -14,6 +14,12 @@ fields as (
                 staging_columns = get_address_discounts_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
+
     from base
 ),
 
@@ -22,8 +28,8 @@ final as (
     select
         id as discount_id,
         address_id,
-        index
-
+        index,
+        source_relation
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

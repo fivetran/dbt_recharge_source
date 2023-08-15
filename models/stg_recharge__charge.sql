@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_charge_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -52,7 +57,8 @@ final as (
         client_details_user_agent,
         tags,
         error,
-        external_variant_id_not_found
+        external_variant_id_not_found,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns') }}
 

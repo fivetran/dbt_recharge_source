@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_order_line_item_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -36,7 +41,8 @@ final as (
         taxable_amount,
         unit_price_includes_tax,
         purchase_item_id,
-        purchase_item_type
+        purchase_item_type,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__order_line_passthrough_columns') }}
     from fields

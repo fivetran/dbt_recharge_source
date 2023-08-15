@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_order_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -38,7 +43,8 @@ final as (
         cast(scheduled_at as {{ dbt.type_timestamp() }}) as order_scheduled_at,
         cast(shipped_date as {{ dbt.type_timestamp() }}) as order_shipped_date,
         address_id,
-        is_deleted
+        is_deleted,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__order_passthrough_columns') }}
 

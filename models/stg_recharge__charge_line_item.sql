@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_charge_line_item_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -37,7 +42,8 @@ final as (
         external_product_id_ecommerce,
         external_variant_id_ecommerce,
         purchase_item_id,
-        purchase_item_type
+        purchase_item_type,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_line_item_passthrough_columns') }}
 

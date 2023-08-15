@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_charge_discount_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -25,7 +30,8 @@ final as (
         id as discount_id, 
         code,
         cast(value as {{ dbt.type_float() }}) as discount_value,
-        value_type
+        value_type,
+        source_relation
     from fields
 )
 

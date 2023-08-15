@@ -2,7 +2,7 @@
 version: 2
 
 sources:
-  - name: recharge
+  - name: recharge # This source will only be used if you are using a single Recharge source connector. If multiple sources are being unioned, their tables will be directly referenced via adapter.get_relation.
     schema: "{{ var('recharge_schema', 'recharge') }}"
     database: "{% if target.type != 'spark'%}{{ var('recharge_database', target.database) }}{% endif %}"
 

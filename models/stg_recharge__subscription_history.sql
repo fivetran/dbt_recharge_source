@@ -14,6 +14,11 @@ fields as (
                 staging_columns = get_subscription_history_columns()
             )
         }}
+
+        {{ fivetran_utils.source_relation(
+            union_schema_variable='recharge_union_schemas', 
+            union_database_variable='recharge_union_databases') 
+        }}
     from base
 ),
 
@@ -44,7 +49,8 @@ final as (
         cancellation_reason,
         cancellation_reason_comments,
         _fivetran_synced,
-        row_number() over (partition by subscription_id order by _fivetran_synced desc) = 1 as is_most_recent_record
+        row_number() over (partition by source_relation, subscription_id order by _fivetran_synced desc) = 1 as is_most_recent_record,
+        source_relation
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_history_passthrough_columns') }}
 
