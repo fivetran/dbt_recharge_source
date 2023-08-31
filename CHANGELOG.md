@@ -1,3 +1,7 @@
+# dbt_recharge_source v0.1.1
+[PR #9](https://github.com/fivetran/dbt_recharge_source/pull/9) includes the following updates:
+- In `stg_recharge__subscription_history`, updated model to use `updated_at` column to determine most recent record. This column is part of the primary key for the history table and definitive, while the prior `_fivetran_synced` was less meaningful.
+
 # dbt_recharge_source v0.1.0
 🎉 This is the initial release of this package! 🎉
 ## 📣 What does this dbt package do?

@@ -587,5 +587,3 @@ models:
         description: Additional comment for cancellation.
       - name: is_most_recent_record
         description: Boolean indicating whether record was the most recent instance.
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
