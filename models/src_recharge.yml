@@ -378,10 +378,12 @@ sources:
 
       - name: order
         identifier: >
-          {%- if target.type == 'snowflake' -%} {{ var('recharge_order_identifier', 'ORDER') }} 
+          {%- if var('recharge__using_orders', "recharge_does_table_exist('orders')") -%} {{ var('recharge_order_identifier', 'orders') }}
+          {%- elif target.type == 'snowflake' -%} {{ var('recharge_order_identifier', 'ORDER') }} 
           {%- else -%} {{ var('recharge_order_identifier', 'order') }} {%- endif -%}
         quoting:
-          identifier: true
+          identifier: >
+            {{ false if var('recharge__using_orders', "recharge_does_table_exist('orders')") else true }}
         description: Table of all orders after a charge is successfully processed.
         columns:
           - name: id
