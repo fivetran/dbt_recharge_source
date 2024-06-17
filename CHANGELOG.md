@@ -1,3 +1,6 @@
+# dbt_recharge_source v0.2.0
+
+
 # dbt_recharge_source v0.1.1
 [PR #10](https://github.com/fivetran/dbt_recharge_source/pull/10) includes the following updates:
 ## Bug fixes

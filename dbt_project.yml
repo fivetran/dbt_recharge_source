@@ -19,6 +19,7 @@ vars:
     discount: "{{ source('recharge','discount') }}"
     one_time_product: "{{ source('recharge','one_time_product') }}"
     order: "{{ source('recharge','order') }}"
+    orders: "{{ source('recharge','orders') }}"
     order_line_item: "{{ source('recharge','order_line_item') }}"
     subscription: "{{ source('recharge','subscription') }}"
     subscription_history: "{{ source('recharge','subscription_history') }}"
