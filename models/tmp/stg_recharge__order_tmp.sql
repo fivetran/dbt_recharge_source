@@ -1,8 +1,8 @@
 
 select *
-from 
-{%- if var('recharge__using_orders', recharge_source.recharge_does_table_exist('orders')) -%} 
+from
+{% if var('recharge__using_orders', recharge_source.recharge_does_table_exist('orders')) -%} 
     {{ var('orders') }}
-{%- else -%}
+{% else -%}
     {{ var('order') }}
 {%- endif -%}
