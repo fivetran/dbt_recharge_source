@@ -7,6 +7,7 @@ profile: 'integration_tests'
 
 vars:
   recharge_source:
+    recharge__using_orders: false
     recharge_schema: recharge_source_integration_tests_03
     recharge_address_identifier: "address_data"
     recharge_address_discounts_identifier: "address_discounts_data"
@@ -20,11 +21,14 @@ vars:
     recharge_customer_identifier: "customer_data"
     recharge_discount_identifier: "discount_data"
     recharge_one_time_product_identifier: "one_time_product_data"
-    recharge_order_identifier: "ORDER_DATA" # capitalized since quoting is on for Snowflake
+    recharge_order_identifier: "order_data"
     recharge_orders_identifier: "orders_data"
     recharge_order_line_item_identifier: "order_line_item_data"
     recharge_subscription_identifier: "subscription_data"
     recharge_subscription_history_identifier: "subscription_history_data"
+
+quoting:
+  identifier: false # don't use since these identifiers are not reserved words
 
 dispatch:
   - macro_namespace: dbt_utils
