@@ -65,7 +65,7 @@ vars:
 ## (Optional) Step 5: Additional configurations
 <details open><summary>Expand for configurations</summary>
 
-### Leveraging `orders` vs `orders` source
+### Leveraging `orders` vs `order` source
 For Fivetran Recharge connectors created on or after June 18, 2024, the `ORDER` source table has been renamed to `ORDERS`. The package will default to use the `ORDERS` table if it exists and then `ORDER` if not. If you have both versions but wish to use the `ORDER` table instead, you can set the variable `recharge__using_orders` to false in your `dbt_project.yml` file.
 ```yml
 vars:
