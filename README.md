@@ -41,7 +41,7 @@ Include the following recharge_source package version in your `packages.yml` fil
 ```yml
 packages:
   - package: fivetran/recharge_source
-    version: [">=0.1.0", "<0.2.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.2.0", "<0.3.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ## Step 3: Define database and schema variables
@@ -63,7 +63,16 @@ vars:
 ```
 
 ## (Optional) Step 5: Additional configurations
-<details><summary>Expand for configurations</summary>
+<details open><summary>Expand for configurations</summary>
+
+### Leveraging `orders` vs `order` source
+For Fivetran Recharge connectors created on or after June 18, 2024, the `ORDER` source table has been renamed to `ORDERS`. Refer to the [June 2024 connector release notes](https://fivetran.com/docs/connectors/applications/recharge/changelog#june2024) for more information.
+
+The package will default to use the `ORDERS` table if it exists and then `ORDER` if not. If you have both versions but wish to use the `ORDER` table instead, you can set the variable `recharge__using_orders` to false in your `dbt_project.yml` file.
+```yml
+vars:
+  recharge__using_orders: false # default is true, which will use the `orders` version of the source.
+```
 
 ### Passing Through Additional Columns
 This package includes all source columns defined in the macros folder. If you would like to pass through additional columns to the staging models, add the following configurations to your `dbt_project.yml` file. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a SQL snippet within the `transform_sql` key. You may add the desired SQL while omitting the `as field_name` at the end, and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables in your root `dbt_project.yml`.
@@ -105,13 +114,13 @@ vars:
 #### 🚨 Snowflake Users 🚨
 You may need to provide the case-sensitive spelling of your source tables that are also Snowflake reserved words.
 
-In this package, this would apply to the `ORDER` source. If you are receiving errors for this source, include the following in your `dbt_project.yml` file:
+In this package, this would apply to the `ORDER` source. If you are receiving errors for this source, include the following in your `dbt_project.yml` file. (**Note:** This should not be necessary for the `ORDERS` source table.)
 ```yml
 vars:
   recharge_order_identifier: '"Order"' # as an example, must include this quoting pattern and adjust for your exact casing
 ```
 
-**Note!** if you have sources defined in your project's yml, the above will not work. Instead you will need to add the following where your order table is defined in your yml:
+**Note!** If you have sources defined in your project's yml, the above will not work. Instead you will need to add the following where your order table is defined in your yml:
 ```yml
 sources:
   tables:
