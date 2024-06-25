@@ -20,7 +20,8 @@
     {"name": "taxes_included", "datatype": dbt.type_boolean()},
     {"name": "total_price", "datatype": dbt.type_float()},
     {"name": "total_tax", "datatype": dbt.type_float()},
-    {"name": "updated_at", "datatype": dbt.type_timestamp()}
+    {"name": "updated_at", "datatype": dbt.type_timestamp()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
 ] %}
 
 {{ return(columns) }}
