@@ -267,6 +267,12 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
 
+      - name: checkout
+        identifier: "{{ var('recharge_checkout_identifier','checkout') }}"
+        description: Table of checkouts.
+        config:
+          enabled: "{{ var('recharge_checkout_enabled', false) }}"
+
       - name: customer
         identifier: "{{ var('recharge_customer_identifier','customer') }}"
         description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.

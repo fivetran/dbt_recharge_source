@@ -15,6 +15,7 @@ vars:
     charge_order_attribute: "{{ source('recharge','charge_order_attribute') }}"
     charge_shipping_line: "{{ source('recharge','charge_shipping_line') }}"
     charge_tax_line: "{{ source('recharge','charge_tax_line') }}"
+    checkout: "{{ source('recharge','checkout') }}"
     customer: "{{ source('recharge','customer') }}"
     discount: "{{ source('recharge','discount') }}"
     one_time_product: "{{ source('recharge','one_time_product') }}"
@@ -23,13 +24,6 @@ vars:
     order_line_item: "{{ source('recharge','order_line_item') }}"
     subscription: "{{ source('recharge','subscription') }}"
     subscription_history: "{{ source('recharge','subscription_history') }}"
-    recharge__address_passthrough_columns: [] 
-    recharge__charge_passthrough_columns: [] 
-    recharge__charge_line_item_passthrough_columns: [] 
-    recharge__order_passthrough_columns: [] 
-    recharge__order_line_passthrough_columns: [] 
-    recharge__subscription_passthrough_columns: [] 
-    recharge__subscription_history_passthrough_columns: []
 
 models:
   recharge_source:

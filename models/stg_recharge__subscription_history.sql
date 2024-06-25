@@ -46,7 +46,7 @@ final as (
         _fivetran_synced,
         row_number() over (partition by subscription_id order by updated_at desc) = 1 as is_most_recent_record
 
-        {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_history_passthrough_columns') }}
+        {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_history_passthrough_columns', '[]') }}
 
     from fields
 )

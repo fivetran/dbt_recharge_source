@@ -44,7 +44,7 @@ final as (
         cancellation_reason,
         cancellation_reason_comments
 
-        {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_passthrough_columns') }}
+        {{ fivetran_utils.fill_pass_through_columns('recharge__subscription_passthrough_columns', '[]') }}
 
     from fields
     where not coalesce(_fivetran_deleted, false)
