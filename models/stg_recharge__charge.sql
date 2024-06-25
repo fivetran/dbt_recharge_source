@@ -54,7 +54,7 @@ final as (
         error,
         external_variant_id_not_found
 
-        {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns', '[]') }}
+        {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns') }}
 
     from fields
 )

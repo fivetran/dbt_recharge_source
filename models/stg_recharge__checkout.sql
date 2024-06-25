@@ -41,7 +41,7 @@ final as (
         total_tax,
         cast(updated_at as {{ dbt.type_timestamp() }}) as checkout_updated_at
 
-    {{ fivetran_utils.fill_pass_through_columns('recharge__checkout_passthrough_columns', '[]') }}
+    {{ fivetran_utils.fill_pass_through_columns('recharge__checkout_passthrough_columns') }}
 
     from fields
     where not coalesce(_fivetran_deleted, false)

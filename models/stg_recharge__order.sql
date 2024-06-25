@@ -40,7 +40,7 @@ final as (
         address_id,
         is_deleted
 
-        {{ fivetran_utils.fill_pass_through_columns('recharge__order_passthrough_columns', '[]') }}
+        {{ fivetran_utils.fill_pass_through_columns('recharge__order_passthrough_columns') }}
 
     from fields
 )

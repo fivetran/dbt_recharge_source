@@ -38,7 +38,7 @@ final as (
         purchase_item_id,
         purchase_item_type
 
-        {{ fivetran_utils.fill_pass_through_columns('recharge__order_line_passthrough_columns', '[]') }}
+        {{ fivetran_utils.fill_pass_through_columns('recharge__order_line_passthrough_columns') }}
     from fields
 )
 
