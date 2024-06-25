@@ -32,6 +32,7 @@ final as (
         province,
         zip,
         country_code,
+        country,
         company,
         phone,
         payment_method_id
