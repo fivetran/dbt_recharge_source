@@ -3,6 +3,7 @@
 
 {% set columns = [
     {"name": "subscription_id", "datatype": dbt.type_int()},
+    {"name": "id", "datatype": dbt.type_int()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "address_id", "datatype": dbt.type_int()},
     {"name": "customer_id", "datatype": dbt.type_int()},

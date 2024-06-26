@@ -32,8 +32,10 @@ final as (
         province,
         zip,
         country_code,
+        country,
         company,
-        phone
+        phone,
+        payment_method_id
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__address_passthrough_columns') }}
 

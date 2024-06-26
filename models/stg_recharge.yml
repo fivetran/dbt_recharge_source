@@ -280,6 +280,9 @@ models:
       - name: title
         description: The title/name of the taxing jurisdiction.
 
+  - name: stg_recharge__checkout
+    description: checkouts
+
   - name: stg_recharge__customer
     description: Table of all customer details holding account and billing information. Email is unique on the customer, no two customers for a store can have the same email.
     
