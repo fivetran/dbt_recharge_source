@@ -16,6 +16,11 @@
     {"name": "has_payment_method_in_dunning", "datatype": dbt.type_boolean()},
     {"name": "tax_exempt", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()}
+    {"name": "billing_first_name", "datatype": dbt.type_string()},
+    {"name": "billing_last_name", "datatype": dbt.type_string()},
+    {"name": "billing_company", "datatype": dbt.type_string()},
+    {"name": "billing_city", "datatype": dbt.type_string()},
+    {"name": "billing_country", "datatype": dbt.type_string()}
 ] %}
 
 {% if target.type == 'bigquery' %}
