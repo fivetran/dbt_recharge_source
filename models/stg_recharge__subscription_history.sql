@@ -20,7 +20,7 @@ fields as (
 final as (
 
     select
-        coalesce(id, subscription_id) as subscription_id,
+        coalesce(cast(id as {{ dbt.type_int() }}), cast(subscription_id as {{ dbt.type_int() }})) as subscription_id,
         customer_id,
         address_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as subscription_created_at,
