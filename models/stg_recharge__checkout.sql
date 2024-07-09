@@ -1,4 +1,4 @@
-{{ config(enabled=var('recharge__using_checkout', false)) }}
+{{ config(enabled=var('recharge__checkout_enabled', false)) }}
 
 with base as (
 
