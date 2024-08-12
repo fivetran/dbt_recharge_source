@@ -1,10 +1,10 @@
 # dbt_recharge_source v0.3.0
 [PR #13](https://github.com/fivetran/dbt_recharge_source/pull/13) includes the following updates:
-## 🚨 Breaking Changes 🚨
+## Breaking Changes
 - The following columns were added to model `stg_recharge__address`:
   - country
   - payment_method_id
-  - ❗Note: If you have already added any of these fields as passthrough columns to the `recharge__address_passthrough_columns` var, you will need to remove or alias these fields from the var to avoid duplicate column errors.
+  - Note: If you have already added any of these fields as passthrough columns to the `recharge__address_passthrough_columns` var, you will need to remove or alias these fields from the var to avoid duplicate column errors.
 
 ## Features
 - Added staging model `stg_recharge__checkout`. See [this doc](https://fivetran.github.io/dbt_recharge_source/#!/model/model.recharge_source.stg_recharge__checkout) for the fields added and their definitions.
