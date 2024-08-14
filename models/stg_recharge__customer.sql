@@ -33,7 +33,12 @@ final as (
         subscriptions_total_count,
         has_valid_payment_method,
         has_payment_method_in_dunning,
-        tax_exempt
+        tax_exempt,
+        billing_first_name,
+        billing_last_name,
+        billing_company,
+        billing_city,
+        billing_country
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

@@ -1,5 +1,29 @@
+# dbt_recharge_source v0.3.0
+[PR #13](https://github.com/fivetran/dbt_recharge_source/pull/13) includes the following updates:
+## Breaking Changes
+- The following columns were added to model `stg_recharge__address`:
+  - country
+  - payment_method_id
+  - Note: If you have already added any of these fields as passthrough columns to the `recharge__address_passthrough_columns` var, you will need to remove or alias these fields from the var to avoid duplicate column errors.
+
+## Features
+- Added staging model `stg_recharge__checkout`. See [this doc](https://fivetran.github.io/dbt_recharge_source/#!/model/model.recharge_source.stg_recharge__checkout) for the fields added and their definitions.
+  - This model is disabled by default but can be enabled by setting variable `recharge__checkout_enabled` to true in your `dbt_project.yml` file. See the [Enable/disable models and sources section](https://github.com/fivetran/dbt_recharge_source/blob/main/README.md#step-4-enable-disable-models-and-sources) of the README for more information.
+  - This model can also be passed additional columns beyond the predefined columns by using the variable `recharge__checkout_passthrough_columns`. See the [Passing Through Additional Columns](https://github.com/fivetran/dbt_recharge_source/blob/main/README.md#passing-through-additional-columns) section of the README for more information on how to set this variable.
+
+- Added the following columns to model `stg_recharge__customer`. See [this doc](https://fivetran.github.io/dbt_recharge_source/#!/model/model.recharge_source.stg_recharge__customer) for field definitions.
+  - `billing_first_name`
+  - `billing_last_name`
+  - `billing_company`
+  - `billing_city`
+  - `billing_country`
+
+## Under the hood
+- Updated `stg_recharge__subscription_history` to coalesce `id` and `subscription_id` as the `subscription_id` since either version can be present in the source.
+
 # dbt_recharge_source v0.2.0
 [PR #12](https://github.com/fivetran/dbt_recharge_source/pull/12) includes the following updates:
+
 ## Features
 - For Fivetran Recharge connectors created on or after June 18, 2024, the `ORDER` source table has been renamed to `ORDERS`. The package will now use the `ORDERS` table if it exists and then `ORDER` if not.  
   - If you have both versions but wish to use the `ORDER` table instead, you can set the variable `recharge__using_orders` to false in your `dbt_project.yml`.
