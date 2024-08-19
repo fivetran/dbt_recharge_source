@@ -1,5 +1,5 @@
 # dbt_recharge_source v0.3.1
-
+[PR #15](https://github.com/fivetran/dbt_recharge_source/pull/15) includes the following updates:
 ## Bugfix
 - Updates the `is_most_recent_record` field in `stg_recharge__subscription_history` to partition on `id`, or `subscription_id` if the former is not available in the source table.
 
