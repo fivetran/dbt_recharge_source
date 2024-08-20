@@ -1,3 +1,9 @@
+# dbt_recharge_source v0.3.1
+[PR #15](https://github.com/fivetran/dbt_recharge_source/pull/15) includes the following updates:
+
+## Bugfix
+- Updated the `is_most_recent_record` field in `stg_recharge__subscription_history` to partition by `id`, or by `subscription_id` if `id` is unavailable in the source table. Previously, partitioning occurred solely on `subscription_id` (prior to applying COALESCE), which was unintended and caused errors in Redshift when the source table only contained `id`.
+
 # dbt_recharge_source v0.3.0
 [PR #13](https://github.com/fivetran/dbt_recharge_source/pull/13) includes the following updates:
 ## Breaking Changes
