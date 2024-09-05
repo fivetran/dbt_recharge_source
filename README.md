@@ -122,7 +122,7 @@ vars:
   recharge_order_identifier: '"Order"' # as an example, must include this quoting pattern and adjust for your exact casing
 ```
 
-**Note!** If you have sources defined in your project's yml, the above will not work. Instead you will need to add the following where your order table is defined in your yml:
+**Note:** If you have sources defined in your project's yml, the above will not work. Instead you will need to add the following where your order table is defined in your yml:
 ```yml
 sources:
   tables:
