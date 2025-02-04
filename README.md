@@ -22,7 +22,7 @@
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
-- At least one Fivetran Recharge connector syncing data into your destination
+- At least one Fivetran Recharge connection syncing data into your destination
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination
 
 #### Databricks dispatch configuration
@@ -54,7 +54,7 @@ vars:
 ```
 
 ### Step 4: Enable/disable models and sources
-Your Recharge connector may not sync every table that this package expects. If you do not have the `CHECKOUT`, `ONE_TIME_PRODUCT` and/or `CHARGE_TAX_LINE` tables synced, add the corresponding variable(s) to your root `dbt_project.yml` file to disable these sources:
+Your Recharge connection may not sync every table that this package expects. If you do not have the `CHECKOUT`, `ONE_TIME_PRODUCT` and/or `CHARGE_TAX_LINE` tables synced, add the corresponding variable(s) to your root `dbt_project.yml` file to disable these sources:
 
 ```yml
 vars:
@@ -67,7 +67,7 @@ vars:
 <details open><summary>Expand/collapse section.</summary>
 
 #### Leveraging `orders` vs `order` source
-For Fivetran Recharge connectors created on or after June 18, 2024, the `ORDER` source table has been renamed to `ORDERS`. Refer to the [June 2024 connector release notes](https://fivetran.com/docs/connectors/applications/recharge/changelog#june2024) for more information.
+For Fivetran Recharge connections created on or after June 18, 2024, the `ORDER` source table has been renamed to `ORDERS`. Refer to the [June 2024 connector release notes](https://fivetran.com/docs/connectors/applications/recharge/changelog#june2024) for more information.
 
 The package will default to use the `ORDERS` table if it exists and then `ORDER` if not. If you have both versions but wish to use the `ORDER` table instead, you can set the variable `recharge__using_orders` to false in your `dbt_project.yml` file.
 ```yml
