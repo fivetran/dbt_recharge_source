@@ -1,4 +1,6 @@
-<p align="center">
+# Recharge Source dbt package ([Docs](https://fivetran.github.io/dbt_recharge_source/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_recharge_source/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -10,7 +12,6 @@
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
 </p>
 
-# Recharge Source dbt package ([Docs](https://fivetran.github.io/dbt_recharge_source/))
 ## What does this dbt package do?
 - Materializes [Recharge staging tables](https://fivetran.github.io/dbt_recharge_source/#!/overview/recharge_source/models/?g_v=1&g_e=seeds), which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/recharge#schemainformation). These staging tables clean, test, and prepare your Recharge data from [Fivetran's connector](https://fivetran.com/docs/applications/recharge) for analysis by doing the following:
   - Naming columns for consistency across all packages and easier analysis
