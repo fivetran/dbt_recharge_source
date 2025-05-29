@@ -37,6 +37,6 @@ vars:
 models:
   recharge_source:
     tmp:
-      materialized: view
+      +materialized: view
     +materialized: table
     +schema: recharge_source
