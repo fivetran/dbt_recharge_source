@@ -1,4 +1,5 @@
 # dbt_recharge_source v0.3.2
+This release includes the following updates. 
 
 ## Documentation
 - Corrected references to connectors and connections in the README. ([#18](https://github.com/fivetran/dbt_recharge_source/pull/18))
