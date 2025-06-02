@@ -1,13 +1,13 @@
 config-version: 2
 
 name: 'recharge_source_integration_tests'
-version: '0.3.1'
+version: '0.3.2'
 
 profile: 'integration_tests' 
 
 vars:
   recharge_source:
-    recharge_schema: recharge_source_integration_tests_04
+    recharge_schema: recharge_source_integration_tests_05
     recharge_address_identifier: "address_data"
     recharge_address_discounts_identifier: "address_discounts_data"
     recharge_address_shipping_line_identifier: "address_shipping_line_data"
@@ -43,7 +43,7 @@ seeds:
       NEXT_CHARGE_SCHEDULED_AT: "timestamp"
       SCHEDULED_AT: "timestamp"
       SUBTOTAL_PRICE: "float"
-      TOTAL_PRICE: "{{ 'string' if target.name in ['bigquery', 'spark', 'databricks'] else 'varchar' }}"
+      TOTAL_PRICE: "{{ 'string' if target.type in ['bigquery', 'spark', 'databricks'] else 'varchar' }}"
       UPDATED_AT: "timestamp"
       ID: "{{ 'INT64' if target.type == 'bigquery' else 'bigint' }}"
       ADDRESS_ID: "{{ 'INT64' if target.type == 'bigquery' else 'bigint' }}"
