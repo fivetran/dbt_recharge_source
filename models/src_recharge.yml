@@ -346,6 +346,16 @@ sources:
             description: Boolean indicating if the customer has a credit card in dunning.
           - name: tax_exempt
             description: Boolean indicating if the customer is tax exempt.
+          - name: billing_first_name
+            description: First name associated with the billing details. 
+          - name: billing_last_name
+            description: Last name associated with the billing details.
+          - name: billing_company
+            description: Company associated with the billing details.
+          - name: billing_city
+            description: City associated with the billing details.
+          - name: billing_country
+            description: Country associated with the billing details.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
           - name: _fivetran_synced
