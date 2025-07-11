@@ -38,7 +38,8 @@ final as (
         billing_last_name,
         billing_company,
         billing_city,
-        billing_country
+        billing_country,
+        _fivetran_deleted
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

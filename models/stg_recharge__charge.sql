@@ -52,7 +52,8 @@ final as (
         client_details_user_agent,
         tags,
         error,
-        external_variant_id_not_found
+        external_variant_id_not_found,
+        _fivetran_deleted
 
         {{ fivetran_utils.fill_pass_through_columns('recharge__charge_passthrough_columns') }}
 

@@ -147,6 +147,8 @@ models:
         description: The IP address of the buyer detected in checkout.
       - name: client_details_user_agent
         description: The user agent detected during checkout.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__charge_discount
     description: Table of all charge discount codes.
@@ -359,6 +361,8 @@ models:
         description: Boolean indicating if the customer has a credit card in dunning.
       - name: tax_exempt
         description: Boolean indicating if the customer is tax exempt.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__discount
     description: Table of discounts that can be applied to a checkout, or that can be directly applied to an address.
@@ -408,7 +412,9 @@ models:
       - name: customer_id
         description: Unique numeric identifier for the customer the onetime purchase is tied to.
       - name: is_deleted
-        description: Boolean indicating if the onetime is deleted.
+        description: This column has been deprecated as of July 2025 in favor of the `_fivetran_deleted` column. Boolean indicating if the onetime is deleted.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
       - name: one_time_created_at
         description: The time the onetime item was first created.
       - name: one_time_updated_at
@@ -473,7 +479,9 @@ models:
       - name: address_id
         description: "{{ doc('address_id') }}"
       - name: is_deleted
-        description: Boolean indicating if the order (record) is deleted.
+        description: This column has been deprecated as of July 2025 in favor of the `_fivetran_deleted` column. Boolean indicating if the order (record) is deleted.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_recharge__order_line_item
     description: Table of all order line items. Each line containing information about an item in the order.
