@@ -3,6 +3,7 @@
 
 {% set columns = [
     {"name": "order_id", "datatype": dbt.type_int()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "index", "datatype": dbt.type_int()},
     {"name": "variant_title", "datatype": dbt.type_string()},
     {"name": "title", "datatype": dbt.type_string()},

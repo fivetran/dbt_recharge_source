@@ -3,6 +3,7 @@
 
 {% set columns = [
     {"name": "id", "datatype": dbt.type_int()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "address_id", "datatype": dbt.type_int()},
     {"name": "customer_id", "datatype": dbt.type_int()},
     {"name": "customer_hash", "datatype": dbt.type_string()},

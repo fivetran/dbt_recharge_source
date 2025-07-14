@@ -23,7 +23,8 @@ final as (
         id as one_time_product_id,
         address_id,
         customer_id,
-        is_deleted,
+        is_deleted, --Deprecated in favor of the _fivetran_deleted column.
+        _fivetran_deleted,
         cast(created_at as {{ dbt.type_timestamp() }}) as one_time_created_at,
         cast(updated_at as {{ dbt.type_timestamp() }}) as one_time_updated_at,
         next_charge_scheduled_at as one_time_next_charge_scheduled_at,

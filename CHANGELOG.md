@@ -1,3 +1,28 @@
+# dbt_recharge_source v0.4.0
+
+[PR #21](https://github.com/fivetran/dbt_recharge_source/pull/21) includes the following updates:
+
+## Schema & Data Updates
+**4 new columns -- 2 deprecated columns -- 6 potential breaking changes**
+
+| Data Model                                                                                                                                               | Change Type | Old Name                     | New Name                                             | Notes                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `stg_recharge__one_time_product`             | Deprecated column | `_is_deleted`  |  `_is_deleted`  | The column will continue to persist for the time being, but we encourage referencing the `_fivetran_deleted` column in its place.    |
+| `stg_recharge__one_time_product`             | New column | `_fivetran_deleted`  |   | Boolean created by Fivetran to indicate whether the record has been deleted. | 
+| `stg_recharge__order`             | Deprecated column | `_is_deleted`  |  `_is_deleted`  | The column will continue to persist for the time being, but we encourage referencing the `_fivetran_deleted` column in its place.    |
+| `stg_recharge__order`             | New column | `_fivetran_deleted`  |   | Boolean created by Fivetran to indicate whether the record has been deleted. **For dbt Core users: If this field is included in the `recharge__order_passthrough_columns` variable. It will need to be removed in order to avoid duplicate column compilation failures.**  | 
+| `stg_recharge__charge`             | New column | `_fivetran_deleted`  |   | Boolean created by Fivetran to indicate whether the record has been deleted. **For dbt Core users: If this field is included in the `recharge__charge_passthrough_columns` variable. It will need to be removed in order to avoid duplicate column compilation failures.**  | 
+| `stg_recharge__customer`             | New column | `_fivetran_deleted`  |   | Boolean created by Fivetran to indicate whether the record has been deleted. | 
+
+## Documentation
+- Added all new column documentation in the relevant src_recharge.yml and stg_recharge.yml files.
+- Updated all the deprecated column documentation in the relevant src_recharge.yml and stg_recharge.yml files.
+- Added column documentation for the `billing_*` fields related to the `CUSTOMER` source and staging models.
+
+## Under the Hood
+- Included relevant updates to the impacted seed files for integration tests.
+- Introduced the generate-docs github workflow for consistent docs generation.
+
 # dbt_recharge_source v0.3.2
 This release includes the following updates. 
 

@@ -155,6 +155,8 @@ sources:
             description: The user agent detected during checkout.
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
 
       - name: charge_discount
         identifier: "{{ var('recharge_charge_discount_identifier','charge_discount') }}"
@@ -344,6 +346,16 @@ sources:
             description: Boolean indicating if the customer has a credit card in dunning.
           - name: tax_exempt
             description: Boolean indicating if the customer is tax exempt.
+          - name: billing_first_name
+            description: First name associated with the billing details. 
+          - name: billing_last_name
+            description: Last name associated with the billing details.
+          - name: billing_company
+            description: Company associated with the billing details.
+          - name: billing_city
+            description: City associated with the billing details.
+          - name: billing_country
+            description: Country associated with the billing details.
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
           - name: _fivetran_synced
@@ -397,7 +409,9 @@ sources:
           - name: customer_id
             description: "{{ doc('customer_id') }}"
           - name: is_deleted
-            description: Boolean indicating if the onetime is deleted.
+            description: This column has been deprecated as of July 2025 in favor of the `_fivetran_deleted` column. Boolean indicating if the onetime is deleted.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
           - name: created_at
             description: The time the onetime item was first created.
           - name: updated_at
@@ -438,7 +452,11 @@ sources:
           - name: charge_id
             description: The unique numeric identifier of the charge.
           - name: is_deleted
-            description: Boolean indicating if the order (record) is deleted.
+            description: This column has been deprecated as of July 2025 in favor of the `_fivetran_deleted` column. Boolean indicating if the order (record) is deleted.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: created_at
+            description: The date and time when the order was created.
           - name: email
             description: The email address of the customer.
           - name: transaction_id

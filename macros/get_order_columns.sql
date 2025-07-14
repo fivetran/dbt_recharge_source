@@ -7,6 +7,7 @@
     {"name": "address_id", "datatype": dbt.type_int()},
     {"name": "charge_id", "datatype": dbt.type_int()},
     {"name": "is_deleted", "datatype": dbt.type_boolean()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "email", "datatype": dbt.type_string()},
     {"name": "transaction_id", "datatype": dbt.type_string()},
     {"name": "charge_status", "datatype": dbt.type_string()},
