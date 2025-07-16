@@ -33,6 +33,8 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 seeds:
+  +docs:
+    show: False
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   recharge_source_integration_tests:
     +column_types:
@@ -77,3 +79,7 @@ seeds:
     orders_data:
       +column_types:
         SHIPPED_DATE: "timestamp"
+
+flags:
+  send_anonymous_usage_stats: False
+  use_colors: True
